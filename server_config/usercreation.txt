@@ -1,0 +1,5 @@
+#Create a user and give sudo access
+#Password for user is set while running first command
+
+  sudo adduser [USERNAME]
+  sudo usermod -aG sudo [USERNAME]
