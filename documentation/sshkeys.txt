@@ -1,0 +1,27 @@
+##Creation of SSH keys using putty-gen + Adding public key to Google Cloud (https://cloud.google.com/compute/docs/instances/adding-removing-ssh-keys)
+##SSH connection to google cloud server using putty (https://cloud.google.com/compute/docs/instances/connecting-advanced#thirdpartytools)
+
+##Download Putty here http://www.putty.org/
+##Installer contains both putty and puttygen
+
+#Generate keys with puttygen
+  Run puttygen
+  Generate key
+  Change "Key comment" to the username which will connect to server
+  Save private key (with .ppk extension)
+  Save public key
+
+#Add keys to Google Cloud
+  Go to the Metadata tab in Compute Engine
+  Under SSH Keys, click edit, then "Add item"
+  Input the public key in the form: ssh-rsa [KEY_VALUE] [USERNAME] 
+  (this form is generated in the puttygen window, but not when saved)
+  Save the key
+
+#Connect with putty
+  Run putty
+  Under Hostname, enter: [USERNAME]@[EXTERNAL_IP_ADDRESS] (ex. username@127.0.0.1)
+  In the category window, under "Connection > SSH > Auth":
+    Check mark "Allow agent forwarding"
+    Select the private key in the box below
+  Press open
