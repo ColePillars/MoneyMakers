@@ -1,0 +1,19 @@
+# this script will:
+# 1) change ownership of the bootstrap template
+# 2) set proper read write execute permissions for open facing directory
+# 3) give our group members read,write,exectute permission to bootstrap
+
+# change ownership to myself
+sudo chown -R cwelland /var/www/html/MoneyMakers
+
+# set permissions for internet facing directory
+sudo chmod -R 755 /var/www/html/MoneyMakers
+
+# give eric permissions
+sudo tfacl -m u:edle:rwx /var/www/html/MoneyMakers
+# give pete permissions
+sudo etfacl -m u:piacona:rwx /var/www/html/MoneyMakers
+# give cole permissions
+sudo etfacl -m u:cpillars:rwx /var/www/html/MoneyMakers
+# give g permissions
+sudo etfacl -m u:gheqimi:rwx /var/www/html/MoneyMakers
