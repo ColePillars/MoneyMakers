@@ -1,0 +1,19 @@
+#Commands to install phpmyadmin
+#Must be run after lamp.sh is executed
+
+#Run:
+	sudo apt-get install -y phpmyadmin
+
+#Complete phpmyadmin install
+	click enter
+	enter phpmyadmin password
+	reenter phpmyadmin password
+
+#Run:
+	sudo nano /etc/apache2/apache2.conf
+
+#Append this to the file:
+	Include /etc/phpmyadmin/apache.conf
+
+#Run:
+	sudo service apache2 restart
