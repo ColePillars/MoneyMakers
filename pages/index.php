@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>SB test37 Admin 2 - Bootstrap Admin Theme</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -52,6 +52,10 @@
             </div>
             <!-- /.navbar-header -->
 
+            <?php
+			session_start();
+			if ($_SESSION['is_logged_in']){
+			echo '
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -252,15 +256,27 @@
                         </li>
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
-                        <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
+						<li class="divider"></li>
+						<li><a href="logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+						</li>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
                 <!-- /.dropdown -->
             </ul>
             <!-- /.navbar-top-links -->
+			';
+			} 
+			else {
+				echo '
+						<ul class="nav navbar-top-links navbar-right">
+							<li><a href="login.php"><i class="fa fa-sign-in fa-fw"></i> Login</a>
+							</li>
+						</ul>
+				';
+			}
+			?>
+
 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
