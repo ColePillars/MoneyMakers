@@ -1,0 +1,16 @@
+#Clone repo from Github to Google Cloud server
+#Must then set Document Root to be the project root
+
+#Clone repo
+  cd /var/www/html
+  sudo git clone https://github.com/ColePillars/MoneyMakers.git
+
+
+#Change Document Root
+  cd /etc/apache2/sites-enabled/
+  sudo nano 000-default.conf
+  #Change line "DocumentRoot /var/www/html" to "DocumentRoot /var/www/html/MoneyMakers"
+
+
+#Restart apache
+  sudo service apache2 restart

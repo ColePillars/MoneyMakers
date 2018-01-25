@@ -1,0 +1,31 @@
+Installation/Setup
+
+  Go to https://www.sourcetreeapp.com/ and download the app
+
+  Run the installation
+    Accept the licensing agreement
+    Select use existing Atlassian Account, and use your Gmail account to log in
+
+  Launch the app, and select remote; here you can set your Github credentials
+    Click add account, select Github as hosting service, basic as authentication, and then enter your username
+    Clicking refresh password will allow you to enter your Github password to verify yourself
+
+  After successfully logging in your repositories will load to the right, MoneyMakers being one of them
+    Select clone to the right of moneymakers, which will fill out a clone form for you, change the directory it will be located if you want (2nd line)
+    Click clone, the project will be cloned and Sourcetree will open the project
+
+
+Usage
+
+  It is important that whenever you begin, that you pull the up to date repository, simply pressing pull and OK will do
+
+  Due to project requirements we have to make branches to divide our work, beginning each sprint create a branch with your name and the sprint number (ex. cpillarssprint2), simply click the branch button and enter the branch name
+
+  After cloned, the project can be opened in an IDE to be edited, when an edit is made (anything from adding a file/folder to adding code) it will display in Sourcetree if "File Status > Working Copy" is selected
+  Move unstaged files to staged files by using "stage all" or "stage selected"
+
+  Write a commit message when you have a set of changes you are happy with, the commit message should describe in moderate detail what is in the commit (ex. added Sourcetree documentation)
+  Usually you wouldn't want everything you've done for a whole sprint in one commit, a commit should be small such as a piece of documentation, or a specific function (just a general rule)
+  Press commit, this updates your local repository
+
+  After commits are made, push will update the Github repository, so we may share our changes
