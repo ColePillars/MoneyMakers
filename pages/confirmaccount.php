@@ -25,8 +25,8 @@ $RegistrationKey = mysqli_escape_string($conn,$_GET['key']);
 $UserName = mysqli_escape_string($conn,$_GET['username']);
 
 // checking if user came from a valid url with key and username value
-// if not re-route to registr mage with error message
-if ($Key = NULL or $Username = NULL){
+// if not re-route to register Page with error message
+if ($Key = NULL or $UserName = NULL){
     $_SESSION['InvaliRegistrationMessage'] = "Oops! Something Went wrong! <br> Please try again";
     header('Location: register.php');
     exit();
