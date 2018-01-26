@@ -16,9 +16,9 @@
 // starting session
 session_start();
 // access to custom functions
-include ('../resources/functions.php');
+include ('functions.php');
 //including database connection file
-include ('../resources/connection.php');
+include ('connection.php');
 
 //Getting information from verification link
 $RegistrationKey = mysqli_escape_string($conn,$_GET['key']);
@@ -28,7 +28,7 @@ $UserName = mysqli_escape_string($conn,$_GET['username']);
 // if not re-route to registr mage with error message
 if ($Key = NULL or $Username = NULL){
     $_SESSION['InvaliRegistrationMessage'] = "Oops! Something Went wrong! <br> Please try again";
-    header('Location: register.php');
+    header('Location: ../pages/register.php');
     exit();
 }
 
@@ -71,13 +71,13 @@ if($CheckUserInfoResult->num_rows == 1){
     }
 
    //push user to login page to log in     
-    header("location: login.php");
+    header("location: ../pages/login.php");
     exit(); 
 }
 else{
     //if user re-clicked this ling or made their own key
     $_SESSION['InvaliRegistrationMessage'] = "Oops! Something Went Wrong";
-    header('Location: register.php');
+    header('Location: ../pages/register.php');
     exit();
   }
 

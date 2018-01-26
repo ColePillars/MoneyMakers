@@ -44,9 +44,10 @@
 					if ($_SESSION['InvalidUserOrPass'] <> NULL){
 						echo $_SESSION['InvalidUserOrPass'];
 						unset($_SESSION['InvalidUserOrPass']);
-						}
-else{
-                       echo "Enter username and your new password";} 
+					}
+                    else{
+                       echo "Enter username and your new password";
+                    } 
 					?>
                     </div>
                     <div class="panel-body">
