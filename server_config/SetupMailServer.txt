@@ -1,0 +1,55 @@
+#Bash Commands to setup mail server
+#Created gmail account for this project before hand
+#moneymakers4999@gmail.com
+
+
+#install mail client postfix
+sudo apt-get install libsasl2-modules postfix
+
+#set hostname
+sudo nano -c /etc/postfix/main.cf
+	myhostname = instance-5.c.senior-project-192218.internal
+
+#in google mail settings(moneymakers499)
+	#enable settings for 'less secure apps'	
+	#initialize app password.	
+	
+#createfile for gmail credentials
+sudo nano -c /etc/postfix/sasl/sasl_passwd	
+	[smtp.gmail.com]:587 moneymakers4999@gmail.com:***************
+	
+	
+#create db file for postfix
+sudo postmap /etc/postfix/sasl/sasl_passwd
+
+#change ownership for passwd files to root
+sudo chown root:root /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db
+
+#set permissions so only root access and read and write
+sudo chmod 0600 /etc/postfix/sasl/sasl_passwd /etc/postfix/sasl/sasl_passwd.db
+
+#modify postfix configuration settings to set relay host and part
+#port 25 cannot be used on google cloud servers
+sudo nano-c etc/postfix/main.cf
+	#change relayhost from default to gmail
+	relayhost = [smtp.gmail.com]:587
+	# deny anoynomus logins
+	smtp_sasl_security_options = noanonymous
+	# set location of credentials
+	smtp_sasl_password_maps = hash:/etc/postfix/sasl/sasl_passwd
+	# enable encrytion
+	smtp_tls_security_level = encrypt
+	# set location of certifications
+	smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+
+
+#restart postfix
+sudo systemctl restart postfix
+	
+	
+
+
+
+
+
+
