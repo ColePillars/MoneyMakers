@@ -1,6 +1,7 @@
 <?php 
+
 session_start();
-include ('../resources/connection.php');
+include ('connection.php');
 
 $user = mysqli_escape_string($conn,$_POST['user']);
 $pass = mysqli_escape_string($conn,$_POST['pass']);
@@ -21,21 +22,21 @@ if ($checkUserNameResult->num_rows > 0 ) {
             $sql = "UPDATE UserCredentials.tbl_user_cred SET atr_password = '" . $pass .  "' WHERE atr_username ='" . $user .  "';";
             $result = mysqli_query($conn,$sql);
             //redirects the user to the login page after changing their password
-                header('Location: login.php');
-                exit();
+            header('Location: ../pages/login.php');
+            exit();
         }
         //Prompts for your credentials if the passwords do not match
         else {
             $_SESSION['InvalidUserOrPass'] = "Passwords do not match";
-            header('Location: forgotpassword.php');
+            header('Location: ../pages/forgotpassword.php');
             exit();
         }
     }
 }
-    //Prompts for your credentials if the username is not in the system
+//Prompts for your credentials if the username is not in the system
 else {
     $_SESSION['InvalidUserOrPass'] = "Username is not in the system";
-    header('Location: forgotpassword.php');
+    header('Location: ../pages/forgotpassword.php');
     exit();
 }
 
