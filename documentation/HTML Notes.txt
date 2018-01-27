@@ -1,0 +1,78 @@
+HTML Notes
+
+HTML describes structure of web pages.
+
+HTML elements are the building blocks of HTML pages. HTML elements are represented by tags, e.g. <html> denotes the start of html files.
+
+Tags typically have a start tag and an end tag. The end tag begins with a forward slash before the keyword. There are exceptions, such as the <br/>, which only requires a single tag.
+
+The <body> </body> portion is what the webpage outputs, i.e. it is what the user sees when they visit the webpage.
+
+Typical structure of HTML pages is as follows:
+<html>
+	<head> // contains meta data
+		<title> // title in browser tab
+		</title>
+		<meta> //defines data about document e.g. language, style, 			//title, etc
+	</head>
+	<body> // what user sees
+		<script> // Used when using client-side scripts e.g. JavaScript
+		</script>
+	</body>
+</html>
+
+Links can be embedded with the <a href="url">Name of link</a> tag.
+
+Images can be embedded using <img src="name of pic" alt="Name used when pic can't be loaded">.
+
+HTML elements can be nested within elements. For example, you can have the following:
+	<body>
+		<p>This is a nested element</p>
+	</body>
+
+***While some elements may function without including its end tag, it would be good practice to close all elements, and is required in XHTML.***
+
+It is common practice to write tags and attributes in lowercase.
+
+HTML elements have attributes which provide addional information about an element. Attributes are specified in the start tag. Can be in either single or double quotes.
+
+HTML pages can have their appearance changed via CSS. HTML is form an function, CSS is for style and appearance.
+
+HTML elements can be placed inside containers such as <div></div> and <span></span>. <div> elements are on their own line, <span> elements will not cause line breaks.
+
+HTML elements can be grouped into a class. When changes are made to a class, all elements of that class are effected as well. A single element may belong to multiple classes.
+
+
+***Javascript can be used to create functions, such as the matchPassword() function found in register.php***
+
+***Something to keep in mind***
+Page responsiveness. How will the page look across different devices? Adjust viewport!
+<meta name="viewport" content="width=device-width", initial-scale=1">
+Keep responsiveness in mind when designing layout for pages with images and other media.
+
+HTML does not allow use for < (less than) or > (greater than). For symbols that are not supported by HTML, find corresponding entity number! (Character sets, UTF-8, ASCII).
+
+***HTML Forms***
+Different types of input elements.
+<input type="text">
+<input type="radio">
+<input type="submit">
+Find the best for what we need.
+
+What we need: email, fname, lname, uname, pw, cpw
+Input types to use:
+"email" for email. Email type checks for @ and . characters.
+"text" for fname, lname, uname. User inputs string of characters.
+"password" for pw, cpw. String that is not displayed in browser.
+"submit" for form submission.
+
+***method="get" vs method="post"***
+Get puts info into URL. DO NOT USE FOR SENSITIVE DATA. Better for non-secure data, like query strings.
+ALWAYS USE POST FOR SENSITIVE DATA.
+
+***MUST DEFINE PATTERN FOR FORM INPUT***
+Utilize regular expressions to ban certain characters from being input. Special characters can cause issues with SQL queries.
+Username will take alphanumberic characters.
+First name and Last name will only accept alphabetic characters.
+Password must be at least 8 characters long, contain at least 1 number, and at least 1 uppercase letter.
+ConfirmPassword must match Password string. Javascript function will check both values and compare them to one another.
