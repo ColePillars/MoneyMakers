@@ -26,8 +26,8 @@ $UserName = mysqli_escape_string($conn,$_GET['username']);
 
 // checking if user came from a valid url with key and username value
 // if not re-route to register Page with error message
-if ($Key = NULL or $UserName = NULL){
-    $_SESSION['InvaliRegistrationMessage'] = "Oops! Something Went wrong! <br> Please try again";
+if (($RegistrationKey == NULL) or ($UserName == NULL)){
+    $_SESSION['InvaliRegistrationMessage'] = "Oops! Something went wrong! <br> Please try again";
     header('Location: ../pages/register.php');
     exit();
 }
@@ -76,7 +76,7 @@ if($CheckUserInfoResult->num_rows == 1){
 }
 else{
     //if user re-clicked this ling or made their own key
-    $_SESSION['InvaliRegistrationMessage'] = "Oops! Something Went Wrong";
+    $_SESSION['InvaliRegistrationMessage'] = "Oops! Something went wrong!";
     header('Location: ../pages/register.php');
     exit();
   }
