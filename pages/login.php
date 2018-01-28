@@ -51,7 +51,7 @@
 					?>
                     </div>
                     <div class="panel-body">
-                        <form action="loginvalidation.php" role="form" method="POST">
+                        <form action="../resources/loginvalidation.php" role="form" method="POST">
                             <fieldset>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Username" name="user" type="text" autofocus>

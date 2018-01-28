@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB test37 Admin 2 - Bootstrap Admin Theme</title>
+    <title>SB Admin 2 - Bootstrap Admin Theme</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -257,7 +257,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
 						<li class="divider"></li>
-						<li><a href="logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+						<li><a href="../resources/logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
 						</li>
                     </ul>
                     <!-- /.dropdown-user -->
