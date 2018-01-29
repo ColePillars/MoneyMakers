@@ -52,33 +52,35 @@
                     ?>  
                     </div>
                     <div class="panel-body">
-                        <form role="form" action="registervalidation.php" method="POST" name="registerform" >
+                        <form role="form" action="../resources/registervalidation.php" method="POST" name="registerform" onsubmit="matchPassword(this)">
                             <fieldset>
                             <!--  Input for username -->
                             <div class="form-group">
-                                    <input class="form-control" placeholder="Username" name="username" type="text">
+                                    <input required pattern="[A-Za-z0-9]{1,}" class="form-control" placeholder="Username" name="username" type="text" title="No special characters" autofocus>
                                 </div>
                                 <!-- Input for email address -->
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail Address" name="email" type="email">
+                                    <input required class="form-control" placeholder="E-mail Address" name="email" type="email" autofocus>
                                 </div>
                                  <!-- Input for first name -->
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="First Name" name="firstname" type="text" >
+                                    <input required pattern="[A-Za-z]{1,}" class="form-control" placeholder="First Name" name="firstname" type="text" title="Alphabetic characters only" autofocus>
                                 </div>
                                  <!-- Input for last name -->
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Last Name" name="lastname" type="text">
+                                    <input required pattern="[A-Za-z]{1,}" class="form-control" placeholder="Last Name" name="lastname" type="text" title="Alphabetic characters only" autofocus>
                                 </div>
                                 <!--  input for password -->
                                 <div class="form-group">
-                                    <input  class="form-control" placeholder="Password" name="password" type="password">
+                                    <input required pattern="(?=.*\d)(?=.*[A-Z]).{8,}" class="form-control" placeholder="Password" id="pass" name="password" type="password" value=""
+                                    title="Password must be at least 8 characters long, contain at least one uppercase letter, and at least one number.">
                                 </div>
                                 <!--  input for password validation -->
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Type Password Again" name="passwordcheck" type="password" >
+                                    <input required  pattern="(?=.*\d)(?=.*[A-Z]).{8,}" class="form-control" placeholder="Type Password Again" id="vpass" name="passwordcheck" type="password" value=""
+                                    title="Must match password field" oninput="matchPassword(this)"/>
                                </div>
-                                <!-- takes user to 'ValidateRegistration.php, to validate and register user-->
+                                <!-- takes user to '../pages/registervalidation.php, to validate and register user-->
                                  <div class="form-group">
                                 <input type="submit" class="btn btn-lg btn-success btn-block" value='Register'>
                                </div>
@@ -101,7 +103,18 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-
+    
+    <!-- Password Verification -->
+    
+    <script language='javascript' type='text/javascript'> 
+	function matchPassword(input){
+		if(input.value!=document.getElementById('pass').value){
+			input.setCustomValidity('Passwords do not match.');
+		} else{
+			input.setCustomValidity('');
+		}
+	}
+	</script>
 	
 </body>
 
