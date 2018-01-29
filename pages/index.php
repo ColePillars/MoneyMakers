@@ -270,7 +270,7 @@
 			else {
 				echo '
 						<ul class="nav navbar-top-links navbar-right">
-							<li><a href="login.php"><i class="fa fa-sign-in fa-fw"></i> Login</a>
+							<li><a href="login.php"><i class="fa fa-sign-in fa-fw"></i> Login/Register</a>
 							</li>
 						</ul>
 				';
