@@ -122,8 +122,8 @@ mail($EmailAddress,"Account Registration Confirmation",$EmailContents);
 $conn->close();
 
 //Output instructions and push user to register.php
-$_SESSION['InvaliRegistrationMessage'] = "Please Check Your Email For Confirmation";
-header('Location: ../pages/register.php');
+$_SESSION['CheckEmail'] = True;
+header('Location: ../pages/login.php');
 exit(); 
 
 ?>
