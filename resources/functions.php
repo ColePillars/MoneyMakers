@@ -23,5 +23,4 @@ function GenerateRandomKey($length = 20) {
     return $randomString;
 }
 
-
 ?>
