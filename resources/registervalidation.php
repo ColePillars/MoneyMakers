@@ -17,9 +17,9 @@
 // starting session
 session_start();
 // access to custom functions
-include ('../resources/functions.php');
+include ('functions.php');
 //including database connection file
-include ('../resources/connection.php');
+include ('connection.php');
 
 // getting values from register.php
 // check user input for sql injection
@@ -44,7 +44,7 @@ if (filter_var($EmailAddress, FILTER_VALIDATE_EMAIL)) {
 else{
     //push user back to register if email is not valid
     $_SESSION['InvaliRegistrationMessage'] = "Email address is invalid";
-    header('Location: register.php');
+    header('Location: ../pages/register.php');
     exit();
 }
 
@@ -52,7 +52,7 @@ else{
 if($Password <> $PasswordCheck){
     //push user back to register if email is already being used
     $_SESSION['InvaliRegistrationMessage'] = "Passwords Must Match!";
-    header('Location: register.php');
+    header('Location: ../pages/register.php');
     exit();
 }
 
@@ -68,16 +68,16 @@ if ($CheckUserNameTakenResult->num_rows > 0) {
        //checking is email is already being used
         if ($row['atr_email'] == $EmailAddress){
             //push user back to register if email is already being used
-            $_SESSION['InvaliRegistrationMessage'] = "Email Address Is Being Used Already<br><a href ='ForgotPassword.php'> Click Here To Reset Your Password.</a>";
-            header('Location: register.php');
+            $_SESSION['InvaliRegistrationMessage'] = "Email Address Is Being Used Already<br><a href ='../pages/ForgotPassword.php'> Click Here To Reset Your Password.</a>";
+            header('Location: ../pages/register.php');
             exit();
         }
         //checking is username is already being used
         if ($row['atr_username'] == $UserName){
             //push user back to register if username is already being used
             //potentiallyr revoke forgot password link
-            $_SESSION['InvaliRegistrationMessage'] = "Username Is Being Used Already <br><a href ='ForgotPassword.php'> Click Here To Reset Your Password.</a>";
-            header('Location: register.php');
+            $_SESSION['InvaliRegistrationMessage'] = "Username Is Being Used Already <br><a href ='../pages/ForgotPassword.php'> Click Here To Reset Your Password.</a>";
+            header('Location: ../pages/register.php');
             exit(); 
         }
     }
@@ -113,7 +113,7 @@ else{
 $EmailContents = "
 Click on the link below to complete your account registration.
 
-http://35.196.255.59/dev/pages/confirmaccount.php?username=" . $UserName . "&key=" . $RegistrationKey ."";
+http://35.196.255.59/" . substr_replace(getcwd(),"",0,14) . "/confirmaccount.php?username=" . $UserName . "&key=" . $RegistrationKey ."";
 
 // send email with confirmation link
 mail($EmailAddress,"Account Registration Confirmation",$EmailContents);
@@ -122,8 +122,8 @@ mail($EmailAddress,"Account Registration Confirmation",$EmailContents);
 $conn->close();
 
 //Output instructions and push user to register.php
-$_SESSION['InvaliRegistrationMessage'] = "Please Check Your Email For Confirmation";
-header('Location: register.php');
+$_SESSION['CheckEmail'] = True;
+header('Location: ../pages/login.php');
 exit(); 
 
 ?>

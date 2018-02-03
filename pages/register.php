@@ -52,7 +52,7 @@
                     ?>  
                     </div>
                     <div class="panel-body">
-                        <form role="form" action="registervalidation.php" method="POST" name="registerform" onsubmit="matchPassword(this)">
+                        <form role="form" action="../resources/registervalidation.php" method="POST" name="registerform" onsubmit="matchPassword(this)">
                             <fieldset>
                             <!--  Input for username -->
                             <div class="form-group">
@@ -80,7 +80,7 @@
                                     <input required  pattern="(?=.*\d)(?=.*[A-Z]).{8,}" class="form-control" placeholder="Type Password Again" id="vpass" name="passwordcheck" type="password" value=""
                                     title="Must match password field" oninput="matchPassword(this)"/>
                                </div>
-                                <!-- takes user to 'ValidateRegistration.php, to validate and register user-->
+                                <!-- takes user to '../pages/registervalidation.php, to validate and register user-->
                                  <div class="form-group">
                                 <input type="submit" class="btn btn-lg btn-success btn-block" value='Register'>
                                </div>

@@ -41,6 +41,16 @@
                     <div class="panel-heading">
                     <?php
 					session_start();
+                   //Checking if user just created account
+                   // if so, pop-up box to tell user to check email
+					if($_SESSION['CheckEmail'] <> NULL){
+				       //Inclue popup code
+					   include('../resources/checkemailpopup.php');
+					   //Reset check email flag
+					   unset($_SESSION['CheckEmail']);
+					}
+					
+					
 					if ($_SESSION['InvalidLoginMessage']<>NULL){
 						echo  "<h3 class='panel-title'>" . $_SESSION['InvalidLoginMessage'] . "</h3>";
 						unset($_SESSION['InvalidLoginMessage']);
@@ -51,7 +61,7 @@
 					?>
                     </div>
                     <div class="panel-body">
-                        <form action="loginvalidation.php" role="form" method="POST">
+                        <form action="../resources/loginvalidation.php" role="form" method="POST">
                             <fieldset>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Username" name="user" type="text" autofocus>
