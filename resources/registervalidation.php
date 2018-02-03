@@ -93,20 +93,28 @@ $InsertUserInfoSQL ="
 
 // store user credentials into database
 $InsertUserCredentialsSQL = "
-        INSERT INTO UserCredentials.tbl_user_cred (atr_username,atr_password,atr_type)
-        VALUES ('" . $UserName . "','" . $Password .  "','locked')";
+    INSERT INTO UserCredentials.tbl_user_cred (atr_username,atr_password,atr_type)
+    VALUES ('" . $UserName . "','" . $Password .  "','locked')";
 
-// add user info to database
-// checking echo error if so, DEV PURPOSE ONLY!
-if ($conn->query($InsertUserInfoSQL) === TRUE) {}
-else{
-    echo "Error: " . $InsertUserInfoSQL . "<br>" . $conn->error;
+
+//Begins transaction and sets boolean all_query_ok to true
+$all_query_ok = true;
+$conn->begin_transaction();
+    
+//Queries; sets all_query_ok to false if any fail
+$conn->query($InsertUserCredentialsSQL) ? null : $all_query_ok = false;
+$conn->query($InsertUserInfoSQL) ? null : $all_query_ok = false;
+    
+//Commits changes if all queries succeed
+if ($all_query_ok) {
+    $conn->commit();
 }
-//add user credentials to database
-//Checking echo error if so, DEV PURPOSE ONLY!
-if ($conn->query($InsertUserCredentialsSQL) === TRUE) {}
-else{
-    echo "Error: " . $InsertUserCredentialsSQL . "<br>" . $conn->error;
+//Rollsback changes if any query fails
+else {
+    $conn->rollback();
+    $_SESSION['InvaliRegistrationMessage'] = "Something went wrong, please try again";
+    header('Location: ../pages/register.php');
+    exit();
 }
 
 //Generate body for email
