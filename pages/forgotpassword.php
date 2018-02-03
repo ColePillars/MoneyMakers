@@ -41,29 +41,23 @@
                     <div class="panel-heading">
                     <?php
 					session_start();
-					if ($_SESSION['InvalidUserOrPass'] <> NULL){
-						echo $_SESSION['InvalidUserOrPass'];
-						unset($_SESSION['InvalidUserOrPass']);
+					if ($_SESSION['InvalidEmail'] <> NULL){
+					    echo  "<h3 class='panel-title'>" . $_SESSION['InvalidEmail'] . "</h3>";
+						unset($_SESSION['InvalidEmail']);
 					}
                     else{
-                       echo "Enter username and your new password";
+                       echo "Enter your registered email address";
                     } 
 					?>
                     </div>
                     <div class="panel-body">
-                        <form action="resetpassword.php" role="form" method="POST">
+                        <form action="../resources/forgotpasswordvalidation.php" role="form" method="POST">
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Username" name="user" type="text" autofocus>
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="New Password" name="pass" type="password" value="">
-                                </div>
-                                <div class ="form-group">
-                                	<input class="form-control" placeholder="Confirm New Password" name="confpass" type="password" value="">
+                                    <input class="form-control" placeholder="Email" name="email" type="text" autofocus>
                                 </div>
                                	<!-- Change this to a button or input when using this as a form -->
-                               	<input type = "submit" class="btn btn-lg btn-success btn-block" Value = " Reset Password ">
+                               	<input type = "submit" class="btn btn-lg btn-success btn-block" Value = " Submit email ">
                             </fieldset>
                         </form>
                     </div>

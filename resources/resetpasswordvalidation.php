@@ -3,13 +3,22 @@
 session_start();
 include ('connection.php');
 
-$user = mysqli_escape_string($conn,$_POST['user']);
-$pass = mysqli_escape_string($conn,$_POST['pass']);
-$confpass = mysqli_escape_string($conn,$_POST['confpass']);
+$pass = mysqli_escape_string($conn,$_POST['password']);
+$confPass = mysqli_escape_string($conn,$_POST['confirmpassword']);
 
-$checkUserName = "SELECT atr_username FROM UserCredentials.tbl_user_info
- WHERE atr_username ='" . $user . "';";
-$checkUserNameResult = mysqli_query($conn, $checkUserName);
+$UserName = mysqli_escape_string($conn,$_GET['username']);
+$ResetPassKey = mysqli_escape_string($conn,$_GET['key']);
+
+CheckEmptyRegistrationInput($pass, "Password");
+CheckEmptyRegistrationInput($confPass,  "Confirm Password");
+
+if ($pass <> $confPass){
+    //push user back to register if email is already being used
+    $_SESSION['InvaliRegistrationMessage'] = "Passwords Must Match!";
+    header('Location: ../pages/for.php');
+    exit();
+}
+
 
 //checks to see if the query returns a value or not
 if ($checkUserNameResult->num_rows > 0 ) {
@@ -28,7 +37,7 @@ if ($checkUserNameResult->num_rows > 0 ) {
         //Prompts for your credentials if the passwords do not match
         else {
             $_SESSION['InvalidUserOrPass'] = "Passwords do not match";
-            header('Location: ../pages/forgotpassword.php');
+            header("location: ../pages/resetpassword.php?username=" . $UserName . "&key=" . $ResetPassKey .);
             exit();
         }
     }
