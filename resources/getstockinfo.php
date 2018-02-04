@@ -28,10 +28,9 @@ $count = 0;
 
 foreach ($jsondata  as $trend){
     foreach ($trend as $test => $test2){
+        
         //execute query
         if($count > 5){
-            $MidQuery =  substr($MidQuery, 0, -2) . "');<br>";
-            echo $MidQuery;
             $MidQuery = $StartSQL;
             $MidQuery = $MidQuery . "'" . $test . "',";
          //start to define query
@@ -40,6 +39,12 @@ foreach ($jsondata  as $trend){
          foreach ($test2 as $testcolumns => $testcolumns2){
              
                 $MidQuery = $MidQuery . "'" . $testcolumns2 . "',";
+         }
+         
+         if($count > 5){
+            $MidQuery =  substr($MidQuery, 0, -2) . "');<br>";
+            //this echo is where the query should be executed
+            echo $MidQuery;
          }
         $count = $count + 1;
      }
