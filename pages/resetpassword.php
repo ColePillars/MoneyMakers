@@ -41,17 +41,18 @@
                     <div class="panel-heading">
                     <?php
 					session_start();
-					if ($_SESSION['InvalidEmail'] <> NULL){
-						echo $_SESSION['InvalidEmail'];
-						unset($_SESSION['InvalidEmail']);
+					if ($_SESSION['Invalid'] <> NULL){
+						echo $_SESSION['Invalid'];
+						unset($_SESSION['Invalid']);
 					}
                     else{
-                       echo "Enter your new password ";
-                    } 
+                       echo "Enter your new password";
+                    }
 					?>
                     </div>
                     <div class="panel-body">
-                        <form action="../resources/resetpasswordvalidation.php" role="form" method="POST">
+                    
+                        <form action="<?php echo "../resources/resetpasswordvalidation.php?username=" . $_GET['username'] . "&key=" . $_GET['key'] .""; ?>" role="form" method="POST">
                             <fieldset>
                                 <!--  input for password -->
                                 <div class="form-group">

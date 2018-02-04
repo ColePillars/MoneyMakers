@@ -2,51 +2,73 @@
 
 session_start();
 include ('connection.php');
+include ('functions.php');
 
 $pass = mysqli_escape_string($conn,$_POST['password']);
-$confPass = mysqli_escape_string($conn,$_POST['confirmpassword']);
+$confPass = mysqli_escape_string($conn,$_POST['confirmPassword']);
 
-$UserName = mysqli_escape_string($conn,$_GET['username']);
-$ResetPassKey = mysqli_escape_string($conn,$_GET['key']);
+$resetPassKey = mysqli_escape_string($conn,$_GET['key']);
+$userName = mysqli_escape_string($conn,$_GET['username']);
 
-CheckEmptyRegistrationInput($pass, "Password");
-CheckEmptyRegistrationInput($confPass,  "Confirm Password");
-
-if ($pass <> $confPass){
-    //push user back to register if email is already being used
-    $_SESSION['InvaliRegistrationMessage'] = "Passwords Must Match!";
-    header('Location: ../pages/for.php');
+if(empty($pass)){
+    $_SESSION['Invalid'] = "Please Fill Out The Password Field";
+    header("location: ../pages/resetpassword.php?username=" . $userName . "&key=" . $resetPassKey ."");
     exit();
 }
 
-
-//checks to see if the query returns a value or not
-if ($checkUserNameResult->num_rows > 0 ) {
-    //loops through the results which is an array (mostly likely of 1 element)
-    while($row = $checkUserNameResult->fetch_assoc()) {
-        //checks to see if the username is valid, if the new password and confirmed password ar ethe same, and if....
-        //the new password or the confirmed password are not NULL
-        if (($row['atr_username'] == $user) && ($pass == $confpass) && (($pass != NULL) OR ($confpass != NULL))) {
-            //Runs the query that changes the password for the user
-            $sql = "UPDATE UserCredentials.tbl_user_cred SET atr_password = '" . $pass .  "' WHERE atr_username ='" . $user .  "';";
-            $result = mysqli_query($conn,$sql);
-            //redirects the user to the login page after changing their password
-            header('Location: ../pages/login.php');
-            exit();
-        }
-        //Prompts for your credentials if the passwords do not match
-        else {
-            $_SESSION['InvalidUserOrPass'] = "Passwords do not match";
-            header("location: ../pages/resetpassword.php?username=" . $UserName . "&key=" . $ResetPassKey .);
-            exit();
-        }
-    }
+if(empty($confPass)){
+    $_SESSION['Invalid'] = "Please Fill Out The Confirm Password Field";
+    header("location: ../pages/resetpassword.php?username=" . $userName . "&key=" . $resetPassKey ."");
+    exit();
 }
-//Prompts for your credentials if the username is not in the system
-else {
-    $_SESSION['InvalidUserOrPass'] = "Username is not in the system";
+
+if (($resetPassKey == NULL) or ($userName == NULL)){
+    $_SESSION['Invalid'] = "Oops! Something went wrong! <br> Please try again";
     header('Location: ../pages/forgotpassword.php');
     exit();
 }
+if ($pass <> $confPass){
+    //push user back to register if email is already being used
+    $_SESSION['Invalid'] = "Passwords Must Match!";
+    header("location: ../pages/resetpassword.php?username=" . $userName . "&key=" . $resetPassKey ."");
+    exit();
+}
+
+$checkUserName = "SELECT atr_username FROM UserCredentials.tbl_user_cred
+ WHERE atr_username ='" . $userName . "';";
+$checkUserNameResult = mysqli_query($conn, $checkUserName);
+
+//checks to see if the query returns a value or not
+if ($checkUserNameResult->num_rows == 1 ) {
+    //loops through the results which is an array (mostly likely of 1 element)
+    while($row = $checkUserNameResult->fetch_assoc()) {
+        
+        
+            //Runs the query that changes the password for the user
+            $sql = "UPDATE UserCredentials.tbl_user_cred SET atr_password = '" . $pass .  "' WHERE atr_username ='" . $userName .  "';";
+            $result = mysqli_query($conn,$sql);
+            
+            $RandomKey = GenerateRandomKey();
+            // query for changing user key
+            $ResetKeySQL = "UPDATE UserCredentials.tbl_user_info SET atr_user_key = '" . $RandomKey . "' WHERE atr_username = '" . $userName . "';";
+            // execute SQL query to reset key
+            if ($conn->query($ResetKeySQL) === TRUE){}
+            else{
+                //output mysql error if fail, DEV PURPOSE ONLY
+                //MUST HANDEL ERROR
+                echo "Error: " . $ResetKeySQL . "<br>" . $conn->error;
+            }
+            //redirects the user to the login page after changing their password
+            header('Location: ../pages/login.php');
+            exit();
+    }
+}
+
+//Prompts for your credentials if the username is not in the system
+/*else {
+    $_SESSION['Invalid'] = "Something went wrong, try again:";
+    header('Location: ../pages/forgotpassword.php');
+    exit();
+}*/
 
 ?>

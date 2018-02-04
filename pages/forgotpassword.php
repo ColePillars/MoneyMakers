@@ -41,9 +41,9 @@
                     <div class="panel-heading">
                     <?php
 					session_start();
-					if ($_SESSION['InvalidEmail'] <> NULL){
-					    echo  "<h3 class='panel-title'>" . $_SESSION['InvalidEmail'] . "</h3>";
-						unset($_SESSION['InvalidEmail']);
+					if ($_SESSION['Invalid'] <> NULL){
+					    echo  "<h3 class='panel-title'>" . $_SESSION['Invalid'] . "</h3>";
+						unset($_SESSION['Invalid']);
 					}
                     else{
                        echo "Enter your registered email address";

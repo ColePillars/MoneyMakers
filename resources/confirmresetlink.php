@@ -27,7 +27,7 @@ $UserName = mysqli_escape_string($conn,$_GET['username']);
 // checking if user came from a valid url with key and username value
 // if not re-route to register Page with error message
 if (($ResetPassKey == NULL) or ($UserName == NULL)){
-    $_SESSION['InvaliRegistrationMessage'] = "Oops! Something went wrong! <br> Please try again";
+    $_SESSION['Invalid'] = "Oops! Something went wrong! <br> Please try again";
     header('Location: ../pages/forgotpassword.php');
     exit();
 }
@@ -71,12 +71,12 @@ if($CheckUserInfoResult->num_rows == 1){
     }
 
    //push user to reset password page to reset    
-    header("location: ../pages/resetpassword.php?username=" . $UserName . "&key=" . $ResetPassKey .");
+    header("location: ../pages/resetpassword.php?username=" . $UserName . "&key=" . $RandomKey ."");
     exit(); 
 }
 else{
     //if user re-clicked this line or made their own key
-    $_SESSION['InvaliEmail'] = "Oops! Something went wrong!";
+    $_SESSION['Invalid'] = "Oops! Something went wrong!";
     header('Location: ../pages/forgotpassword.php');
     exit();
   }

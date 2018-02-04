@@ -6,8 +6,6 @@ include ('functions.php');
 
 $email = mysqli_escape_string($conn,$_POST['email']);
 
-echo "line 13";
-
 $checkEmail = "SELECT atr_email FROM UserCredentials.tbl_user_info
  WHERE atr_email ='" . $email . "';";
 $checkEmailResult = mysqli_query($conn, $checkEmail);
@@ -41,7 +39,7 @@ if ($checkEmailResult->num_rows > 0 ) {
             
                 // send email with confirmation link
                     mail($email,"Password reset",$EmailContents);
-                    $_SESSION['InvalidEmail'] = "Check your email";
+                    $_SESSION['Invalid'] = "Check your email";
                     header('Location: ../pages/forgotpassword.php');
                     exit();
                 }
@@ -52,7 +50,7 @@ if ($checkEmailResult->num_rows > 0 ) {
     }
 }
 else {
-    $_SESSION['InvalidEmail'] = "Invalid Email: Email is not registered";
+    $_SESSION['Invalid'] = "Invalid Email: Email is not registered";
     header('Location: ../pages/forgotpassword.php');
     exit();
 }
