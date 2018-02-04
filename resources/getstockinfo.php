@@ -24,19 +24,24 @@ $SkipMeta = 0;
 $StartSQL = "INSERT INTO StockInfo.Time_Series_Intradaily(atr_stock_ID,Timestamp,Open,High,Low,Close,Volume)
             VALUES('F',";
 
-
+$count = 0;
 
 foreach ($jsondata  as $trend){
     foreach ($trend as $test => $test2){
         //execute query
-        $MidQuery =  substr($MidQuery, 0, -2) . "');";
-        echo $MidQuery;
-        $MidQuery = $StartSQL;
-        $MidQuery = $MidQuery . "'" . $test . "',";
+        if($count > 5){
+            $MidQuery =  substr($MidQuery, 0, -2) . "');<br>";
+            echo $MidQuery;
+            $MidQuery = $StartSQL;
+            $MidQuery = $MidQuery . "'" . $test . "',";
          //start to define query
+        }
+        
          foreach ($test2 as $testcolumns => $testcolumns2){
-          $MidQuery = $MidQuery . "'" . $testcolumns2 . "',";
+             
+                $MidQuery = $MidQuery . "'" . $testcolumns2 . "',";
          }
+        $count = $count + 1;
      }
  }
  
