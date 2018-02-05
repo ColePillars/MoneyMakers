@@ -37,10 +37,10 @@ if ($checkEmailResult->num_rows > 0 ) {
                     
                     http://35.196.255.59/" . substr_replace(getcwd(),"",0,14) . "/confirmresetlink.php?username=" . $userRow['atr_username'] . "&key=" . $resetPassKey ."";
             
-                // send email with confirmation link
+                    // send email with confirmation link
                     mail($email,"Password reset",$EmailContents);
-                    $_SESSION['Invalid'] = "Check your email";
-                    header('Location: ../pages/forgotpassword.php');
+                    $_SESSION['CheckEmail'] = True;
+                    header('Location: ../pages/login.php');
                     exit();
                 }
             
