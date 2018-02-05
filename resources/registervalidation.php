@@ -94,6 +94,9 @@ if ($CheckUserNameTakenResult->num_rows > 0) {
 //Fetch random key for user registration
 $RegistrationKey = GenerateRandomKey();
 
+//Creates hash of password
+$hash = password_hash($Password, PASSWORD_DEFAULT);
+
 //Store user information and key into database
 $InsertUserInfoSQL ="
     INSERT INTO UserCredentials.tbl_user_info (atr_username,atr_first_name,atr_last_name,atr_email,atr_phone,atr_street_address,atr_city,atr_state,atr_zip,atr_user_key)
@@ -102,7 +105,7 @@ $InsertUserInfoSQL ="
 //Store user credentials into database
 $InsertUserCredentialsSQL = "
     INSERT INTO UserCredentials.tbl_user_cred (atr_username,atr_password,atr_type)
-    VALUES ('" . $UserName . "','" . $Password .  "','locked')";
+    VALUES ('" . $UserName . "','" . $hash . "','locked')";
 
 
 //Begins transaction and sets boolean all_query_ok to true
