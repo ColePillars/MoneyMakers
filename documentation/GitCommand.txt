@@ -1,0 +1,26 @@
+Usefull git commands
+
+git status - Shows the changes that have been made to your files and whether they are ready for commit or not. (green- ready), (red - not ready)
+			and if your branch is up to date with the branch you are tracking OR whether it's ahead in commit to the branch you are tracking.
+
+git add "file name" - adds the file to the "ready to be commited"/green column.
+	Example: git add /pages/login.php
+
+git commit -m "message" - commit the files which then are ready to be pushed
+	Example: git commit -m "Fixed a login bug"
+
+git push - pushes your changes to the remote branch
+	Example: git push
+		git push origin "branch" - pushes the changes to that specific branch in the remote repo
+			example: git push origin gheqimi - pushes the changes to branch gheqimi in the remote repo
+		
+git pull - pulls from the branch that you have it set to (see below how to set your branch to pull from a certain remote repo
+	Example: git pull
+		git pull origin "branch" - pulls from the remote repo branch specified
+			example: git pull origin bootstraptest - pull from the remote repo branch bootstraptest
+
+
+Set Up git so the command 'git pull' automatically pulls from the remote repo bootstraptest.
+
+git branch --set-upstream-to origin/"branch1" "branch2" - sets branch 2 to track from branch1 and 'git pull' pulls from branch1 
+	Example: git branch --set-upstream-to origin/bootstraptest gheqimi - sets gheqimi branch to track the remote branch bootstraptest and pull from it
