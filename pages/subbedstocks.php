@@ -35,7 +35,7 @@
 
 <body>
 	<div class="col-lg-12">
-		<h1 class="page-header">Subscribed Stocks</h1>
+		<h1 class="page-header">My Subscribed Stocks</h1>
 	</div>
 	<div class="row">
 
@@ -55,43 +55,30 @@ include ('../resources/connection.php');
 
 // checks login status
 if ($_SESSION['is_logged_in'] != true) {
-    // $_SESSION['InvalidLoginMessage'] = "You are not logged in!";
+    //$_SESSION['InvalidLoginMessage]="You are not logged in!";
     header('Location: login.php');
     exit();
 } else {
+    // if user had input error,outputerror, clear error message
+    if ($_SESSION['InvalidUpdateMessage'] != NULL) {
+        echo "<h3 class='panel-title'>" . $_SESSION['InvalidUpdateMessage'] . "</h3>";
+        unset($_SESSION['InvalidUpdateMessage']);
+    }
     
-    $sql1 = "SELECT * FROM StockInfo.Time_Series_Intradaily;";
+    $sql1 = "SELECT * FROM StockInfo.Time_Series_Daily_Adjusted;";
     $result1 = mysqli_query($conn, $sql1);
     $sql2 = "SELECT * FROM UserCredentials.tbl_stock_subs WHERE atr_username ='" . $_SESSION['username'] . "';";
     $result2 = mysqli_query($conn, $sql2);
     
-    while ($row = mysqli_fetch_assoc($result1)) {
-        $_SESSION['stockid'] = atr_stock_id;
-        $_SESSION['timestamp'] = Timestamp;
-        $_SESSION['open'] = Open;
-        $_SESSION['high'] = High;
-        $_SESSION['low'] = Low;
-        $_SESSION['close'] = Close;
-        $_SESSION['volume'] = Volume;
-    }
-    while ($row = mysqli_fetch_assoc($result2)) {
-        $_SESSION['username'];
-        $_SESSION['stockid'] = atr_stock_id;
-    }
-    // $sql="SELECT name FROM system_dept ORDER BY id";
-    // $result=mysql_query($sql);
-    // $count=mysql_num_rows($result);
-    // if (!mysql_query($sql,$conn))
-    // {
-    // exit('Error: ' . mysql_error());
-    // }
-    // else
-    // {
-    // $dept = array();
-    // while ($row = mysql_fetch_array($result2)) {
-    // $dept[] = $row['atr_stock_id'];
-    // echo $row['atr_stock_id'];
-    // }
+    // while ($row = mysqli_fetch_assoc($result)) {
+    // $_SESSION['username'];
+    // $_SESSION['firstname'] = $row[atr_first_name];
+    // $_SESSION['lastname'] = $row[atr_last_name];
+    // $_SESSION['phone'] = $row[atr_phone];
+    // $_SESSION['address'] = $row[atr_street_address];
+    // $_SESSION['city'] = $row[atr_city];
+    // $_SESSION['state'] = $row[atr_state];
+    // $_SESSION['zip'] = $row[atr_zip];
     // }
 }
 ?>
@@ -99,14 +86,33 @@ if ($_SESSION['is_logged_in'] != true) {
 	</div>
 	<div class="panel-body">
 		<h3><?php
-if ($_SESSION['stockid'] != NULL) {
-    echo "You are not subscribed to any stocks.";
+if ($result2<>NULL) {
+    echo "User is not subscribed to any stocks.";
 } else {
-    while ($row = mysqli_fetch_assoc($result2)) {
+    while ($row = mysql_fetch_assoc($result2)) {
         echo $row['atr_stock_id'];
     }
 }
+
+// $sql="SELECT atr_stock_id FROM system_dept ORDER BY id";
+// $result=mysql_query($sql);
+// $count=mysql_num_rows($result);
+// if (!mysql_query($sql,$conn))
+// {
+// exit('Error: ' . mysql_error());
+// }
+// else
+// {
+// $dept = array();
+// while($row=mysql_fetch_array($result))
+// {
+// $dept[]=$row['name'];
+// echo $row['name'];
+// }
+// }
 ?></h3>
+
+	</div>
 	</div>
 	<!--  </div>
 	  </div>
