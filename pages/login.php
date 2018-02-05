@@ -41,6 +41,16 @@
                     <div class="panel-heading">
                     <?php
 					session_start();
+                   //Checking if user just created account
+                   // if so, pop-up box to tell user to check email
+					if($_SESSION['CheckEmail'] <> NULL){
+				       //Inclue popup code
+					   include('../resources/checkemailpopup.php');
+					   //Reset check email flag
+					   unset($_SESSION['CheckEmail']);
+					}
+					
+					
 					if ($_SESSION['InvalidLoginMessage']<>NULL){
 						echo  "<h3 class='panel-title'>" . $_SESSION['InvalidLoginMessage'] . "</h3>";
 						unset($_SESSION['InvalidLoginMessage']);
@@ -68,6 +78,11 @@
                                	<div class="">
                                    	<label>
                                        	<a href='register.php'>Create Acccount</a>
+                                   	</label>
+<!--                                 </div> -->
+<!--                                 <div class=""> -->
+                                   	<label class='pull-right' >
+                                       	<a  href='forgotpassword.php'>Forgot Password?</a>
                                    	</label>
                                	</div>
                                	<!-- Change this to a button or input when using this as a form -->
