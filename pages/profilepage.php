@@ -73,7 +73,6 @@ if ($_SESSION['is_logged_in'] != true) {
         $_SESSION['username'];
         $_SESSION['firstname'] = $row[atr_first_name];
         $_SESSION['lastname'] = $row[atr_last_name];
-        $_SESSION['email'] = $row[atr_email];
         $_SESSION['phone'] = $row[atr_phone];
         $_SESSION['address'] = $row[atr_street_address];
         $_SESSION['city'] = $row[atr_city];
@@ -113,14 +112,6 @@ if ($_SESSION['is_logged_in'] != true) {
 					<input required pattern="[A-Za-z]{1,}" class="form-control"
 						name="lastname" type="text" title="Alphabetic characters only"
 						value="<?php echo $_SESSION['lastname'];unset($_SESSION['lastname']);?>"
-				
-				</div>
-				<!-- Input for email address -->
-				<h3>E-mail Address:</h3>
-				<br />
-				<div class="form-group">
-					<input required class="form-control" name="email" type="email"
-						value="<?php echo $_SESSION['email'];unset($_SESSION['email']);?>"
 				
 				</div>
 				<!-- Input for phone number -->

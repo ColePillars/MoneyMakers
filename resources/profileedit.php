@@ -13,7 +13,6 @@ include ('../resources/connection.php');
 $UserName = mysqli_escape_string($conn, $_POST['username']);
 $FirstName = mysqli_escape_string($conn, $_POST['firstname']);
 $LastName = mysqli_escape_string($conn, $_POST['lastname']);
-$EmailAddress = mysqli_escape_string($conn, $_POST['email']);
 $Phone = mysqli_escape_string($conn, $_POST['phone']);
 $StreetAddress = mysqli_escape_string($conn, $_POST['address']);
 $City = mysqli_escape_string($conn, $_POST['city']);
@@ -22,40 +21,18 @@ $Zip = mysqli_escape_string($conn, $_POST['zip']);
 
 // checking that user did not forget/bypass population of any fields
 CheckEmptyRegistrationInput($UserName, "UserName");
-CheckEmptyRegistrationInput($EmailAddress, "Email Address");
 CheckEmptyRegistrationInput($FirstName, "First Name");
 CheckEmptyRegistrationInput($LastName, "Last Name");
-
-// check if email address if valid
-if (filter_var($EmailAddress, FILTER_VALIDATE_EMAIL)) {} else {
-    // push user back to register if email is not valid
-    $_SESSION['InvalidUpdateMessage'] = "Email address is invalid";
-    header('Location: ../pages/profilepage.php');
-    exit();
-}
 
 // check if username / email is already being used
 // construct SQL query
 $CheckUserNameTakenSQL = "SELECT * FROM UserCredentials.tbl_user_info
- WHERE atr_username ='" . $UserName . "' OR atr_email ='" . $EmailAddress . "';";
+ WHERE atr_username ='" . $UserName . "';";
 
 // // execute SQL Query
 $CheckUserNameTakenResult = mysqli_query($conn, $CheckUserNameTakenSQL);
-if ($CheckUserNameTakenResult->num_rows > 1) {
+if ($CheckUserNameTakenResult->num_rows > 0) {
     while ($row = $CheckUserNameTakenResult->fetch_assoc()) {
-        // Checks if both email and username are both in use
-        if ($row['atr_email'] == $EmailAddress && $row['atr_username'] == $UserName && $_SESSION['username']!= $UserName) {
-            $_SESSION['InvalidUpdateMessage'] = "Email Address and Username Are Being Used Already<br/><a href='../pages/profilepage.php'></a>";
-            header('Location: ../pages/profilepage.php');
-            exit();
-        }
-        // checking if email is already being used
-        if ($row['atr_email'] == $EmailAddress && $_SESSION['username']!=$UserName) {
-            // push user back to register if email is already being used
-            $_SESSION['InvalidUpdateMessage'] = "Email Address Is Being Used Already<br /><a href ='../pages/profilepage.php'> </a>";
-            header('Location: ../pages/profilepage.php');
-            exit();
-        }
         // checking if username is already being used
         if ($row['atr_username'] == $UserName && $_SESSION['username']!=$UserName) {
             // push user back to register if username is already being used
@@ -73,7 +50,6 @@ $UpdateUserInfoSQL = "
         SET atr_username = '" . $UserName . "',
         atr_first_name = '" . $FirstName . "',
         atr_last_name = '" . $LastName . "',
-        atr_email = '" . $EmailAddress . "',
         atr_phone = '" . $Phone . "',
         atr_street_address = '" . $StreetAddress . "',
         atr_city = '" . $City . "',
