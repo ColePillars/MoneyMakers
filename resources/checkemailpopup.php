@@ -48,7 +48,7 @@
   <!-- Modal content -->
   <div class="modal-content">
     <span class="close">&times;</span>
-    <h2 align="center">Please Check Your Email For Registration Confirmation</h2>
+    <h2 align="center">Please Check Your Email For Confirmation</h2>
   </div>
     
 </div>
