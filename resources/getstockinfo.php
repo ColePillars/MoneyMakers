@@ -2,15 +2,25 @@
 
 
 include('stockfunctions.php');
+//These Functions populate the database with stockinfo
 
 //FetchIntraDaily("F", "60min");
 
+//FetchMonthlyJSON("MSFT");
+
+//FetchMonthlyAdjustedJSON("MSFT");
+
+//FetchCryptoIntradayJSON("BTC", "EUR");
+
+//FetchCryptoDailyJSON("BTC", "CNY");
+
+//FetchCryptoWeeklyJSON("BTC", "CNY");
+
+FetchCryptoMonthlyJSON("BTC", "CNY");
 
 
-
-
- 
-
+//this code is now worthless
+/*
  $data = file_get_contents("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=F&interval=60min&apikey=S7R0WLCOH163H1DE&datatype=json");
  
  
