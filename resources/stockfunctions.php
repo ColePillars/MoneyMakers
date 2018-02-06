@@ -84,8 +84,8 @@ Function FetchIntraDailyJSON($StockSymbol, $Interval){
 }
 
 
-// this function will fetch and store intradaily values given the parameters
-//RETURNS 100 DATA POINTS, SO IF HOURLY, LAST 100 HOURS!!
+// this function will fetch and store daily values given the parameters
+//RETURNS 100 DATA POINTS, SO IF HOURLY, LAST 100 days!!
 Function FetchDailyJSON($StockSymbol){
     
     // include connections page
@@ -127,8 +127,8 @@ Function FetchDailyJSON($StockSymbol){
     }
 }
 
-// this function will fetch and store intradaily values given the parameters
-//RETURNS 100 DATA POINTS, SO IF HOURLY, LAST 100 HOURS!!
+// this function will fetch and store daily adjusted (cumulative) values given the parameters
+//RETURNS 100 DATA POINTS, SO IF HOURLY, LAST 100 days!!
 Function FetchDailyAdjustedJSON($StockSymbol){
     
     // include connections page
@@ -170,8 +170,8 @@ Function FetchDailyAdjustedJSON($StockSymbol){
     }
 }
 
-// this function will fetch and store intradaily values given the parameters
-//RETURNS 100 DATA POINTS, SO IF HOURLY, LAST 100 HOURS!!
+// this function will fetch and store weekly values given the parameters
+//RETURNS 100 DATA POINTS, SO IF HOURLY, LAST 100 WEEKS
 Function FetchWeeklyJSON($StockSymbol){
     
     // include connections page
