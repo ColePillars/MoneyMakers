@@ -1,12 +1,12 @@
  <?php
  
  //Define db variables
- $servername = "localhost";
- $username = "MoneyMakersDev";
- $password = "ConnectionDev12345";
+ $DBservername = "localhost";
+ $DBusername = "MoneyMakersDev";
+ $DBpassword = "ConnectionDev12345";
  
  // Create connection
- $conn = new mysqli($servername, $username, $password);
+ $conn = new mysqli($DBservername, $DBusername, $DBpassword);
  
  // Check connection
  if ($conn->connect_error) {
