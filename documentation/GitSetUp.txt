@@ -1,7 +1,0 @@
-Set Up git so the command 'git pull' automatically pulls from the remote repo bootstraptest.
-
-git branch --set-upstream-to origin/bootstraptest 'username'
-
-Example:
-
-git branch --set-upstream-to origin/bootstraptest gheqimi

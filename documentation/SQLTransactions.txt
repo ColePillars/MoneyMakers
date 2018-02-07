@@ -1,0 +1,26 @@
+When running multiple Insert/Update/Delete etc. statements to a MySQL database, if a single statement fails, all others could be invalid
+A transaction is a way to save a database's state, attempt changes, then save them again or rollback if any of them fail
+This is important for data integrity, as a SQL statement may be invalid/incorrecy if a subsequent one fails
+
+
+
+Written in PHP
+
+
+	//A boolean which is to be set to false if ANY query fails
+	$all_query_ok = true;
+
+	//Begins transaction, this turns off auto commits
+	$conn->begin_transaction();
+	    
+	//Queries; if any fail, all_query_ok is set to false
+	$conn->query($Query1) ? null : $all_query_ok = false;
+	$conn->query($Query2) ? null : $all_query_ok = false;
+	$conn->query($Query3) ? null : $all_query_ok = false;
+	$conn->query($Query4) ? null : $all_query_ok = false;
+    
+	//Commits changes if ALL queries succeed
+	if ($all_query_ok) { $conn->commit(); }
+
+	//Rollback changes if ANY query fails
+	else { $conn->rollback(); }
