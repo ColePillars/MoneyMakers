@@ -1,3 +1,7 @@
+<?php 
+include ('logininclude.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
