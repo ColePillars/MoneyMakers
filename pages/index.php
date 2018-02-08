@@ -1,3 +1,7 @@
+<?php 
+include ('logininclude.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,9 +30,6 @@
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle">
-                    <span class="sr-only">Toggle navigation</span>
-                </button>
                 <a class="navbar-brand" href="index.php">Money Makers v1.0</a>
             </div>
             <?php
@@ -249,7 +250,7 @@
 			else {
 				echo '
 						<ul class="nav navbar-top-links navbar-right">
-							<li><a href="login.php"><i class="fa fa-sign-in fa-fw"></i> Login</a>
+							<li><a href="login.php"><i class="fa fa-sign-in fa-fw"></i> Login/Register</a>
 							</li>
 						</ul>
 				';
@@ -566,7 +567,6 @@
             <!-- /.row -->
         </div>
     </div>
-<!--
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="../vendor/metisMenu/metisMenu.min.js"></script>
@@ -574,6 +574,5 @@
     <script src="../vendor/morrisjs/morris.min.js"></script>
     <script src="../data/morris-data.js"></script>
     <script src="../dist/js/sb-admin-2.js"></script>
--->
 </body>
 </html>

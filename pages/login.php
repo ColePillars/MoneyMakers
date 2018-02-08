@@ -1,3 +1,7 @@
+<?php 
+include ('logininclude.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -78,6 +82,11 @@
                                	<div class="">
                                    	<label>
                                        	<a href='register.php'>Create Acccount</a>
+                                   	</label>
+<!--                                 </div> -->
+<!--                                 <div class=""> -->
+                                   	<label class='pull-right' >
+                                       	<a  href='forgotpassword.php'>Forgot Password?</a>
                                    	</label>
                                	</div>
                                	<!-- Change this to a button or input when using this as a form -->
