@@ -43,9 +43,10 @@ if ($checkUserNameResult->num_rows == 1 ) {
     //loops through the results which is an array (mostly likely of 1 element)
     while($row = $checkUserNameResult->fetch_assoc()) {
         
+            $hash = password_hash($pass, PASSWORD_DEFAULT);
         
             //Runs the query that changes the password for the user
-            $sql = "UPDATE UserCredentials.tbl_user_cred SET atr_password = '" . $pass .  "' WHERE atr_username ='" . $userName .  "';";
+            $sql = "UPDATE UserCredentials.tbl_user_cred SET atr_password = '" . $hash .  "' WHERE atr_username ='" . $userName .  "';";
             $result = mysqli_query($conn,$sql);
             
             $RandomKey = GenerateRandomKey();
