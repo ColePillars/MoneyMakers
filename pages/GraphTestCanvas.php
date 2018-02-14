@@ -83,22 +83,18 @@ var chart = new CanvasJS.Chart("chartContainer", {
 		dataPoints: [   // Y: [Open, High ,Low, Close] 
 
 			
-			 <?php 
-			 for ($i=0; $i < 12; $i++) {
+	     	<?php 
+		      for ($i=0; $i < 400; $i++) {
 			     $open = $array[$i][2];
 			     $high = $array[$i][3];
 			     $low = $array[$i][4];
 			     $close = $array[$i][5];
-			     if ($i == 11) {
+			     if ($i == 399) {
 			         echo '{ x: new Date(2018, '.$i.'), y: ['.$open.', '.$high.', '.$low.', '.$close.'] }';
 			     } else {
 			         echo '{ x: new Date(2018, '.$i.'), y: ['.$open.', '.$high.', '.$low.', '.$close.'] },';
 			     }
-			 }
-			     
-			     
-			         
-			     
+		      }
 			 ?>
 			
 // 			{ x: new Date(2016, 0), y: [101.949997, 112.839996, 89.370003, 112.209999] },
