@@ -12,7 +12,7 @@ include ('logininclude.php');
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    
+     <title>Money Makers - Home</title>   
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
@@ -30,7 +30,18 @@ include ('logininclude.php');
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.php">Money Makers v1.0</a>
+                <img class="navbar-brand" href="index.php" src="../resources/mm_logo.png" style="width:100%;height:100%"</img>
+            </div>
+            <div class ="col-lg-3">
+            <div class="form-group-lg input-group" style="margin-top:12px">
+                <input type="text" class="form-control" placeholder="Search stocks">
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-lg" type="button"><i class="fa fa-search"></i>
+                        </button>
+                    </span>
+            </div>
+            </div>
+            <div class ="col-lg-6">
             </div>
             <?php
 			session_start();
@@ -249,58 +260,51 @@ include ('logininclude.php');
 			} 
 			else {
 				echo '
-						<ul class="nav navbar-top-links navbar-right">
-							<li><a href="login.php"><i class="fa fa-sign-in fa-fw"></i> Login/Register</a>
-							</li>
-						</ul>
+						<div class="nav navbar-top-links navbar-right btn-lg" style="margin-top:12px">
+							<a href="login.php"><i class="fa fa-sign-in fa-fw"></i> Login</a>
+						</div>         
 				';
 			}
 			?>
         </nav>
         <div id="page-wrapper">
             <div class="row">
-                <div class="col-lg-6">
-                    <h1 class="page-header">Money Makers</h1>
-                </div>
-                <div class="col-lg-5">
-                    <div class="searchbar">
-                        <input type="text" placeholder="Search stocks">
-                        <button type="submit"><i class="fa fa-search"></i></button>
-                    </div>
+                <div class="col-lg-12">
+                    <h1 class="page-header"></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
             <div class="row">
                 <div class="col-lg-3">
-                    <div class="panel panel-default">
+                    <div class="panel panel-green">
                         <div class="panel-heading">My Subs
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div class="list-group">
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-tasks fa-fw"></i> Sub 1
+                            <div class="list-group-sm">
+                                <a href="#" class="list-group-item panel">
+                                    <i class="fa fa-tasks fa-fw fa-lg"></i> Sub 1
                                     <span class="pull-right text-muted small"><em></em>
                                     </span>
                                 </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-tasks fa-fw"></i> Sub 2
+                                <a href="#" class="list-group-item panel">
+                                    <i class="fa fa-tasks fa-fw fa-lg"></i> Sub 2
                                     <span class="pull-right text-muted small"><em></em>
                                     </span>
                                 </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-tasks fa-fw"></i> Sub 3
+                                <a href="#" class="list-group-item panel">
+                                    <i class="fa fa-tasks fa-fw fa-lg"></i> Sub 3
                                     <span class="pull-right text-muted small"><em></em>
                                     </span>
                                 </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-tasks fa-fw"></i> Sub 4
+                                <a href="#" class="list-group-item panel">
+                                    <i class="fa fa-tasks fa-fw fa-lg"></i> Sub 4
                                     <span class="pull-right text-muted small"><em></em>
                                     </span>
                                 </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-tasks fa-fw"></i> Sub 5
+                                <a href="#" class="list-group-item panel">
+                                    <i class="fa fa-tasks fa-fw fa-lg"></i> Sub 5
                                     <span class="pull-right text-muted small"><em></em>
                                     </span>
                                 </a>
@@ -312,8 +316,174 @@ include ('logininclude.php');
                 </div>
                 <div class="col-lg-3">
                     <!-- /.panel -->
-                    <div class="panel panel-default">
+                    <div class="panel panel-yellow">
                         <div class="panel-heading">News
+                        </div>
+                        <div class="chat-panel panel panel-default">
+                            <div class="panel-body" style="height:555px">
+                            <ul class="chat">
+                                <li class="left clearfix">
+                                    <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div class="header">
+                                            <strong class="primary-font">Story 1</strong>
+                                            <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                        </div>
+                                        <p>
+                                        Story headline
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="left clearfix">
+                                    <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div class="header">
+                                            <strong class="primary-font">Story 2</strong>
+                                            <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                        </div>
+                                        <p>
+                                        Story headline
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="left clearfix">
+                                    <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div class="header">
+                                            <strong class="primary-font">Story 3</strong>
+                                            <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                        </div>
+                                        <p>
+                                        Story headline
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="left clearfix">
+                                    <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div class="header">
+                                            <strong class="primary-font">Story 4</strong>
+                                            <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                        </div>
+                                        <p>
+                                        Story headline
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="left clearfix">
+                                    <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div class="header">
+                                            <strong class="primary-font">Story 5</strong>
+                                            <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                        </div>
+                                        <p>
+                                        Story headline
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="left clearfix">
+                                    <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div class="header">
+                                            <strong class="primary-font">Story 6</strong>
+                                            <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                        </div>
+                                        <p>
+                                        Story headline
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="left clearfix">
+                                    <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div class="header">
+                                            <strong class="primary-font">Story 7</strong>
+                                            <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                        </div>
+                                        <p>
+                                        Story headline
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="left clearfix">
+                                    <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div class="header">
+                                            <strong class="primary-font">Story 8</strong>
+                                            <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                        </div>
+                                        <p>
+                                        Story headline
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="left clearfix">
+                                    <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div class="header">
+                                            <strong class="primary-font">Story 9</strong>
+                                            <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                        </div>
+                                        <p>
+                                        Story headline
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="left clearfix">
+                                    <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div class="header">
+                                            <strong class="primary-font">Story 10</strong>
+                                            <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                        </div>
+                                        <p>
+                                        Story headline
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -329,14 +499,14 @@ include ('logininclude.php');
                     <!-- /.panel -->
                 </div>
                 <div class="col-lg-3">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">Most Active
                         </div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-striped">
+                                        <table class="table table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>Stock</th>
@@ -384,14 +554,14 @@ include ('logininclude.php');
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">Cryptocurrencies
                         </div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-striped">
+                                        <table class="table table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>Stock</th>
@@ -442,7 +612,7 @@ include ('logininclude.php');
                 </div>
                 <div class="col-lg-3">
                     <!-- /.panel -->
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">Most Gains
                         </div>
                         <!-- /.panel-heading -->
@@ -450,7 +620,7 @@ include ('logininclude.php');
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-striped">
+                                        <table class="table table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>Stock</th>
@@ -501,7 +671,7 @@ include ('logininclude.php');
                         </div>
                         <!-- /.panel-body -->
                     </div>
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">Most Losses
                         </div>
                         <!-- /.panel-heading -->
@@ -509,7 +679,7 @@ include ('logininclude.php');
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-striped">
+                                        <table class="table table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>Stock</th>
