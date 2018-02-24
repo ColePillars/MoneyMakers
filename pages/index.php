@@ -25,6 +25,30 @@ include ('logininclude.php');
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+//ajax search bar that searches names of stocks
+$(document).ready(function(e) {
+	$("#search").keyup(function(){
+		
+		$("#searchResult").show();
+		var x = $(this).val();
+		$.ajax(
+				{
+					type: 'GET',
+					url: '../resources/indexsearch.php',
+					data: 'search=' +x,
+					success: function(data){
+						$("#searchResult").html(data);
+					}
+				,
+				});
+		var urlResult = 'search.php?search='+x;
+	});
+});
+			
+    </script>
+    
 </head>
 <body>
     <div id="wrapper">
@@ -263,9 +287,14 @@ include ('logininclude.php');
                     <h1 class="page-header">Money Makers</h1>
                 </div>
                 <div class="col-lg-5">
+                <form action= "search.php" role="form" method="POST">
                     <div class="searchbar">
-                        <input type="text" placeholder="Search stocks">
+                        <input type="text" name="search" id="search" placeholder="Search stocks">
                         <button type="submit"><i class="fa fa-search"></i></button>
+                        <div>
+                        	<div type="text" id="searchResult"></div>
+                        </div>
+                       	</form>
                     </div>
                 </div>
                 <!-- /.col-lg-12 -->
