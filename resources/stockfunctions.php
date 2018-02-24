@@ -481,4 +481,5 @@ function FetchCryptoMonthlyJSON($StockSymbol, $Market){
 }
 
 
+
 ?>

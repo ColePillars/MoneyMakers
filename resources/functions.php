@@ -95,4 +95,81 @@ Function SearchStockIndex($SearchString){
     }  
 }
 
+
+
+Function FetchLastTenDaysChart($StockSymbol){
+ 
+    // include connections page
+    include('connection.php');
+
+    
+    $ShowLastTenSQL = "SELECT atr_Stock_id, timestamp, Open, High, Low, Close FROM StockInfo.Time_Series_Daily WHERE Timestamp > (SELECT DISTINCT Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 11) AND atr_Stock_id = '" . $StockSymbol . "' order by atr_stock_id ASC, Timestamp DESC";
+        
+        $SkipCounter = 0;
+    
+        $SearchResult = mysqli_query($conn, $ShowLastTenSQL);
+        if ($SearchResult->num_rows > 0){
+            echo" <table class='table table-hover'>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Price</th>
+                            <th>Change</th>
+                            <th>Change (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody>";
+            
+            
+            while($row = $SearchResult->fetch_assoc()) {
+                
+                if ($SkipCounter <> 0) {
+                $Difference = round($row['Close'] - $PreviousClose,2);
+                $PDifference = round((($Difference / $PreviousClose) * 100),2) . "%";
+                   echo "
+            <tr>
+           
+            <td>"  . substr($row['timestamp'], 0, 10) . "</td>
+            <td>"  . $row['Close'] . "</td>
+            <td>"  . $Difference .  "</td>
+<td>"  . $PDifference .  "</td>
+            </tr>";
+                    
+
+                   
+                    $PreviousClose = $row['Close'];
+              }else{
+                    
+                  
+                    
+                   $PreviousClose = $row['Close'];
+                }
+                
+             
+               
+                $SkipCounter = $SkipCounter  +1;
+              
+            }
+            
+            echo "
+      </tbody>
+       </table>
+        ";
+                 
+        }  
+        else{
+            
+            echo $conn->error;
+            
+        }
+        
+        
+        
+        
+   
+        
+}
+
+
+
 ?>

@@ -48,8 +48,7 @@ include ('logininclude.php');
             <?php
 			session_start();
 			if ($_SESSION['is_logged_in']){
-		    include ('../resources/loggedinnav.php');
-			//echo "test";
+		       include ('../resources/loggedinnav.php');
 			}
 			else {
 			    echo "
@@ -77,10 +76,23 @@ include ('logininclude.php');
                                     <i class="fa fa-bar-chart fa-5x" style="margin-top:32px;display:block;text-align:center"></i>
                                 </div>
                                 <div class="col-xs-8">
-                                    <div class="h2">Stock Name</div>
-                                    <div>Stock points</div>
-                                    <div>Stock change</div>
-                                    <div style="margin-bottom:6px">Stock percent change</div>
+                                    <div class="h2">
+                                    <?php 
+                                        include('../resources/connection.php');
+                                        $GetStockName = "SELECT Name FROM StockInfo.Stock_Symbol_Index WHERE Symbol = '" .  $_GET['Symbol'] . "';";
+                                        $SearchResult = mysqli_query($conn, $GetStockName);
+                                        if ($SearchResult->num_rows > 0){
+                                            while($row = $SearchResult->fetch_assoc()) {
+                                                echo $row['Name'];
+                                            }
+                                        }
+                                        else{
+                                            //possibly erorr handle saying this stock does not exist
+                                            
+                                        }
+                                    ?>
+                                    </div>
+                            
                                 </div>
                             </div>
                         </div>
@@ -136,6 +148,16 @@ include ('logininclude.php');
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
+                                    <?php 
+                                    
+                                    
+                                    include('../resources/functions.php');
+                                    
+                              
+                                   FetchLastTenDaysChart($_GET['Symbol']);
+                                    
+                                    ?>
+                                    <!-- 
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
@@ -208,6 +230,7 @@ include ('logininclude.php');
                                                 </tr>
                                             </tbody>
                                         </table>
+                                         -->
                                     </div>
                                     <!-- /.table-responsive -->
                                 </div>
