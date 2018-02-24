@@ -467,5 +467,45 @@ function FetchCryptoMonthlyJSON($StockSymbol, $Market){
     }
 }
 
-
+function FetchRSIJSON($StockSymbol, $Interval, $TimePeriod){
+    
+    // include connections page
+    include('connection.php');
+    
+    //Getting the json request into a PHP object
+    $Data = file_get_contents("https://www.alphavantage.co/query?function=RSI&symbol=" . $StockSymbol . "&interval=" . $Interval . "&time_period="
+        . $TimePeriod . "&series_type=close&apikey=S7R0WLCOH163H1DE&datatype=json");
+    
+    //Decoding the json into a php array.
+    $JSONData = json_decode($Data);
+    
+    //Defining base query, will append each row to the query statement
+    $StartSQL = "INSERT INTO StockInfo.Technical_Analysis_RSI(atr_stock_id,Timestamp,RSI)
+            VALUES('" . $StockSymbol . "',";
+    
+    //Counter to skip metadata
+    $count = 0;
+    
+    //Looping through each json object
+    foreach ($JSONData  as $JSONObject){
+        //Loop through each day
+        foreach ($JSONObject as $Timestamp => $TimeSeries){
+            //if not meta data, append the time stamp to insert
+            if($count > 6){
+                $MidQuery = $StartSQL;
+                $MidQuery = $MidQuery . "'" . $Timestamp . "',";
+            }
+            //loop through each value, open, high, low, close, volume, append to insert query
+            foreach ($TimeSeries as $ObjectHeader => $ObjectValue){
+                $MidQuery = $MidQuery . "'" . $ObjectValue . "',";
+            }
+            // If not meta data, append end of query statement
+            if($count > 6){
+                $MidQuery =  substr($MidQuery, 0, -2) . "');";
+                if ($conn->query($MidQuery) == TRUE){}
+            }
+            $count = $count + 1;
+        }
+    }
+}
 ?>
