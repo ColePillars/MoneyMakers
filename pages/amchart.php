@@ -4,7 +4,7 @@ include ('../resources/connection.php');
 
 $StockName = mysqli_escape_string($conn,$_GET['stockname']);
 
-$sql = "SELECT * FROM StockInfo.Time_Series_Daily_Adjusted WHERE StockInfo.Time_Series_Daily_Adjusted.atr_stock_id ='".$StockName."' ORDER BY Time_Series_Daily_Adjusted.Timestamp ASC";
+$sql = "SELECT * FROM StockInfo.Time_Series_Daily WHERE StockInfo.Time_Series_Daily.atr_stock_id ='".$StockName."' ORDER BY Time_Series_Daily.Timestamp ASC";
 
 $result = mysqli_query($conn, $sql);
 ?>
