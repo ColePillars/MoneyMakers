@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Subscribed Stocks</title>
+<title>Subscribe button test</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -35,7 +35,7 @@
 
 <body>
 	<div class="col-lg-12">
-		<h1 class="page-header">My Subscribed Stocks</h1>
+		<h1 class="page-header">Please test subscribe button</h1>
 	</div>
 	<div class="row">
 
@@ -55,35 +55,52 @@ include ('../resources/connection.php');
 
 // checks login status
 if ($_SESSION['is_logged_in'] != true) {
-    // $_SESSION['InvalidLoginMessage]="You are not logged in!";
     header('Location: login.php');
     exit();
 } else {
+    
     // if user had input error,outputerror, clear error message
     if ($_SESSION['InvalidUpdateMessage'] != NULL) {
         echo "<h3 class='panel-title'>" . $_SESSION['InvalidUpdateMessage'] . "</h3>";
         unset($_SESSION['InvalidUpdateMessage']);
+    } else {
+        echo " ";
     }
+    
+    // SQL query to see if user is already subbed to current stock
+    $CheckUserSubbed = "SELECT * FROM UserCredentials.tbl_stock_subs
+ WHERE atr_username ='" . $_SESSION['username'] . "' AND atr_stock_id = '" . $_GET['Symbol'] . "';";
+    $result = mysqli_query($conn, $sql);
+    $count = mysqli_num_rows($result);
+    
+//     // If $count is greater than 0, then the user is already subbed to the stock
+//     if ($count != 0) {
+//         // User is subscribed, need to show UNSUBSCRIBE
+//     } else {
+//         // User is not subscribed, need to show SUBSCRIBE
+//     }
 }
 ?>
 		</div>
 	</div>
 	<div class="panel-body">
-		<h3><?php
-$sql = "SELECT * FROM UserCredentials.tbl_stock_subs WHERE atr_username ='" . $_SESSION['username'] . "' ";
-$result = mysqli_query($conn, $sql);
-$count = mysqli_num_rows($result);
-
-if ($count == 0) {
-    echo "User is not subscribed to any stocks!";
-} else {
-    while ($row = mysqli_fetch_assoc($result)) {
-        // echo $row['atr_stock_id'];
-        echo nl2br("" . $row['atr_stock_id'] . "\n");
+		<form role="form" action="../resources/subscribefunction.php"
+			method="POST" name="subscription">
+			<fieldset>
+				<!-- takes user to subscribefunction.php-->
+				<div class="form-group">
+					<input type="submit" class="btn btn-lg btn-success btn-block"
+						value=<?php
+    if ($count != 0) {
+        echo Unsubscribe;
+    } else {
+        echo Subscribe;
     }
-}
-?></h3>
+    ?>>
 
+				</div>
+			</fieldset>
+		</form>
 	</div>
 	</div>
 	<!--  </div>
