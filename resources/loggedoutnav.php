@@ -16,20 +16,9 @@
     </div>
     <div class="col-lg-6">
     </div>
-    <ul class="nav navbar-top-links navbar-right btn-lg">
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-user fa-lg fa-fw"></i> <i class="fa fa-caret-down"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-user">
-                <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                </li>
-                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                </li>
-				<li class="divider"></li>
-				<li><a href="../resources/logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-				</li>
-            </ul>
-        </li>
-    </ul>
-</nav>
+
+            <div class="nav navbar-top-links navbar-right btn-lg" style="margin-top:12px">
+				<a href="login.php"><i class="fa fa-sign-in fa-fw"></i> Login</a>
+			
+			</div>
+			</nav>

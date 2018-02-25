@@ -39,30 +39,16 @@
 </head>
 
 <body>
-
     <div id="wrapper">
-
-        <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="index.php">Money Makers v1.0</a>
-            </div>
-            <?php
-			session_start();
-			if ($_SESSION['is_logged_in']){
-			    include ('../resources/loggedinnav.php');
-			} 
-			else {
-				echo '
-						<ul class="nav navbar-top-links navbar-right">
-							<li><a href="login.php"><i class="fa fa-sign-in fa-fw"></i> Login/Register</a>
-							</li>
-						</ul>
-				';
-			}
-			?>
-        </nav>
-
+        <?php
+		session_start();
+		if ($_SESSION['is_logged_in']){
+		    include ('../resources/loggedinnav.php');
+		}
+		else{
+    		include ('../resources/loggedoutnav.php');
+		}
+		?>
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -73,20 +59,12 @@
             <!-- /.row -->
             <div class="row">
                 <div class="col-lg-12">
-                   
                     <!-- /.panel -->
-                    
                     <?php 
-                    
-                    
                     include('../resources/functions.php');
-                    
-                    
+                    //Output search results
                     SearchStockIndex($_POST['SearchString']);
-                    
                     ?>
-        
-                    
                     <!--  -->
                 </div>
                 <!-- /.col-lg-12 -->
