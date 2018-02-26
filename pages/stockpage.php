@@ -29,272 +29,53 @@ include ('logininclude.php');
 
 <body>
     <div id="wrapper">
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <a href="index.php"><img class="navbar-brand" src="../resources/mm_logo.png" style="width:100%;height:100%"</img>
-                </a>
-            </div>
-            <div class="col-lg-3">
-                <div class="form-group-lg input-group" style="margin-top:12px">
-                    <input type="text" class="form-control" placeholder="Search stocks">
-                    <span class="input-group-btn">
-                        <button class="btn btn-info btn-lg" type="button"><i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
-            <div class="col-lg-6">
-            </div>
-            <?php
-			session_start();
-			if ($_SESSION['is_logged_in']){
-			echo '
-            <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-messages">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>Read All Messages</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-messages -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-tasks">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 1</strong>
-                                        <span class="pull-right text-muted">40% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                            <span class="sr-only">40% Complete (success)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 2</strong>
-                                        <span class="pull-right text-muted">20% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                            <span class="sr-only">20% Complete</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 3</strong>
-                                        <span class="pull-right text-muted">60% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                            <span class="sr-only">60% Complete (warning)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 4</strong>
-                                        <span class="pull-right text-muted">80% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                            <span class="sr-only">80% Complete (danger)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>See All Tasks</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-tasks -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-alerts">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="pull-right text-muted small">12 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-tasks fa-fw"></i> New Task
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>See All Alerts</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-alerts -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
-						<li class="divider"></li>
-						<li><a href="../resources/logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-						</li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-            </ul>
-            <!-- /.navbar-top-links -->
-			';
-			} 
-			else {
-				echo '
-						<div class="nav navbar-top-links navbar-right btn-lg" style="margin-top:12px">
-							<a href="login.php"><i class="fa fa-sign-in fa-fw"></i> Login</a>
-						</div>         
-				';
-			}
-			?>
-        </nav>
+       <?php
+		session_start();
+		if ($_SESSION['is_logged_in']){
+		    include ('../resources/loggedinnav.php');
+		}
+		else{
+    		include ('../resources/loggedoutnav.php');
+		}
+		?>
         <div id="page-wrapper">
-            <div class="row">
+            <div class="row-eq-height">
                 <div class="col-lg-12">
                     <h1 class="page-header"></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-            <div class="row">
+            <div class="row-eq-height">
                 <div class="col-lg-3">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-bar-chart fa-5x" style="margin-top:24px"></i>
+                                <div class="col-xs-4">
+                                    <i class="fa fa-bar-chart fa-5x" style="margin-top:32px;display:block;text-align:center"></i>
                                 </div>
-                                <div class="col-xs-9 pull-left">
-                                    <div class="h2">Stock Name</div>
-                                    <div>Stock points</div>
-                                    <div>Stock change</div>
-                                    <div style="margin-bottom:6px">Stock percent change</div>
+                                <div class="col-xs-8">
+                                    <div class="h2">
+                                    <?php 
+                                        include('../resources/connection.php');
+                                        $GetStockName = "SELECT Name FROM StockInfo.Stock_Symbol_Index WHERE Symbol = '" .  $_GET['Symbol'] . "';";
+                                        $SearchResult = mysqli_query($conn, $GetStockName);
+                                        if ($SearchResult->num_rows > 0){
+                                            while($row = $SearchResult->fetch_assoc()) {
+                                                echo $row['Name'];
+                                            }
+                                        }
+                                        else{
+                                            //if no results, push user to another page
+                                        }
+                                    ?>
+                                    </div>
+                            
                                 </div>
                             </div>
                         </div>
                         <div class="panel-footer">
                             <ul class="nav nav-pills">
-                                <li class="active"><a href="#info-pills" data-toggle="tab">Info</a>
+                                <li class="active"><a href="#status-pills" data-toggle="tab">Status</a>
                                 </li>
                                 <li><a href="#history-pills" data-toggle="tab">History</a>
                                 </li>
@@ -324,9 +105,9 @@ include ('logininclude.php');
                     <div class="panel panel-primary">
                         <div class="panel-body">
                             <div class="tab-content">
-                                <div class="tab-pane fade in active" id="info-pills">
-                                    <h4>Info</h4>
-                                    <p>a brief explanation of stock</p>
+                                <div class="tab-pane fade in active" id="status-pills">
+                                    <h4>Status</h4>
+                                    <p>Advise on whether you should buy or sell right now</p>
                                 </div>
                                 <div class="tab-pane fade" id="history-pills">
                                     <h4>History</h4>
@@ -344,78 +125,11 @@ include ('logininclude.php');
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Date</th>
-                                                    <th>Price</th>
-                                                    <th>Change</th>
-                                                    <th>Change (%)</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>date</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>date</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>date</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>date</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>date</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>date</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>date</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>date</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>date</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>date</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <?php 
+                                        include('../resources/functions.php');
+                                        //output changes from the last ten days
+                                        FetchLastTenDaysChart($_GET['Symbol']);
+                                        ?>
                                     </div>
                                     <!-- /.table-responsive -->
                                 </div>
@@ -425,8 +139,10 @@ include ('logininclude.php');
                 </div>
                 <div class="col-lg-6">
                     <div class="jumbotron" style="height:800px">
-                        <h1 style="margin-top:250px;margin-left:300px">Stock Chart</h1>
-                        <p style="margin-left:175px">This is where the stock chart will go. It will be big and beautiful.</p>
+                        <h1 style="text-align:center;margin-top:200px">Stock Chart</h1>
+                        <p style="text-align:center">This is where the stock chart will go. It will be big, beautiful...</p>
+                        <p style="text-align:center">and the best <i class="fa fa-hand-peace-o fa-2x"></i></p>
+                        <i class="fa fa-refresh fa-spin fa-3x" style="display:block;text-align:center"></i>
                     </div>
                 </div>
                 <div class="col-lg-3">
