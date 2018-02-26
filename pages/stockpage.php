@@ -106,8 +106,19 @@ include ('logininclude.php');
                         <div class="panel-body">
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" id="status-pills">
-                                    <h4>Status</h4>
-                                    <p>Advise on whether you should buy or sell right now</p>
+                                    <!--<h4>Status</h4>-->
+                                    <p><font size=9><center><strong><?php
+                                        include('../resources/connection.php');
+                                        $status = "SELECT Final_Decision FROM StockInfo.Buy_Sell_Hold WHERE Symbol = '" .  $_GET['Symbol'] . "';";
+                                        $statusResult = mysqli_query($conn, $status);
+                                        if ($statusResult->num_rows > 0){
+                                            while($row = $statusResult->fetch_assoc()) {
+                                                echo $row['Final_Decision'];
+                                            }
+                                        }
+                                        else{
+                                            //echo "Advise on whether you should buy or sell right now";
+                                        }?></strong></center></font></p>
                                 </div>
                                 <div class="tab-pane fade" id="history-pills">
                                     <h4>History</h4>
