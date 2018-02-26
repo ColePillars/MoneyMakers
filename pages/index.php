@@ -12,327 +12,119 @@ include ('logininclude.php');
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    
+    <title>Money Makers - Home</title>
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script>
-//ajax search bar that searches names of stocks
-$(document).ready(function(e) {
-	$("#search").keyup(function(){
-		
-		$("#searchResult").show();
-		var x = $(this).val();
-		$.ajax(
-				{
-					type: 'GET',
-					url: '../resources/indexsearch.php',
-					data: 'search=' +x,
-					success: function(data){
-						$("#searchResult").html(data);
-					}
-				,
-				});
-		var urlResult = 'search.php?search='+x;
-	});
-});
-			
-    </script>
-    
 </head>
+
 <body>
     <div id="wrapper">
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="index.php">Money Makers v1.0</a>
-            </div>
-            <?php
-			session_start();
-			if ($_SESSION['is_logged_in']){
-			echo '
-            <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-messages">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>Read All Messages</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-messages -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-tasks">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 1</strong>
-                                        <span class="pull-right text-muted">40% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                            <span class="sr-only">40% Complete (success)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 2</strong>
-                                        <span class="pull-right text-muted">20% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                            <span class="sr-only">20% Complete</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 3</strong>
-                                        <span class="pull-right text-muted">60% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                            <span class="sr-only">60% Complete (warning)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 4</strong>
-                                        <span class="pull-right text-muted">80% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                            <span class="sr-only">80% Complete (danger)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>See All Tasks</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-tasks -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-alerts">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="pull-right text-muted small">12 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-tasks fa-fw"></i> New Task
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>See All Alerts</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-alerts -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
-						<li class="divider"></li>
-						<li><a href="../resources/logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-						</li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-            </ul>
-            <!-- /.navbar-top-links -->
-			';
-			} 
-			else {
-				echo '
-						<ul class="nav navbar-top-links navbar-right">
-							<li><a href="login.php"><i class="fa fa-sign-in fa-fw"></i> Login/Register</a>
-							</li>
-						</ul>
-				';
-			}
-			?>
-        </nav>
+        <?php
+		session_start();
+		if ($_SESSION['is_logged_in']){
+		    include ('../resources/loggedinnav.php');
+		}
+		else{
+    		include ('../resources/loggedoutnav.php');
+		}
+		?>
+
         <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-6">
-                    <h1 class="page-header">Money Makers</h1>
-                </div>
-                <div class="col-lg-5">
-                <form action= "search.php" role="form" method="POST">
-                    <div class="searchbar">
-                        <input type="text" name="search" id="search" placeholder="Search stocks">
-                        <button type="submit"><i class="fa fa-search"></i></button>
-                        <div>
-                        	<div type="text" id="searchResult"></div>
-                        </div>
-                       	</form>
-                    </div>
+            <div class="row-eq-height">
+                <div class="col-lg-12">
+                    <h1 class="page-header"></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">My Subs
+            <div class="row-eq-height">
+                <div class="col-lg-3"">
+                    <div class="chat-panel panel panel-green chat">
+                        <div class="panel-heading" style="font-size:18px">My Subs
+                            <div class="fa fa-star pull-left" style="margin-right:12px;margin-top:3px"></div>
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="list-group">
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-tasks fa-fw"></i> Sub 1
-                                    <span class="pull-right text-muted small"><em></em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-tasks fa-fw"></i> Sub 2
-                                    <span class="pull-right text-muted small"><em></em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-tasks fa-fw"></i> Sub 3
-                                    <span class="pull-right text-muted small"><em></em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-tasks fa-fw"></i> Sub 4
-                                    <span class="pull-right text-muted small"><em></em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-tasks fa-fw"></i> Sub 5
-                                    <span class="pull-right text-muted small"><em></em>
-                                    </span>
-                                </a>
+                        <div class="panel-body" style="height:750px">
+                            <div class="list-group-sm">
+                                <div class="panel panel-default">
+                                    <a href="stockpage.php">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <i class="fa fa-bar-chart fa-4x" style="margin-top:32px;display:block;text-align:center"></i>
+                                                </div>
+                                                <div class="col-xs-8" style="padding-left:10%">
+                                                    <div class="h3">Stock Name</div>
+                                                    <div>Stock points</div>
+                                                    <div>Stock change</div>
+                                                    <div style="margin-bottom:6px">Stock % change</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="panel panel-default">
+                                    <a href="stockpage.php">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <i class="fa fa-bar-chart fa-4x" style="margin-top:32px;display:block;text-align:center"></i>
+                                                </div>
+                                                <div class="col-xs-8" style="padding-left:10%">
+                                                    <div class="h3">Stock Name</div>
+                                                    <div>Stock points</div>
+                                                    <div>Stock change</div>
+                                                    <div style="margin-bottom:6px">Stock % change</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="panel panel-default">
+                                    <a href="stockpage.php">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <i class="fa fa-bar-chart fa-4x" style="margin-top:32px;display:block;text-align:center"></i>
+                                                </div>
+                                                <div class="col-xs-8" style="padding-left:10%">
+                                                    <div class="h3">Stock Name</div>
+                                                    <div>Stock points</div>
+                                                    <div>Stock change</div>
+                                                    <div style="margin-bottom:6px">Stock % change</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="panel panel-default">
+                                    <a href="stockpage.php">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <i class="fa fa-bar-chart fa-4x" style="margin-top:32px;display:block;text-align:center"></i>
+                                                </div>
+                                                <div class="col-xs-8" style="padding-left:10%">
+                                                    <div class="h3">Stock Name</div>
+                                                    <div>Stock points</div>
+                                                    <div>Stock change</div>
+                                                    <div style="margin-bottom:6px">Stock % change</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                </div>
                             </div>
                         </div>
                         <!-- /.panel-body -->
@@ -341,8 +133,175 @@ $(document).ready(function(e) {
                 </div>
                 <div class="col-lg-3">
                     <!-- /.panel -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading">News
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading" style="font-size:18px">News
+                            <div class="fa fa-rss pull-left" style="margin-right:12px;margin-top:3px"></div>
+                        </div>
+                        <div class="chat-panel panel panel-default">
+                            <div class="panel-body" style="height:695px">
+                                <ul class="chat">
+                                    <li class="left clearfix">
+                                        <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font">Story 1</strong>
+                                                <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                            </div>
+                                            <p>
+                                                Story headline
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li class="left clearfix">
+                                        <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font">Story 2</strong>
+                                                <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                            </div>
+                                            <p>
+                                                Story headline
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li class="left clearfix">
+                                        <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font">Story 3</strong>
+                                                <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                            </div>
+                                            <p>
+                                                Story headline
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li class="left clearfix">
+                                        <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font">Story 4</strong>
+                                                <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                            </div>
+                                            <p>
+                                                Story headline
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li class="left clearfix">
+                                        <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font">Story 5</strong>
+                                                <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                            </div>
+                                            <p>
+                                                Story headline
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li class="left clearfix">
+                                        <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font">Story 6</strong>
+                                                <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                            </div>
+                                            <p>
+                                                Story headline
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li class="left clearfix">
+                                        <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font">Story 7</strong>
+                                                <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                            </div>
+                                            <p>
+                                                Story headline
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li class="left clearfix">
+                                        <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font">Story 8</strong>
+                                                <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                            </div>
+                                            <p>
+                                                Story headline
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li class="left clearfix">
+                                        <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font">Story 9</strong>
+                                                <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                            </div>
+                                            <p>
+                                                Story headline
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li class="left clearfix">
+                                        <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                    </span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font">Story 10</strong>
+                                                <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
+                                            </small>
+                                            </div>
+                                            <p>
+                                                Story headline
+                                            </p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -358,14 +317,15 @@ $(document).ready(function(e) {
                     <!-- /.panel -->
                 </div>
                 <div class="col-lg-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Most Active
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" style="font-size:18px">Most Active
+                            <div class="fa fa-globe pull-left" style="margin-right:12px;margin-top:3px"></div>
                         </div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-striped">
+                                        <table class="table table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>Stock</th>
@@ -386,12 +346,6 @@ $(document).ready(function(e) {
                                                     <td>price</td>
                                                     <td>change</td>
                                                     <td>change %</td>
-                                                </tr>                                   
-                                                <tr>
-                                                    <td>stock</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
                                                 </tr>
                                                 <tr>
                                                     <td>stock</td>
@@ -404,7 +358,13 @@ $(document).ready(function(e) {
                                                     <td>price</td>
                                                     <td>change</td>
                                                     <td>change %</td>
-                                                </tr>  
+                                                </tr>
+                                                <tr>
+                                                    <td>stock</td>
+                                                    <td>price</td>
+                                                    <td>change</td>
+                                                    <td>change %</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -413,14 +373,15 @@ $(document).ready(function(e) {
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Cryptocurrencies
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" style="font-size:18px">Cryptocurrencies
+                            <div class="fa fa-key pull-left" style="margin-right:12px;margin-top:3px"></div>
                         </div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-striped">
+                                        <table class="table table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>Stock</th>
@@ -441,12 +402,6 @@ $(document).ready(function(e) {
                                                     <td>price</td>
                                                     <td>change</td>
                                                     <td>change %</td>
-                                                </tr>                                   
-                                                <tr>
-                                                    <td>stock</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
                                                 </tr>
                                                 <tr>
                                                     <td>stock</td>
@@ -459,7 +414,13 @@ $(document).ready(function(e) {
                                                     <td>price</td>
                                                     <td>change</td>
                                                     <td>change %</td>
-                                                </tr>  
+                                                </tr>
+                                                <tr>
+                                                    <td>stock</td>
+                                                    <td>price</td>
+                                                    <td>change</td>
+                                                    <td>change %</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -471,56 +432,19 @@ $(document).ready(function(e) {
                 </div>
                 <div class="col-lg-3">
                     <!-- /.panel -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Most Gains
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" style="font-size:18px">Most Gains
+                            <div class="fa fa-arrow-up pull-left" style="margin-right:12px;margin-top:3px"></div>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Stock</th>
-                                                    <th>Price</th>
-                                                    <th>Change</th>
-                                                    <th>Change (%)</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>stock</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>stock</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>                                   
-                                                <tr>
-                                                    <td>stock</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>stock</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>stock</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>  
-                                            </tbody>
-                                        </table>
+                                    <?php 
+                                include('../resources/functions.php');
+                                ShowMostGains();
+                                    ?>
                                     </div>
                                     <!-- /.table-responsive -->
                                 </div>
@@ -530,56 +454,19 @@ $(document).ready(function(e) {
                         </div>
                         <!-- /.panel-body -->
                     </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Most Losses
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" style="font-size:18px">Most Losses
+                            <div class="fa fa-arrow-down pull-left" style="margin-right:12px;margin-top:3px"></div>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Stock</th>
-                                                    <th>Price</th>
-                                                    <th>Change</th>
-                                                    <th>Change (%)</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>stock</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>stock</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>                                   
-                                                <tr>
-                                                    <td>stock</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>stock</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>stock</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>  
-                                            </tbody>
-                                        </table>
+                                     <?php 
+                                    //Cannot include function.php, breaks for some reason?
+                                    ShowMostLosses();
+                                    ?>
                                     </div>
                                     <!-- /.table-responsive -->
                                 </div>
@@ -604,4 +491,5 @@ $(document).ready(function(e) {
     <script src="../data/morris-data.js"></script>
     <script src="../dist/js/sb-admin-2.js"></script>
 </body>
+
 </html>

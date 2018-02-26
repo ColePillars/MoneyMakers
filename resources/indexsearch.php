@@ -14,9 +14,9 @@ if(!empty($_GET['search'])){
     if($sqlResult->num_rows > 0){
         while($row = $sqlResult->fetch_assoc()){
             $lev = similar_text($search, $row['Name']);
-            echo "<a>" . $lev . "</a><br>";
+            //echo "<a>" . $lev . "</a><br>";
             //if($lev > 1){
-                echo "<a href='../pages/stockpage.php?symbol=" . $row['Symbol'] . "'>" . $row['Name'] . " (" . $row['Symbol'] . ")<br></a>";
+                echo "<a href='../pages/stockpage.php?Symbol=" . $row['Symbol'] . "'>" . $row['Name'] . " (" . $row['Symbol'] . ")<br></a>";
              //}
         }
     }
