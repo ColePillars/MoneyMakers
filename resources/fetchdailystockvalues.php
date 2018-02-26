@@ -11,6 +11,7 @@ $GetSubbedStocksResult = mysqli_query($conn, $GetSubbedStocksSQL);
 if ($GetSubbedStocksResult->num_rows > 0){    
     while($row = $GetSubbedStocksResult->fetch_assoc()) {
         FetchDailyJSON($row['atr_stock_id']);
+        FetchRSIJSON($row['atr_stock_id'], "daily", "100");
     }
 }
 
