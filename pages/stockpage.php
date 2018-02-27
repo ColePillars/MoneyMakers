@@ -18,6 +18,12 @@ include ('logininclude.php');
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    <!-- Graphing Resources, scripts must stay above StockGraph function -->
+    <script src="../graphing/amcharts/amcharts.js"></script>
+	<script src="../graphing/amcharts/serial.js"></script>
+	<script src="../graphing/amcharts/plugins/export/export.min.js"></script>
+    <link rel="stylesheet" href="../graphing/amcharts/plugins/export/export.css" type="text/css" media="all" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -30,7 +36,7 @@ include ('logininclude.php');
 <body>
     <div id="wrapper">
        <?php
-		session_start();
+		//session_start();
 		if ($_SESSION['is_logged_in']){
 		    include ('../resources/loggedinnav.php');
 		}
@@ -149,12 +155,9 @@ include ('logininclude.php');
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="jumbotron" style="height:800px">
-                        <h1 style="text-align:center;margin-top:200px">Stock Chart</h1>
-                        <p style="text-align:center">This is where the stock chart will go. It will be big, beautiful...</p>
-                        <p style="text-align:center">and the best <i class="fa fa-hand-peace-o fa-2x"></i></p>
-                        <i class="fa fa-refresh fa-spin fa-3x" style="display:block;text-align:center"></i>
-                    </div>
+                	<?php
+                	StockGraph($_GET['Symbol']);
+                    ?>
                 </div>
                 <div class="col-lg-3">
                     <div class="panel panel-yellow">
