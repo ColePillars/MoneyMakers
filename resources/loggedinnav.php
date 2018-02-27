@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
 	//ajax search bar that searches names of stocks
@@ -49,6 +50,20 @@
                 <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
                 </li>
                 <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+=======
+            <ul class="nav navbar-top-links navbar-right btn-lg">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-lg fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="profilepage.php"><i class="fa fa-pencil fa-fw"></i> Edit my profile</a>
+                        </li>
+						<li class="divider"></li>
+						<li><a href="../resources/logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+						</li>
+                    </ul>
+>>>>>>> bce593b46ae85cd49113109d3482f88e71b8058e
                 </li>
 				<li class="divider"></li>
 				<li><a href="../resources/logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>

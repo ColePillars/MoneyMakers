@@ -13,7 +13,7 @@ include ('logininclude.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Money Makers - Password Reset</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -40,28 +40,32 @@ include ('logininclude.php');
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4 col-md-offset-4">
+            <div class="col-md-4 col-md-offset-4" style="max-width:400px;min-width:400px">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
+					<a href="index.php"><img class="center-block" src="../resources/mm_logo.png" style="min-width:125px;max-width:250px;display:block;"</img></a>          
+                    </div>
+                    <div class="panel-body">
                     <?php
 					session_start();
 					if ($_SESSION['Invalid'] <> NULL){
-					    echo  "<h3 class='panel-title'>" . $_SESSION['Invalid'] . "</h3>";
+					    echo  "<h3 class='alert alert-danger' style='margin-top:12px;margin-bottom:24px;font-size:12px;text-align:center'>" . $_SESSION['Invalid'] . "</h3>";
 						unset($_SESSION['Invalid']);
 					}
                     else{
-                       echo "Enter your registered email address";
+                        echo  "<h3 class='alert alert-info' style='margin-top:12px;margin-bottom:24px;font-size:12px;text-align:center'>Enter your registered email address below</h3>";
                     } 
 					?>
-                    </div>
-                    <div class="panel-body">
                         <form action="../resources/forgotpasswordvalidation.php" role="form" method="POST">
                             <fieldset>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Email" name="email" type="text" autofocus>
                                 </div>
                                	<!-- Change this to a button or input when using this as a form -->
-                               	<input type = "submit" class="btn btn-lg btn-success btn-block" Value = " Submit email ">
+                               	<input type = "submit" class="btn btn-lg btn-success btn-block" Value = "Send reset link">
+                                   	<label class="pull-right">
+                                       	<a class="btn btn-link" style="margin-top:6px" href='login.php'>Cancel</a>
+                                   	</label>
                             </fieldset>
                         </form>
                     </div>
