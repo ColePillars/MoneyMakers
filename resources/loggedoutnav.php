@@ -29,7 +29,9 @@
        <form action= "search.php" role="form" method="POST">
         <div class="form-group-lg input-group" style="margin-top:12px">
             <input type="text" class="form-control" name="SearchString" id="SearchString" placeholder="Search stocks">
-            <div type="text" id="searchResult" style=200pxl></div>
+            		<div type="text" id="searchResult">
+            		
+            		</div>
             <span class="input-group-btn">
                 <button class="btn btn-info btn-lg" type="buttosubmitn"><i class="fa fa-search"></i>
                 </button>

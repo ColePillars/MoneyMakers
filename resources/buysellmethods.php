@@ -255,6 +255,4 @@ function final_decision(){
         }
     }
 }
-
-final_decision();
 ?>
