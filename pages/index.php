@@ -30,12 +30,12 @@ include ('logininclude.php');
 <body>
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <a href="index.php"><img class="navbar-brand" src="../resources/mm_logo.png" style="width:100%;height:100%"</img>
+        <div>
+                <a href="index.php"><img class="navbar-left" style="max-width:225px;padding:6px" src="../resources/mm_logo.png" </img>
                 </a>
-            </div>
-            <div class="col-lg-3">
-                <div class="form-group-lg input-group" style="margin-top:12px">
+                </div>
+            <div class="col-md-3">
+                <div class="form-group-lg input-group" style="margin-top:16px;max-width:400px">
                     <input type="text" class="form-control" placeholder="Search stocks">
                     <span class="input-group-btn">
                         <button class="btn btn-info btn-lg" type="button"><i class="fa fa-search"></i>
@@ -70,7 +70,7 @@ include ('logininclude.php');
             </div>
             <!-- /.row -->
             <div class="row-eq-height">
-                <div class="col-lg-3"">
+                <div class="col-lg-3">
                     <div class="chat-panel panel panel-green chat">
                         <div class="panel-heading" style="font-size:18px">My Subs
                             <div class="fa fa-star pull-left" style="margin-right:12px;margin-top:3px"></div>

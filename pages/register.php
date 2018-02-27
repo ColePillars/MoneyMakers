@@ -13,7 +13,7 @@ include ('logininclude.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Register</title>
+    <title>Money Makers - Register</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -40,22 +40,23 @@ include ('logininclude.php');
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4 col-md-offset-4">
+            <div class="col-md-4 col-md-offset-4" style="max-width:400px;min-width:400px">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
+					<a href="index.php"><img class="center-block" src="../resources/mm_logo.png" style="min-width:125px;max-width:250px;display:block;"</img></a>
+                    </div>
+                    <div class="panel-body">
                     <?php 
                     session_start();
                     //if user had input error,outputerror, clear error message
                     if ($_SESSION['InvaliRegistrationMessage']<>NULL){
-                        echo  "<h3 class='panel-title'>" . $_SESSION['InvaliRegistrationMessage'] . "</h3>";
+                        echo  "<h3 class='alert alert-danger' style='margin-top:12px;margin-bottom:24px;font-size:12px;text-align:center'>" . $_SESSION['InvaliRegistrationMessage'] . "</h3>";
                         unset($_SESSION['InvaliRegistrationMessage']);
                     }
                     else{
-                        echo  "<h3 class='panel-title'>Please Fill Out All Fields In The Form Below</h3>";
+                        echo  "<h3 class='alert alert-info' style='margin-top:12px;margin-bottom:24px;font-size:12px;text-align:center'>Please fill out all fields in the form below</h3>";
                     }
                     ?>  
-                    </div>
-                    <div class="panel-body">
                         <form role="form" action="../resources/registervalidation.php" method="POST" name="registerform" onsubmit="matchPassword(this)">
                             <fieldset>
                             <!--  Input for username -->
@@ -81,13 +82,16 @@ include ('logininclude.php');
                                 </div>
                                 <!--  input for password validation -->
                                 <div class="form-group">
-                                    <input required  pattern="(?=.*\d)(?=.*[A-Z]).{8,}" class="form-control" placeholder="Type Password Again" id="vpass" name="passwordcheck" type="password" value=""
+                                    <input required  pattern="(?=.*\d)(?=.*[A-Z]).{8,}" class="form-control" placeholder="Confirm Password" id="vpass" name="passwordcheck" type="password" value=""
                                     title="Must match password field" oninput="matchPassword(this)"/>
                                </div>
                                 <!-- takes user to '../pages/registervalidation.php, to validate and register user-->
                                  <div class="form-group">
                                 <input type="submit" class="btn btn-lg btn-success btn-block" value='Register'>
                                </div>
+                                   	<label class="pull-right">
+                                       	<a class="btn btn-link" style="margin-top:-12px" href='login.php'>Cancel</a>
+                                   	</label>
                             </fieldset>
                         </form>
                     </div>

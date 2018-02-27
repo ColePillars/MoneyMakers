@@ -13,7 +13,7 @@ include ('logininclude.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Money Makers - Login</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -40,9 +40,12 @@ include ('logininclude.php');
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4 col-md-offset-4">
+            <div class="col-md-4 col-md-offset-4" style="max-width:400px;min-width:400px">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
+                    <a href="index.php"><img class="center-block" src="../resources/mm_logo.png" style="min-width:125px;max-width:250px;display:block;"</img></a>
+                    </div> 
+                    <div class="panel-body">
                     <?php
 					session_start();
                    //Checking if user just created account
@@ -56,15 +59,12 @@ include ('logininclude.php');
 					
 					
 					if ($_SESSION['InvalidLoginMessage']<>NULL){
-						echo  "<h3 class='panel-title'>" . $_SESSION['InvalidLoginMessage'] . "</h3>";
+						echo  "<h3 class='alert alert-danger' style='margin-top:12px;margin-bottom:24px;font-size:12px;text-align:center'>" . $_SESSION['InvalidLoginMessage'] . "</h3>";
 						unset($_SESSION['InvalidLoginMessage']);
 					}
 					else { 
-                        echo '<h3 class="panel-title">Please Sign In</h3>';
 					}
 					?>
-                    </div>
-                    <div class="panel-body">
                         <form action="../resources/loginvalidation.php" role="form" method="POST">
                             <fieldset>
                                 <div class="form-group">
@@ -73,24 +73,17 @@ include ('logininclude.php');
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Password" name="pass" type="password" value="">
                                 </div>
-                                <!--  <div class="checkbox">
-                                    <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                    </label>
-                                </div>
-                                -->
                                	<div class="">
-                                   	<label>
-                                       	<a href='register.php'>Create Acccount</a>
+                                   	<label class="pull-left">
+                                       	<a class="btn btn-link btn-xs" href='register.php'>Create Acccount</a>
                                    	</label>
 <!--                                 </div> -->
 <!--                                 <div class=""> -->
                                    	<label class='pull-right' >
-                                       	<a  href='forgotpassword.php'>Forgot Password?</a>
+                                       	<a class="btn btn-link btn-xs" href='forgotpassword.php'>Forgot Password?</a>
                                    	</label>
                                	</div>
-                               	<!-- Change this to a button or input when using this as a form -->
-                               	<input type = "submit" class="btn btn-lg btn-success btn-block" Value = " Login ">
+                               	<input type = "submit" class="btn btn-lg btn-success btn-block" Value = "Login">
                             </fieldset>
                         </form>
                     </div>
