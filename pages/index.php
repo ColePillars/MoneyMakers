@@ -35,13 +35,15 @@ include ('logininclude.php');
                 </a>
                 </div>
             <div class="col-md-3">
-                <div class="form-group-lg input-group" style="margin-top:16px;max-width:400px">
-                    <input type="text" class="form-control" placeholder="Search stocks">
-                    <span class="input-group-btn">
-                        <button class="btn btn-info btn-lg" type="button"><i class="fa fa-search"></i>
-                        </button>
-                    </span>
+            	<form action="search.php" role="form" method="POST">
+               		<div class="form-group-lg input-group" style="margin-top:16px;max-width:400px">
+                    	<input type="text" class="form-control"  name="SearchString" id="SearchString" placeholder="Search stocks">
+                    	<span class="input-group-btn">
+                        	<button class="btn btn-info btn-lg" type="submit"><i class="fa fa-search"></i>
+                        	</button>
+                    	</span>
                 </div>
+                </form>
             </div>
             <div class="col-lg-6">
             </div>
