@@ -121,3 +121,27 @@ CREATE TABLE `Time_Series_Monthly_Adjusted` (
   `Volume` int(11) NOT NULL,
   `Dividend_Amount` decimal(10,3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Table structure for table `Technical_Analysis_RSI`
+--
+
+CREATE TABLE `Technical_Analysis_RSI` (
+  `atr_stock_id` varchar(6) COLLATE utf8_bin NOT NULL,
+  `Timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `RSI` decimal(20,6) NOT NULL,
+  `Composite_Key` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Table structure for table `Buy_Sell_Hold`
+--
+
+CREATE TABLE `Buy_Sell_Hold` (
+  `Symbol` varchar(6) COLLATE utf8_bin NOT NULL,
+  `Two_Period_RSI` enum('Buy','Sell','Hold') COLLATE utf8_bin NOT NULL,
+  `Heikin_Ashi` enum('Buy','Sell','Hold') COLLATE utf8_bin NOT NULL,
+  `other_method` enum('Buy','Sell','Hold') COLLATE utf8_bin NOT NULL,
+  `Final_Decision` enum('Buy','Sell','Hold') COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
