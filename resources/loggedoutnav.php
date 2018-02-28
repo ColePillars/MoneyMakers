@@ -1,4 +1,4 @@
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<!--<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
 	//ajax search bar that searches names of stocks
     $(document).ready(function(e) {
@@ -47,3 +47,4 @@
 			
 			</div>
 			</nav>
+-->
