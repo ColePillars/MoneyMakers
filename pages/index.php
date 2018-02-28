@@ -487,7 +487,7 @@ include ('logininclude.php');
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
-                                        <<?php 
+                                        <?php 
                                             //Cannot include function.php, breaks for some reason?
                                             ShowMostLosses();
                                         ?>
