@@ -19,6 +19,11 @@ include ('logininclude.php');
     <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <!-- Graphing Resources, scripts must stay above StockGraph function -->
+    <script src="../graphing/amcharts/amcharts.js"></script>
+	<script src="../graphing/amcharts/serial.js"></script>
+	<script src="../graphing/amcharts/plugins/export/export.min.js"></script>
+    <link rel="stylesheet" href="../graphing/amcharts/plugins/export/export.css" type="text/css" media="all" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -172,7 +177,9 @@ include ('logininclude.php');
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    
+                    <?php
+                	StockGraph($_GET['Symbol']);
+                    ?>
                 </div>
                 <div class="col-lg-3">
                     <div class="panel panel-yellow">

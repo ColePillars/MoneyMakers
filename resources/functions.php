@@ -238,5 +238,125 @@ Function ShowMostLosses(){
 }
 
 
+//This function will output graph of chosen stock
+//Assumes graphing resources are included in page above
+Function StockGraph($StockSymbol){
+    
+    include('connection.php');
+    
+    $sql = "SELECT * FROM StockInfo.Time_Series_Daily WHERE StockInfo.Time_Series_Daily.atr_stock_id ='".$StockSymbol."' ORDER BY Time_Series_Daily.Timestamp ASC";
+    $result = mysqli_query($conn, $sql);
+    
+    if ($result -> num_rows > 0) {
+        
+        //Chartdiv style
+        echo '
+<style>
+#chartdiv {
+	width	: 100%;
+	height	: 800px;
+}										
+</style>
+        ';    
+        
+        //Original colors of amchart example
+        //"fillColors": "#7f8da9",
+        //"negativeFillColors": "#db4c3c"
+        
+        
+        //1st half of chart script
+        echo '
+<!-- Chart code -->
+<script>
+var chart = AmCharts.makeChart( "chartdiv", {
+	  "type": "serial",
+	  "theme": "none",
+	  "dataDateFormat":"YYYY-MM-DD",
+	  "valueAxes": [ {
+	    "position": "left"
+	  } ],
+	  "graphs": [ {
+	    "id": "g1",
+	    "balloonText": "Open:<b>[[open]]</b><br>Low:<b>[[low]]</b><br>High:<b>[[high]]</b><br>Close:<b>[[close]]</b><br>",
+	    "closeField": "close",
+        "fillColors": "#28a745",
+	    "highField": "high",
+	    "lineColor": "#28a745",
+	    "lineAlpha": 1,
+	    "lowField": "low",
+	    "fillAlphas": 0.9,
+	    "negativeFillColors": "#dc3545",
+	    "negativeLineColor": "#dc3545",
+	    "openField": "open",
+	    "title": "Price:",
+	    "type": "candlestick",
+	    "valueField": "close"
+	  } ],
+	  "chartScrollbar": {
+	    "graph": "g1",
+	    "graphType": "line",
+	    "scrollbarHeight": 30
+	  },
+	  "chartCursor": {
+	    "valueLineEnabled": true,
+	    "valueLineBalloonEnabled": true
+	  },
+	  "categoryField": "date",
+	  "categoryAxis": {
+	    "parseDates": true
+	  },
+	  "dataProvider": [ {
+        ';
+        
+        //Stock data
+        $var = 0;
+        while($row = $result->fetch_assoc()) {
+            if ($var == 0) {
+                echo '"date": "'.substr($row['Timestamp'], 0, -9).'",';
+                echo '"open": "'.$row['Open'].'",';
+                echo '"high": "'.$row['High'].'",';
+                echo '"low": "'.$row['Low'].'",';
+                echo '"close": "'.$row['Close'].'"';
+            }
+            else {
+                echo '}, {';
+                echo '"date": "'.substr($row['Timestamp'], 0, -9).'",';
+                echo '"open": "'.$row['Open'].'",';
+                echo '"high": "'.$row['High'].'",';
+                echo '"low": "'.$row['Low'].'",';
+                echo '"close": "'.$row['Close'].'"';
+            }
+            $var++;
+        }
+        echo '} ],';
+        
+        //2nd-half of chart script
+        echo '
+	  "export": {
+	    "enabled": true,
+	    "position": "bottom-right"
+	  }
+	} );
+
+	chart.addListener( "rendered", zoomChart );
+	zoomChart();
+
+	// this method is called when chart is first inited as we listen for "dataUpdated" event
+	function zoomChart() {
+	  // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
+	  chart.zoomToIndexes( chart.dataProvider.length - 40, chart.dataProvider.length - 1 );
+	}
+</script>
+        ';
+        
+        //Chart Div
+        echo '
+<div id="chartdiv"></div>
+        ';
+    
+    }
+}
+
+
 
 ?>
