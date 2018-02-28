@@ -1,4 +1,4 @@
-<?php 
+<?php
 include ('logininclude.php');
 ?>
 
@@ -29,11 +29,6 @@ include ('logininclude.php');
 
 <body>
     <div id="wrapper">
-<<<<<<< HEAD
-        <?php
-		session_start();
-		if ($_SESSION['is_logged_in']){
-=======
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div>
                 <a href="index.php"><img class="navbar-left" style="max-width:225px;padding:6px" src="../resources/mm_logo.png" </img>
@@ -53,14 +48,19 @@ include ('logininclude.php');
             <?php
 			session_start();
 			if ($_SESSION['is_logged_in']){
->>>>>>> bce593b46ae85cd49113109d3482f88e71b8058e
 		    include ('../resources/loggedinnav.php');
-		}
-		else{
-    		include ('../resources/loggedoutnav.php');
-		}
-		?>
-
+			//echo "test";
+			}
+			else {
+			    echo "
+						<div class='nav navbar-top-links navbar-right btn-lg' style='margin-top:12px'>
+							<a href='login.php'><i class='fa fa-sign-in fa-fw'></i> Login</a>
+						</div>
+				";
+			}
+			
+			?>
+        </nav>
         <div id="page-wrapper">
             <div class="row-eq-height">
                 <div class="col-lg-12">
@@ -463,10 +463,48 @@ include ('logininclude.php');
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
-                                    <?php 
-                                include('../resources/functions.php');
-                                ShowMostGains();
-                                    ?>
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Stock</th>
+                                                    <th>Price</th>
+                                                    <th>Change</th>
+                                                    <th>Change (%)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>stock</td>
+                                                    <td>price</td>
+                                                    <td>change</td>
+                                                    <td>change %</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>stock</td>
+                                                    <td>price</td>
+                                                    <td>change</td>
+                                                    <td>change %</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>stock</td>
+                                                    <td>price</td>
+                                                    <td>change</td>
+                                                    <td>change %</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>stock</td>
+                                                    <td>price</td>
+                                                    <td>change</td>
+                                                    <td>change %</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>stock</td>
+                                                    <td>price</td>
+                                                    <td>change</td>
+                                                    <td>change %</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <!-- /.table-responsive -->
                                 </div>
@@ -485,10 +523,48 @@ include ('logininclude.php');
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
-                                     <?php 
-                                    //Cannot include function.php, breaks for some reason?
-                                    ShowMostLosses();
-                                    ?>
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Stock</th>
+                                                    <th>Price</th>
+                                                    <th>Change</th>
+                                                    <th>Change (%)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>stock</td>
+                                                    <td>price</td>
+                                                    <td>change</td>
+                                                    <td>change %</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>stock</td>
+                                                    <td>price</td>
+                                                    <td>change</td>
+                                                    <td>change %</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>stock</td>
+                                                    <td>price</td>
+                                                    <td>change</td>
+                                                    <td>change %</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>stock</td>
+                                                    <td>price</td>
+                                                    <td>change</td>
+                                                    <td>change %</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>stock</td>
+                                                    <td>price</td>
+                                                    <td>change</td>
+                                                    <td>change %</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <!-- /.table-responsive -->
                                 </div>
