@@ -1,4 +1,4 @@
-<?php 
+<?php
 include ('logininclude.php');
 ?>
 
@@ -29,16 +29,40 @@ include ('logininclude.php');
 
 <body>
     <div id="wrapper">
-        <?php
-		session_start();
-		if ($_SESSION['is_logged_in']){
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div>
+                <a href="index.php"><img class="navbar-left" style="max-width:225px;padding:6px" src="../resources/mm_logo.png" </img>
+                </a>
+                </div>
+            <div class="col-md-3">
+            	<form action="search.php" role="form" method="POST">
+               		<div class="form-group-lg input-group" style="margin-top:16px;max-width:400px">
+                    	<input type="text" class="form-control"  name="SearchString" id="SearchString" placeholder="Search stocks">
+                    	<span class="input-group-btn">
+                        	<button class="btn btn-info btn-lg" type="submit"><i class="fa fa-search"></i>
+                        	</button>
+                    	</span>
+                </div>
+                </form>
+            </div>
+            <div class="col-lg-6">
+            </div>
+            <?php
+			session_start();
+			if ($_SESSION['is_logged_in']){
 		    include ('../resources/loggedinnav.php');
-		}
-		else{
-    		include ('../resources/loggedoutnav.php');
-		}
-		?>
-
+			//echo "test";
+			}
+			else {
+			    echo "
+						<div class='nav navbar-top-links navbar-right btn-lg' style='margin-top:12px'>
+							<a href='login.php'><i class='fa fa-sign-in fa-fw'></i> Login</a>
+						</div>
+				";
+			}
+			
+			?>
+        </nav>
         <div id="page-wrapper">
             <div class="row-eq-height">
                 <div class="col-lg-12">
@@ -48,7 +72,7 @@ include ('logininclude.php');
             </div>
             <!-- /.row -->
             <div class="row-eq-height">
-                <div class="col-lg-3"">
+                <div class="col-lg-3">
                     <div class="chat-panel panel panel-green chat">
                         <div class="panel-heading" style="font-size:18px">My Subs
                             <div class="fa fa-star pull-left" style="margin-right:12px;margin-top:3px"></div>
@@ -441,10 +465,10 @@ include ('logininclude.php');
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
-                                    <?php 
-                                include('../resources/functions.php');
-                                ShowMostGains();
-                                    ?>
+                                        <?php 
+                                            include('../resources/functions.php');
+                                            ShowMostGains();
+                                        ?>
                                     </div>
                                     <!-- /.table-responsive -->
                                 </div>
@@ -463,10 +487,10 @@ include ('logininclude.php');
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
-                                     <?php 
-                                    //Cannot include function.php, breaks for some reason?
-                                    ShowMostLosses();
-                                    ?>
+                                        <?php 
+                                            //Cannot include function.php, breaks for some reason?
+                                            ShowMostLosses();
+                                        ?>
                                     </div>
                                     <!-- /.table-responsive -->
                                 </div>

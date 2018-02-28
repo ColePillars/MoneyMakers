@@ -4,16 +4,18 @@
 session_start();
 include('connection.php');
 
+//FIX THIS QUERY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function Two_Period_RSI(){
     session_start();
     include('connection.php');
     $selectRSI = "SELECT atr_stock_id, Timestamp, RSI FROM StockInfo.Technical_Analysis_RSI WHERE Timestamp > (SELECT DISTINCT
-         Timestamp FROM StockInfo.Technical_Analysis_RSI ORDER BY Timestamp DESC LIMIT 1 offset 1) order by atr_stock_id ASC, Timestamp ASC";
+         Timestamp FROM StockInfo.Technical_Analysis_RSI ORDER BY Timestamp DESC LIMIT 1 offset 4) order by atr_stock_id ASC, Timestamp ASC";
     $selectRSIResult = mysqli_query($conn, $selectRSI);
     
     if($selectRSIResult->num_rows > 0){
         while($row = $selectRSIResult->fetch_assoc()){
             //sell if...
+            echo $row['atr_stock_id'];
             if($row['RSI'] >= 90){
                 $check = "SELECT Two_Period_RSI FROM StockInfo.Buy_Sell_Hold WHERE Symbol = '" . $row['atr_stock_id'] . "'";
                 $checkResult = mysqli_query($conn, $check);
@@ -200,7 +202,7 @@ function Heikin_Ashi(){
     }
 }
 
-function final_decision(){
+function Final_Decision(){
     session_start();
     include('connection.php');
     
@@ -255,6 +257,4 @@ function final_decision(){
         }
     }
 }
-
-final_decision();
 ?>

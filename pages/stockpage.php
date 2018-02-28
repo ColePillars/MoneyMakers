@@ -1,4 +1,4 @@
-<?php 
+<?php
 include ('logininclude.php');
 ?>
 
@@ -19,6 +19,11 @@ include ('logininclude.php');
     <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <!-- Graphing Resources, scripts must stay above StockGraph function -->
+    <script src="../graphing/amcharts/amcharts.js"></script>
+	<script src="../graphing/amcharts/serial.js"></script>
+	<script src="../graphing/amcharts/plugins/export/export.min.js"></script>
+    <link rel="stylesheet" href="../graphing/amcharts/plugins/export/export.css" type="text/css" media="all" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -29,15 +34,40 @@ include ('logininclude.php');
 
 <body>
     <div id="wrapper">
-       <?php
-		session_start();
-		if ($_SESSION['is_logged_in']){
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div>
+                <a href="index.php"><img class="navbar-left" style="max-width:225px;padding:6px" src="../resources/mm_logo.png" </img>
+                </a>
+                </div>
+            <div class="col-md-3">
+            	<form action="search.php" role="form" method="POST">	
+                	<div class="form-group-lg input-group" style="margin-top:16px;max-width:400px">
+                    	<input type="text" class="form-control"  name="SearchString" id="SearchString" placeholder="Search stocks">
+                    	<span class="input-group-btn">
+                        	<button class="btn btn-info btn-lg" type="submit"><i class="fa fa-search"></i>
+                        	</button>
+                    	</span>
+                	</div>
+                </form>
+            </div>
+            <div class="col-lg-6">
+            </div>
+            <?php
+			session_start();
+			if ($_SESSION['is_logged_in']){
 		    include ('../resources/loggedinnav.php');
-		}
-		else{
-    		include ('../resources/loggedoutnav.php');
-		}
-		?>
+			//echo "test";
+			}
+			else {
+			    echo "
+						<div class='nav navbar-top-links navbar-right btn-lg' style='margin-top:12px'>
+							<a href='login.php'><i class='fa fa-sign-in fa-fw'></i> Login</a>
+						</div>
+				";
+			}
+			
+			?>
+        </nav>
         <div id="page-wrapper">
             <div class="row-eq-height">
                 <div class="col-lg-12">
@@ -69,7 +99,7 @@ include ('logininclude.php');
                                         }
                                     ?>
                                     </div>
-                            
+                                    <div style="margin-bottom:6px">Stock percent change</div>
                                 </div>
                             </div>
                         </div>
@@ -149,12 +179,9 @@ include ('logininclude.php');
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="jumbotron" style="height:800px">
-                        <h1 style="text-align:center;margin-top:200px">Stock Chart</h1>
-                        <p style="text-align:center">This is where the stock chart will go. It will be big, beautiful...</p>
-                        <p style="text-align:center">and the best <i class="fa fa-hand-peace-o fa-2x"></i></p>
-                        <i class="fa fa-refresh fa-spin fa-3x" style="display:block;text-align:center"></i>
-                    </div>
+                    <?php
+                	StockGraph($_GET['Symbol']);
+                    ?>
                 </div>
                 <div class="col-lg-3">
                     <div class="panel panel-yellow">
