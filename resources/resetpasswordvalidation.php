@@ -65,11 +65,4 @@ if ($checkUserNameResult->num_rows == 1 ) {
     }
 }
 
-//Prompts for your credentials if the username is not in the system
-/*else {
-    $_SESSION['Invalid'] = "Something went wrong, try again:";
-    header('Location: ../pages/forgotpassword.php');
-    exit();
-}*/
-
 ?>
