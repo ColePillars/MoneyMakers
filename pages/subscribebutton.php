@@ -67,34 +67,34 @@ if ($_SESSION['is_logged_in'] != true) {
         echo " ";
     }
     
+    // Test $_GET['Symbol']
+    $_GET['Symbol'] = AB;
+    // Get variable values
+    $UserName = mysqli_escape_string($conn, $_SESSION['username']);
+    $Symbol = mysqli_escape_string($conn, $_GET['Symbol']);
+    
     // SQL query to see if user is already subbed to current stock
     $CheckUserSubbed = "SELECT * FROM UserCredentials.tbl_stock_subs
- WHERE atr_username ='" . $_SESSION['username'] . "' AND atr_stock_id = '" . $_GET['Symbol'] . "';";
-    $result = mysqli_query($conn, $sql);
+ WHERE atr_username ='" . $UserName . "' AND atr_stock_id = '" . $Symbol . "';";
+    $result = mysqli_query($conn, $CheckUserSubbed);
     $count = mysqli_num_rows($result);
-    
-//     // If $count is greater than 0, then the user is already subbed to the stock
-//     if ($count != 0) {
-//         // User is subscribed, need to show UNSUBSCRIBE
-//     } else {
-//         // User is not subscribed, need to show SUBSCRIBE
-//     }
 }
 ?>
 		</div>
 	</div>
 	<div class="panel-body">
-		<form role="form" action="../resources/subscribefunction.php"
-			method="POST" name="subscription">
+		<form role="form" action="../resources/bothsubfunction.php"
+			method="GET" name="subscription"
+			
 			<fieldset>
 				<!-- takes user to subscribefunction.php-->
 				<div class="form-group">
 					<input type="submit" class="btn btn-lg btn-success btn-block"
 						value=<?php
-    if ($count != 0) {
-        echo Unsubscribe;
-    } else {
+    if ($count == 0) {
         echo Subscribe;
+    } else {
+        echo Unsubscribe;
     }
     ?>>
 
@@ -118,6 +118,35 @@ if ($_SESSION['is_logged_in'] != true) {
 
 	<!-- Custom Theme JavaScript -->
 	<script src="../dist/js/sb-admin-2.js"></script>
+
+	<!-- Subscribe function. Fetch Stock data, then sub/unsub -->
+
+	<script language='javascript' type='text/javascript'> 
+	function doBoth(){
+		fetchData();
+		subUnsub();
+	}
+	function fetchData(){
+		$.ajax({
+			type: "GET",
+			url:"../resources/fetchdailystockvalues.php",
+// 			data:,
+// 			success:,
+// 			dataType:
+		});
+	}
+	function subUnsub(){
+		$.ajax({
+			type: "GET",
+			url:"../resources/subscribefunction.php",
+// 			data:,
+// 			success:,
+// 			dataType:
+	}
+	</script>
+	<script type="text/javascript"
+		src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://PATHTOYOURJSFILE"></script>
 </body>
 
 </html>
