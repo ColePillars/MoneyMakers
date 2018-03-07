@@ -83,6 +83,7 @@ Function FetchLastTenDaysChart($StockSymbol){
     include('connection.php');
     //Counter to skip the 11th day
     $SkipCounter = 0;
+    $Output = array();
     //Query to show the last 11days of close prices
     $ShowLastTenSQL = "SELECT atr_Stock_id, timestamp, Open, High, Low, Close FROM StockInfo.Time_Series_Daily WHERE Timestamp > 
 (SELECT DISTINCT Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 11) AND atr_Stock_id = '" . $StockSymbol . "'
@@ -106,13 +107,11 @@ Function FetchLastTenDaysChart($StockSymbol){
             $Difference = round($row['Close'] - $PreviousClose,2);
             //Computing percent difference between previous day and current day
             $PDifference = round((($Difference / $PreviousClose) * 100),2) . "%";
-               echo "
-                <tr>
-                <td>"  . substr($row['timestamp'], 0, 10) . "</td>
-                <td>"  . $row['Close'] . "</td>
-                <td>"  . $Difference .  "</td>
-                <td>"  . $PDifference .  "</td>
-                </tr>";
+            
+            array_push($Output,(string)substr($row['timestamp'], 0, 10));
+            array_push($Output,(string)$row['Close']);
+            array_push($Output,(string)$Difference);
+            array_push($Output,(string)$PDifference);
                 //Storing close value for previous day.
                 $PreviousClose = $row['Close'];
             }else{
@@ -120,6 +119,16 @@ Function FetchLastTenDaysChart($StockSymbol){
             }
             //Counter to skip the 11th day
             $SkipCounter = $SkipCounter  +1;
+        }
+        
+        for($i=39; $i > 4; $i-=4){
+            echo "
+                <tr>
+                <td>"  . $Output[$i-3] . "</td>
+                <td>"  . $Output[$i-2] . "</td>
+                <td>"  . $Output[$i-1] .  "</td>
+                <td>"  . $Output[$i] .  "</td>
+                </tr>";
         }
         echo "
        </tbody>
