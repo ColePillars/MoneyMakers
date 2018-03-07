@@ -1,5 +1,5 @@
-<?php 
-include ('logininclude.php');
+<?php
+include ('../resources/logininclude.php');
 ?>
 
 <!DOCTYPE html>

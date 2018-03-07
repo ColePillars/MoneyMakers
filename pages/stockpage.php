@@ -1,5 +1,5 @@
 <?php
-include ('logininclude.php');
+include ('../resources/logininclude.php');
 ?>
 
 <!DOCTYPE html>
@@ -34,40 +34,14 @@ include ('logininclude.php');
 
 <body>
     <div id="wrapper">
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div>
-                <a href="index.php"><img class="navbar-left" style="max-width:225px;padding:6px" src="../resources/mm_logo.png" </img>
-                </a>
-                </div>
-            <div class="col-md-3">
-            	<form action="search.php" role="form" method="POST">	
-                	<div class="form-group-lg input-group" style="margin-top:16px;max-width:400px">
-                    	<input type="text" class="form-control"  name="SearchString" id="SearchString" placeholder="Search stocks">
-                    	<span class="input-group-btn">
-                        	<button class="btn btn-info btn-lg" type="submit"><i class="fa fa-search"></i>
-                        	</button>
-                    	</span>
-                	</div>
-                </form>
-            </div>
-            <div class="col-lg-6">
-            </div>
-            <?php
-			session_start();
-			if ($_SESSION['is_logged_in']){
-		    include ('../resources/loggedinnav.php');
-			//echo "test";
-			}
-			else {
-			    echo "
-						<div class='nav navbar-top-links navbar-right btn-lg' style='margin-top:12px'>
-							<a href='login.php'><i class='fa fa-sign-in fa-fw'></i> Login</a>
-						</div>
-				";
-			}
-			
-			?>
-        </nav>
+        <?php
+		if ($_SESSION['is_logged_in']){
+		    include ('../pageelements/loggedinnav.php');
+		}
+		else {
+		    include ('../pageelements/loggedoutnav.php');
+		}
+		?>
         <div id="page-wrapper">
             <div class="row-eq-height">
                 <div class="col-lg-12">
