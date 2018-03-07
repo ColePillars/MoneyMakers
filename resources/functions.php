@@ -84,7 +84,9 @@ Function FetchLastTenDaysChart($StockSymbol){
     //Counter to skip the 11th day
     $SkipCounter = 0;
     //Query to show the last 11days of close prices
-    $ShowLastTenSQL = "SELECT atr_Stock_id, timestamp, Open, High, Low, Close FROM StockInfo.Time_Series_Daily WHERE Timestamp > (SELECT DISTINCT Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 11) AND atr_Stock_id = '" . $StockSymbol . "' order by atr_stock_id ASC, Timestamp DESC";
+    $ShowLastTenSQL = "SELECT atr_Stock_id, timestamp, Open, High, Low, Close FROM StockInfo.Time_Series_Daily WHERE Timestamp > 
+(SELECT DISTINCT Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 11) AND atr_Stock_id = '" . $StockSymbol . "'
+ order by atr_stock_id ASC, Timestamp ASC";
     $SearchResult = mysqli_query($conn, $ShowLastTenSQL);
     if ($SearchResult->num_rows > 0){
         echo" <table class='table table-hover'>
