@@ -59,7 +59,7 @@ include ('../resources/connection.php');
 
 // checks login status
 if ($_SESSION['is_logged_in'] != true) {
-    //$_SESSION['InvalidLoginMessage]="You are not logged in!";
+    // $_SESSION['InvalidLoginMessage]="You are not logged in!";
     header('Location: login.php');
     exit();
 } else {
@@ -68,52 +68,24 @@ if ($_SESSION['is_logged_in'] != true) {
         echo "<h3 class='panel-title'>" . $_SESSION['InvalidUpdateMessage'] . "</h3>";
         unset($_SESSION['InvalidUpdateMessage']);
     }
-    
-    $sql1 = "SELECT * FROM StockInfo.Time_Series_Daily_Adjusted;";
-    $result1 = mysqli_query($conn, $sql1);
-    $sql2 = "SELECT * FROM UserCredentials.tbl_stock_subs WHERE atr_username ='" . $_SESSION['username'] . "';";
-    $result2 = mysqli_query($conn, $sql2);
-    
-    // while ($row = mysqli_fetch_assoc($result)) {
-    // $_SESSION['username'];
-    // $_SESSION['firstname'] = $row[atr_first_name];
-    // $_SESSION['lastname'] = $row[atr_last_name];
-    // $_SESSION['phone'] = $row[atr_phone];
-    // $_SESSION['address'] = $row[atr_street_address];
-    // $_SESSION['city'] = $row[atr_city];
-    // $_SESSION['state'] = $row[atr_state];
-    // $_SESSION['zip'] = $row[atr_zip];
-    // }
 }
 ?>
 		</div>
 	</div>
 	<div class="panel-body">
 		<h3><?php
-if ($result2<>NULL) {
-    echo "User is not subscribed to any stocks.";
+$sql = "SELECT * FROM UserCredentials.tbl_stock_subs WHERE atr_username ='" . $_SESSION['username'] . "' ";
+$result = mysqli_query($conn, $sql);
+$count = mysqli_num_rows($result);
+
+if ($count == 0) {
+    echo "User is not subscribed to any stocks!";
 } else {
-    while ($row = mysql_fetch_assoc($result2)) {
-        echo $row['atr_stock_id'];
+    while ($row = mysqli_fetch_assoc($result)) {
+        // echo $row['atr_stock_id'];
+        echo nl2br("" . $row['atr_stock_id'] . "\n");
     }
 }
-
-// $sql="SELECT atr_stock_id FROM system_dept ORDER BY id";
-// $result=mysql_query($sql);
-// $count=mysql_num_rows($result);
-// if (!mysql_query($sql,$conn))
-// {
-// exit('Error: ' . mysql_error());
-// }
-// else
-// {
-// $dept = array();
-// while($row=mysql_fetch_array($result))
-// {
-// $dept[]=$row['name'];
-// echo $row['name'];
-// }
-// }
 ?></h3>
 
 	</div>

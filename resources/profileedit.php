@@ -67,7 +67,6 @@ $UpdateUserCredentialsSQL = "
 // Change session variable
 $_SESSION['username'] = $UserName;
 
-// Update user info in the database
 // checking echo error if so, DEV PURPOSE ONLY!
 
 if ($conn->query($UpdateUserInfoSQL) === TRUE) {} else {
