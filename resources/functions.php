@@ -73,18 +73,79 @@ Function SearchStockIndex($SearchString){
         <!-- /.panel-body -->";
         
     }  
+    else{
+        $SearchSQLNOthing = "
+    SELECT Symbol, Name, Industry, Sector
+    FROM StockInfo.Stock_Symbol_Index";
+        
+        //Execute SQL Query
+        $SearchResultNothing = mysqli_query($conn, $SearchSQLNOthing);
+        if ($SearchResultNothing->num_rows > 0){
+            echo "<h4>No matching results, please search again<h4>";
+            echo"<div class='panel-body'>
+            <table width='100%' class='table table-striped table-bordered table-hover' id='dataTables-example'>
+            <thead>
+            <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Sector</th>
+            <th>Industry</th>
+            </tr>
+            </thead>
+            <tbody>";
+            
+            
+            while($row = $SearchResultNothing->fetch_assoc()) {
+                echo "
+            <tr>
+            <td><a href='../pages/stockpage.php?Symbol=" . $row['Symbol'] . "'>"  . $row['Symbol'] . "</a></td>
+            <td>"  . $row['Name'] . "</td>
+            <td>"  . $row['Sector'] . "</td>
+            <td>"  . $row['Industry'] . "</td>
+            </tr>";
+            }
+            
+            echo "
+        </tbody>
+        </table>
+        <!-- /.table-responsive -->
+        </div>
+        <!-- /.panel-body -->";
+            
+            
+        }
+  
+        
+        
+    }
+    
+    
+    
+    
+   
+
+        
+    
+    
+    
+    
+    
+    
 }
 
 
 //This function will show the last 10 day stock pricces and changes
 Function FetchLastTenDaysChart($StockSymbol){
- 
+    
     // include connections page
     include('connection.php');
     //Counter to skip the 11th day
     $SkipCounter = 0;
+    $Output = array();
     //Query to show the last 11days of close prices
-    $ShowLastTenSQL = "SELECT atr_Stock_id, timestamp, Open, High, Low, Close FROM StockInfo.Time_Series_Daily WHERE Timestamp > (SELECT DISTINCT Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 11) AND atr_Stock_id = '" . $StockSymbol . "' order by atr_stock_id ASC, Timestamp DESC";
+    $ShowLastTenSQL = "SELECT atr_Stock_id, timestamp, Open, High, Low, Close FROM StockInfo.Time_Series_Daily WHERE Timestamp >
+(SELECT DISTINCT Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 11) AND atr_Stock_id = '" . $StockSymbol . "'
+ order by atr_stock_id ASC, Timestamp ASC";
     $SearchResult = mysqli_query($conn, $ShowLastTenSQL);
     if ($SearchResult->num_rows > 0){
         echo" <table class='table table-hover'>
@@ -100,31 +161,37 @@ Function FetchLastTenDaysChart($StockSymbol){
         while($row = $SearchResult->fetch_assoc()) {
             //Skipping the 11th day
             if ($SkipCounter <> 0) {
-            //Computing difference between previous day and current day
-            $Difference = round($row['Close'] - $PreviousClose,2);
-            //Computing percent difference between previous day and current day
-            $PDifference = round((($Difference / $PreviousClose) * 100),2) . "%";
-               echo "
-                <tr>
-                <td>"  . substr($row['timestamp'], 0, 10) . "</td>
-                <td>"  . $row['Close'] . "</td>
-                <td>"  . $Difference .  "</td>
-                <td>"  . $PDifference .  "</td>
-                </tr>";
+                //Computing difference between previous day and current day
+                $Difference = round($row['Close'] - $PreviousClose,2);
+                //Computing percent difference between previous day and current day
+                $PDifference = round((($Difference / $PreviousClose) * 100),2) . "%";
+                
+                array_push($Output,(string)substr($row['timestamp'], 0, 10));
+                array_push($Output,(string)$row['Close']);
+                array_push($Output,(string)$Difference);
+                array_push($Output,(string)$PDifference);
                 //Storing close value for previous day.
                 $PreviousClose = $row['Close'];
             }else{
-               $PreviousClose = $row['Close'];
+                $PreviousClose = $row['Close'];
             }
             //Counter to skip the 11th day
             $SkipCounter = $SkipCounter  +1;
         }
+        for($i=39; $i > 4; $i-=4){
+            echo "
+                <tr>
+                <td>"  . $Output[$i-3] . "</td>
+                <td>"  . $Output[$i-2] . "</td>
+                <td>"  . $Output[$i-1] .  "</td>
+                <td>"  . $Output[$i] .  "</td>
+                </tr>";
+        }
         echo "
        </tbody>
-       </table>";    
-    }  
+       </table>";
+    }
 }
-
 
 //This function will output top five gains of stocks
 //As of not it does not show subscribed stocks
@@ -233,9 +300,73 @@ Function ShowMostLosses(){
         echo "fail";
         echo $ShowMostLossesSQL;
     }
-    
-
 }
+
+
+
+//This function will output top moving stocks
+//As of not it does not show subscribed stocks
+Function ShowMostMoving(){
+    
+    include('connection.php');
+    
+    //Query to show most gain
+    $ShowMostMovingSQL = "
+
+
+
+
+    SELECT  c.atr_stock_id, c.Close, c.Timestamp, (c.Close  - y.Close) as 'Change', (((c.Close / y.Close)  -1 ) * 100) as 'ClosePercentChange'
+    FROM StockInfo.Time_Series_Daily as c
+    INNER JOIN
+    (
+    	SELECT atr_stock_id, timestamp, Close
+    	FROM StockInfo.Time_Series_Daily
+    	WHERE Timestamp = (SELECT DISTINCT Timestamp from StockInfo.Time_Series_Daily
+        ORDER BY Timestamp DESC LIMIT 1 OFFSET 1)
+    ) as y on c.atr_stock_id = y.atr_stock_id
+    WHERE c.Timestamp = (SELECT DISTINCT Timestamp from StockInfo.Time_Series_Daily order by Timestamp DESC LIMIT 1 )
+    ORDER BY ClosePercentChange ASC limit 5
+
+
+
+";
+    
+    
+    $SearchResultLosses = mysqli_query($conn, $ShowMostLossesSQL);
+    if ($SearchResultLosses->num_rows > 0){
+        echo"<table class='table table-hover'>
+                                            <thead>
+                                                <tr>
+                                                    <th>Stock</th>
+                                                    <th>Price</th>
+                                                    <th>Change</th>
+                                                    <th>Change (%)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>";
+        while($row = $SearchResultLosses->fetch_assoc()) {
+            echo "
+            <tr>
+            <td>"  . $row['atr_stock_id'] . "</td>
+            <td>"  . $row['Close'] . "</td>
+            <td>"  . $row['Change'] . "</td>
+            <td>"  . $row['ClosePercentChange'] . "</td>
+            </tr>";
+            
+            //Counter to skip the 11th day
+            $SkipCounter = $SkipCounter  +1;
+        }
+        echo "
+           </tbody>
+       </table>";
+    }
+    else{
+        echo "fail";
+        echo $ShowMostLossesSQL;
+    }
+}
+
 
 
 //This function will output graph of chosen stock
@@ -357,6 +488,106 @@ var chart = AmCharts.makeChart( "chartdiv", {
     }
 }
 
+//this function will detrmine what button to output for the sub/unsub button
+Function ShowSubUnsubIcon(){
 
+    include('../resources/connection.php');
+    //check if user is already subbd to this stock
+    $CheckIfSubbedSQL = "SELECT * FROM UserCredentials.tbl_stock_subs WHERE atr_username='" . $_SESSION['username'] . "' AND atr_stock_id='" . $_GET['Symbol'] . "';";
+    $CheckSubResults = mysqli_query($conn, $CheckIfSubbedSQL);
 
-?>
+    if ($CheckSubResults->num_rows > 0){
+
+        echo "
+           <button type='button' class='btn btn-danger btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-star fa-lg'></i>
+            </button>
+            <div class='modal fade' id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>
+
+                <div class='modal-dialog'>
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                            <h3 class='modal-title' id='myModalLabel'>UnSubscribe to stock</h3>
+                        </div>
+                        <div class='modal-body'>
+                            This stock will be removed from 'My Subs' on your homepage
+                        </div>
+                        <div class='modal-footer'>
+                          <form action='../resources/unsubtostock.php' method='POST' id='form1'>
+                        	<input type='hidden' name='Symbol' value = '"  . $_GET['Symbol'] . "'>
+                        </form>
+                            <button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button>
+                            <button type='submit'class='btn btn-success'  form='form1' Value='Sumbit'>Okay</button>
+                        </div>
+                    </div>
+                </div>
+            </div>";
+    }
+    else{
+    //at this point user is not subbed, but there still may be stock info here
+    //check this stock exsits but user isnt subbed
+    $CheckIfStockExists = "SELECT * FROM StockInfo.Time_Series_Daily WHERE atr_stock_id='" . $_GET['Symbol'] . "';";
+    $CheckIfStockExistsResults = mysqli_query($conn, $CheckIfStockExists);
+    if ($CheckIfStockExistsResults->num_rows > 0){
+        
+        echo "
+
+               <button type='button' class='btn btn-success btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-star fa-lg'></i>
+                </button>
+                <div class='modal fade' id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>
+
+                    <div class='modal-dialog'>
+                        <div class='modal-content'>
+                            <div class='modal-header'>
+                                <h3 class='modal-title' id='myModalLabel'>Subscribe to stock</h3>
+                            </div>
+                            <div class='modal-body'>
+                                This stock will be added to 'My Subs' on your homepage
+                            </div>
+                            <div class='modal-footer'>
+                              <form action='../resources/subtostock.php' method='POST' id='form1'>
+                            	<input type='hidden' name='Symbol' value = '"  . $_GET['Symbol'] . "'>
+                            </form>
+                                <button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button>
+                                <button type='submit'class='btn btn-success'  form='form1' Value='Sumbit'>Okay</button>
+                            </div>
+                        </div>
+                    </div>
+                </div><br>
+                <label>This information may be outdated, subscribe to update.</label>";
+    }
+
+     else{
+        //at this point we dont hold stock info for this item, which means the user isnt subbed     
+         echo "
+                  <button type='button' class='btn btn-success btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px'><i class='fa fa-star fa-lg'></i>
+                </button>
+                   <div   id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='
+                       height: 300px;
+                       position: absolute;
+                       left: 150%;
+                       top: 50%;
+                       margin-left: -150px;
+                       margin-top: -150px;'>             
+                    <div class='modal-dialog'>
+                        <div class='modal-content'>
+                            <div class='modal-header'>
+                                <h3 class='modal-title' id='myModalLabel'>Subscribe to stock</h3>
+                            </div>
+                            <div class='modal-body'>
+                                  Subscribe to this stock to view detailed information.
+                            </div>
+                            <div class='modal-footer'>
+                              <form action='../resources/subtostock.php' method='POST' id='form1'>
+                            	<input type='hidden' name='Symbol' value = '"  . $_GET['Symbol'] . "'>
+                            </form>
+                                <button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button>
+                                <button type='submit'class='btn btn-success'  form='form1' Value='Sumbit'>Okay</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>";
+     
+         }
+    }
+}
+

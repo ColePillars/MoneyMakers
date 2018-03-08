@@ -64,12 +64,6 @@ include ('logininclude.php');
 			?>
         </nav>
         <div id="page-wrapper">
-            <div class="row-eq-height">
-                <div class="col-lg-12">
-                    <h1 class="page-header"></h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
             <!-- /.row -->
             <div class="row-eq-height">
                 <div class="col-lg-3">

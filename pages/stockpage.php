@@ -96,6 +96,9 @@ include ('logininclude.php');
                                         }
                                         else{
                                             //if no results, push user to another page
+                                            $_SESSION['InvalidStockMessage'] = " - " . $_GET['Symbol'] . " is an invalid stock";
+                                            header('Location: search.php');
+                                            exit();
                                         }
                                     ?>
                                     </div>
@@ -111,24 +114,11 @@ include ('logininclude.php');
                                 </li>
                                 <li><a href="#details-pills" data-toggle="tab">Details</a>
                                 </li>
-                                <button type="button" class="btn btn-warning btn-circle btn-l pull-right" data-toggle="modal" data-target="#submodal" style="margin-top:6px"><i class="fa fa-star fa-lg"></i>
-                                </button>
-                                <div class="modal fade" id="submodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h3 class="modal-title" id="myModalLabel">Subscribe to stock</h3>
-                                            </div>
-                                            <div class="modal-body">
-                                                This stock will appear in "My Subs" on your homepage
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                <button type="button" class="btn btn-success" data-dismiss="modal">Okay</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <?php 
+                                    include('../resources/functions.php');
+                                    //Showing the sub/unsub button
+                                    ShowSubUnsubIcon();
+                                ?>
                             </ul>
                         </div>
                     </div>
@@ -167,7 +157,7 @@ include ('logininclude.php');
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
                                         <?php 
-                                        include('../resources/functions.php');
+                                       // include('../resources/functions.php');
                                         //output changes from the last ten days
                                         FetchLastTenDaysChart($_GET['Symbol']);
                                         ?>
