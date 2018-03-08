@@ -488,7 +488,7 @@ var chart = AmCharts.makeChart( "chartdiv", {
     }
 }
 
-//this function will detrmine what button to output for the sub/unsub button
+//this function will determine what button to output for the sub/unsub button
 Function ShowSubUnsubIcon(){
 
     include('../resources/connection.php');
@@ -559,7 +559,7 @@ Function ShowSubUnsubIcon(){
      else{
         //at this point we dont hold stock info for this item, which means the user isnt subbed     
          echo "
-                  <button type='button' class='btn btn-success btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px'><i class='fa fa-star fa-lg'></i>
+                  <button type='button' class='btn btn-success btn-circle btn-l pull-right'  style='margin-top:6px'><i class='fa fa-star fa-lg'></i>
                 </button>
                    <div   id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='
                        height: 300px;
@@ -580,7 +580,7 @@ Function ShowSubUnsubIcon(){
                               <form action='../resources/subtostock.php' method='POST' id='form1'>
                             	<input type='hidden' name='Symbol' value = '"  . $_GET['Symbol'] . "'>
                             </form>
-                                <button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button>
+                                <a href='search.php'><button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button></a>
                                 <button type='submit'class='btn btn-success'  form='form1' Value='Sumbit'>Okay</button>
                             </div>
                         </div>
