@@ -166,35 +166,10 @@ Function FetchLastTenDaysChart($StockSymbol){
             $Difference = round($row['Close'] - $PreviousClose,2);
             //Computing percent difference between previous day and current day
             $PDifference = round((($Difference / $PreviousClose) * 100),2) . "%";
-               echo "
-                <tr>
-                <td>"  . substr($row['timestamp'], 0, 10) . "</td>";
-               echo "<td>"  . $row['Close'] . "</td>";
-                if ($Difference > 0) {
-                    echo"
-                    <td style='color:#28a745'>"  . $Difference .  "</td>
-                    <td style='color:#28a745'> <i class='fa fa-lg fa-caret-up'> </i> "  . $PDifference .  "</td>
-                    </tr>";
-                }
-                elseif ($Difference < 0) {
-                    echo"
-                    <td style='color:#dc3545'>"  . $Difference .  "</td>
-                    <td style='color:#dc3545'> <i class='fa fa-lg fa-caret-down'> </i> "  . $PDifference .  "</td>
-                    </tr>";
-                }
-                elseif ($Difference == 0) {
-                    echo"
-                    <td style='color:#337ab7'>"  . $Difference .  "</td>
-                    <td style='color:#337ab7'> <i class='fa fa-lg fa-minus'> </i> "  . $PDifference .  "</td>
-                    </tr>";
-                }
-
-                
                 array_push($Output,(string)substr($row['timestamp'], 0, 10));
                 array_push($Output,(string)$row['Close']);
                 array_push($Output,(string)$Difference);
-                array_push($Output,(string)$PDifference);
-
+                array_push($Output,(string)$PDifference);      
                 //Storing close value for previous day.
                 $PreviousClose = $row['Close'];
             }else{
@@ -204,20 +179,36 @@ Function FetchLastTenDaysChart($StockSymbol){
             $SkipCounter = $SkipCounter  +1;
         }
         for($i=39; $i > 4; $i-=4){
+            // Date, Price, Change, Percent
             echo "
                 <tr>
                 <td>"  . $Output[$i-3] . "</td>
                 <td>"  . $Output[$i-2] . "</td>
-                <td>"  . $Output[$i-1] .  "</td>
-                <td>"  . $Output[$i] .  "</td>
-                </tr>";
+                ";
+            if ($Output[$i-1] > 0) {
+                echo"
+                    <td style='color:#28a745'>"  . $Output[$i-1] .  "</td>
+                    <td style='color:#28a745'> <i class='fa fa-lg fa-caret-up'> </i> "  . $Output[$i] .  "</td>
+                    </tr>";
+            }
+            elseif ($Output[$i-1] < 0) {
+                echo"
+                    <td style='color:#dc3545'>"  . $Output[$i-1] .  "</td>
+                    <td style='color:#dc3545'> <i class='fa fa-lg fa-caret-down'> </i> "  . $Output[$i] .  "</td>
+                    </tr>";
+            }
+            elseif ($Output[$i-1] == 0) {
+                echo"
+                    <td style='color:#337ab7'>"  . $Output[$i-1] .  "</td>
+                    <td style='color:#337ab7'> <i class='fa fa-lg fa-minus'> </i> "  . $Output[$i] .  "</td>
+                    </tr>";
+            }
         }
         echo "
        </tbody>
        </table>";
     }
 }
-
 //This function will output top five gains of stocks
 //As of not it does not show subscribed stocks
 Function ShowMostGains(){
