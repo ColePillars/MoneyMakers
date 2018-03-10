@@ -1,4 +1,4 @@
-            <ul class="nav navbar-top-links navbar-right btn-lg">
+            <ul class="nav navbar-top-links navbar-right btn">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user fa-lg fa-fw"></i> <i class="fa fa-caret-down"></i>

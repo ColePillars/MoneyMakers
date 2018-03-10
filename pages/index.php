@@ -28,18 +28,18 @@ include ('logininclude.php');
 </head>
 
 <body>
-    <div id="wrapper">
+    <div id="wrapper" style="min-width:400px">
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div>
-                <a href="index.php"><img class="navbar-left" style="max-width:225px;padding:6px" src="../resources/mm_logo.png" </img>
+                <a href="index.php"><img class="navbar-left" style="max-width:175px;padding:6px" src="../resources/mm_logo.png" </img>
                 </a>
                 </div>
             <div class="col-md-3">
             	<form action="search.php" role="form" method="POST">
-               		<div class="form-group-lg input-group" style="margin-top:16px;max-width:400px">
+               		<div class="form-group input-group" style="margin-top:16px;max-width:400px;min-width:200px">
                     	<input type="text" class="form-control"  name="SearchString" id="SearchString" placeholder="Search stocks">
                     	<span class="input-group-btn">
-                        	<button class="btn btn-info btn-lg" type="submit"><i class="fa fa-search"></i>
+                        	<button class="btn btn-info btn" type="submit"><i class="fa fa-search"></i>
                         	</button>
                     	</span>
                 </div>
@@ -55,7 +55,7 @@ include ('logininclude.php');
 			}
 			else {
 			    echo "
-						<div class='nav navbar-top-links navbar-right btn-lg' style='margin-top:12px'>
+						<div class='nav navbar-top-links navbar-right btn' style='margin-top:12px;font-size:16px'>
 							<a href='login.php'><i class='fa fa-sign-in fa-fw'></i> Login</a>
 						</div>
 				";
@@ -63,32 +63,32 @@ include ('logininclude.php');
 			
 			?>
         </nav>
-        <div id="page-wrapper">
+        <div id="page-wrapper" style="min-width:400px">
             <div class="row-eq-height">
                 <div class="col-lg-12">
-                    <h1 class="page-header"></h1>
+                    <h1></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
             <div class="row-eq-height">
                 <div class="col-lg-3">
-                    <div class="chat-panel panel panel-green chat">
-                        <div class="panel-heading" style="font-size:18px">My Subs
+                    <div class="chat-panel panel panel-green chat" style="height:615px">
+                        <div class="panel-heading" style="font-size:12px">My Subs
                             <div class="fa fa-star pull-left" style="margin-right:12px;margin-top:3px"></div>
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body" style="height:750px">
+                        <div class="panel-body" style="height:570px">
                             <div class="list-group-sm">
                                 <div class="panel panel-default">
                                     <a href="stockpage.php">
                                         <div class="panel-heading">
                                             <div class="row">
                                                 <div class="col-xs-4">
-                                                    <i class="fa fa-bar-chart fa-4x" style="margin-top:32px;display:block;text-align:center"></i>
+                                                    <i class="fa fa-bar-chart fa-4x" style="margin-top:18px;display:block;text-align:center"></i>
                                                 </div>
-                                                <div class="col-xs-8" style="padding-left:10%">
-                                                    <div class="h3">Stock Name</div>
+                                                <div class="col-xs-8" style="padding-left:10%;font-size:12px">
+                                                    <div class="h4" style="margin-bottom:4px">Stock Name</div>
                                                     <div>Stock points</div>
                                                     <div>Stock change</div>
                                                     <div style="margin-bottom:6px">Stock % change</div>
@@ -102,10 +102,10 @@ include ('logininclude.php');
                                         <div class="panel-heading">
                                             <div class="row">
                                                 <div class="col-xs-4">
-                                                    <i class="fa fa-bar-chart fa-4x" style="margin-top:32px;display:block;text-align:center"></i>
+                                                    <i class="fa fa-bar-chart fa-4x" style="margin-top:18px;display:block;text-align:center"></i>
                                                 </div>
-                                                <div class="col-xs-8" style="padding-left:10%">
-                                                    <div class="h3">Stock Name</div>
+                                                <div class="col-xs-8" style="padding-left:10%;font-size:12px">
+                                                    <div class="h4" style="margin-bottom:4px">Stock Name</div>
                                                     <div>Stock points</div>
                                                     <div>Stock change</div>
                                                     <div style="margin-bottom:6px">Stock % change</div>
@@ -119,10 +119,10 @@ include ('logininclude.php');
                                         <div class="panel-heading">
                                             <div class="row">
                                                 <div class="col-xs-4">
-                                                    <i class="fa fa-bar-chart fa-4x" style="margin-top:32px;display:block;text-align:center"></i>
+                                                    <i class="fa fa-bar-chart fa-4x" style="margin-top:18px;display:block;text-align:center"></i>
                                                 </div>
-                                                <div class="col-xs-8" style="padding-left:10%">
-                                                    <div class="h3">Stock Name</div>
+                                                <div class="col-xs-8" style="padding-left:10%;font-size:12px">
+                                                    <div class="h4" style="margin-bottom:4px">Stock Name</div>
                                                     <div>Stock points</div>
                                                     <div>Stock change</div>
                                                     <div style="margin-bottom:6px">Stock % change</div>
@@ -136,10 +136,10 @@ include ('logininclude.php');
                                         <div class="panel-heading">
                                             <div class="row">
                                                 <div class="col-xs-4">
-                                                    <i class="fa fa-bar-chart fa-4x" style="margin-top:32px;display:block;text-align:center"></i>
+                                                    <i class="fa fa-bar-chart fa-4x" style="margin-top:18px;display:block;text-align:center"></i>
                                                 </div>
-                                                <div class="col-xs-8" style="padding-left:10%">
-                                                    <div class="h3">Stock Name</div>
+                                                <div class="col-xs-8" style="padding-left:10%;font-size:12px">
+                                                    <div class="h4" style="margin-bottom:4px">Stock Name</div>
                                                     <div>Stock points</div>
                                                     <div>Stock change</div>
                                                     <div style="margin-bottom:6px">Stock % change</div>
@@ -157,16 +157,16 @@ include ('logininclude.php');
                 </div>
                 <div class="col-lg-3">
                     <!-- /.panel -->
-                    <div class="panel panel-yellow">
-                        <div class="panel-heading" style="font-size:18px">News
+                    <div class="panel panel-yellow" style="height:615px">
+                        <div class="panel-heading" style="font-size:12px">News
                             <div class="fa fa-rss pull-left" style="margin-right:12px;margin-top:3px"></div>
                         </div>
                         <div class="chat-panel panel panel-default">
-                            <div class="panel-body" style="height:695px">
+                            <div class="panel-body" style="font-size:12px;height:562px">
                                 <ul class="chat">
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:33px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -182,7 +182,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:33px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -198,7 +198,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:33px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -214,7 +214,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:33px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -230,7 +230,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:33px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -246,7 +246,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:33px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -262,7 +262,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:33px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -278,7 +278,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:33px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -294,7 +294,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:33px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -310,7 +310,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:33px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -342,10 +342,10 @@ include ('logininclude.php');
                 </div>
                 <div class="col-lg-3">
                     <div class="panel panel-primary">
-                        <div class="panel-heading" style="font-size:18px">Most Active
+                        <div class="panel-heading" style="font-size:12px">Most Active
                             <div class="fa fa-globe pull-left" style="margin-right:12px;margin-top:3px"></div>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body" style="font-size:12px">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
@@ -398,10 +398,10 @@ include ('logininclude.php');
                         </div>
                     </div>
                     <div class="panel panel-primary">
-                        <div class="panel-heading" style="font-size:18px">Cryptocurrencies
+                        <div class="panel-heading" style="font-size:12px">Cryptocurrencies
                             <div class="fa fa-key pull-left" style="margin-right:12px;margin-top:3px"></div>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body" style="font-size:12px">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
@@ -457,11 +457,11 @@ include ('logininclude.php');
                 <div class="col-lg-3">
                     <!-- /.panel -->
                     <div class="panel panel-primary">
-                        <div class="panel-heading" style="font-size:18px">Most Gains
+                        <div class="panel-heading" style="font-size:12px">Most Gains
                             <div class="fa fa-arrow-up pull-left" style="margin-right:12px;margin-top:3px"></div>
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
+                        <div class="panel-body" style="font-size:12px">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
@@ -479,11 +479,11 @@ include ('logininclude.php');
                         <!-- /.panel-body -->
                     </div>
                     <div class="panel panel-primary">
-                        <div class="panel-heading" style="font-size:18px">Most Losses
+                        <div class="panel-heading" style="font-size:12px">Most Losses
                             <div class="fa fa-arrow-down pull-left" style="margin-right:12px;margin-top:3px"></div>
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
+                        <div class="panel-body" style="font-size:12px">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
