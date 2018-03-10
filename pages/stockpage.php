@@ -33,18 +33,18 @@ include ('logininclude.php');
 </head>
 
 <body>
-    <div id="wrapper">
+    <div id="wrapper" style="min-height:400px">
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div>
-                <a href="index.php"><img class="navbar-left" style="max-width:225px;padding:6px" src="../resources/mm_logo.png" </img>
+                <a href="index.php"><img class="navbar-left" style="max-width:175px;padding:6px" src="../resources/mm_logo.png" </img>
                 </a>
                 </div>
             <div class="col-md-3">
             	<form action="search.php" role="form" method="POST">	
-                	<div class="form-group-lg input-group" style="margin-top:16px;max-width:400px">
+                	<div class="form-group input-group" style="margin-top:16px;max-width:400px">
                     	<input type="text" class="form-control"  name="SearchString" id="SearchString" placeholder="Search stocks">
                     	<span class="input-group-btn">
-                        	<button class="btn btn-info btn-lg" type="submit"><i class="fa fa-search"></i>
+                        	<button class="btn btn-info btn" type="submit"><i class="fa fa-search"></i>
                         	</button>
                     	</span>
                 	</div>
@@ -60,7 +60,7 @@ include ('logininclude.php');
 			}
 			else {
 			    echo "
-						<div class='nav navbar-top-links navbar-right btn-lg' style='margin-top:12px'>
+						<div class='nav navbar-top-links navbar-right btn-lg' style='margin-top:12px;font-size:16px'>
 							<a href='login.php'><i class='fa fa-sign-in fa-fw'></i> Login</a>
 						</div>
 				";
@@ -68,23 +68,23 @@ include ('logininclude.php');
 			
 			?>
         </nav>
-        <div id="page-wrapper">
+        <div id="page-wrapper" style="padding:10px">
             <div class="row-eq-height">
                 <div class="col-lg-12">
-                    <h1 class="page-header"></h1>
+                    <h1></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <div class="row-eq-height">
                 <div class="col-lg-3">
-                    <div class="panel panel-primary">
+                    <div class="panel panel-primary" style="font-size:12px"> 
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-4">
                                     <i class="fa fa-bar-chart fa-5x" style="margin-top:32px;display:block;text-align:center"></i>
                                 </div>
                                 <div class="col-xs-8">
-                                    <div class="h2">
+                                    <div class="h3">
                                     <?php 
                                         include('../resources/connection.php');
                                         $GetStockName = "SELECT Name FROM StockInfo.Stock_Symbol_Index WHERE Symbol = '" .  $_GET['Symbol'] . "';";
@@ -137,7 +137,7 @@ include ('logininclude.php');
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" id="status-pills">
                                     <!--<h4>Status</h4>-->
-                                    <p><font size=9><center><strong><?php
+                                    <p><center style="font-size:28px"><?php
                                         include('../resources/connection.php');
                                         $status = "SELECT Final_Decision FROM StockInfo.Buy_Sell_Hold WHERE Symbol = '" .  $_GET['Symbol'] . "';";
                                         $statusResult = mysqli_query($conn, $status);
@@ -148,7 +148,7 @@ include ('logininclude.php');
                                         }
                                         else{
                                             //echo "Advise on whether you should buy or sell right now";
-                                        }?></strong></center></font></p>
+                                        }?></center></p>
                                 </div>
                                 <div class="tab-pane fade" id="history-pills">
                                     <h4>History</h4>
@@ -162,7 +162,7 @@ include ('logininclude.php');
                         </div>
                     </div>
                     <div class="panel panel-primary">
-                        <div class="panel-body">
+                        <div class="panel-body" style="font-size:12px">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
@@ -184,16 +184,16 @@ include ('logininclude.php');
                     ?>
                 </div>
                 <div class="col-lg-3">
-                    <div class="panel panel-yellow">
-                        <div class="panel-heading" style="font-size:18px">Stock News
+                    <div class="panel panel-yellow" style="height:615px">
+                        <div class="panel-heading" style="font-size:12px">Stock News
                             <div class="fa fa-rss pull-left" style="margin-right:12px;margin-top:3px"></div>
                         </div>
                         <div class="chat-panel panel panel-default">
-                            <div class="panel-body" style="height:710px">
+                            <div class="panel-body" style="height:562px;font-size:12px">
                                 <ul class="chat">
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px" style="max-width:25px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -209,7 +209,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -225,7 +225,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -241,7 +241,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -257,7 +257,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -273,7 +273,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -289,7 +289,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -305,7 +305,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -321,7 +321,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -337,7 +337,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">
@@ -353,7 +353,7 @@ include ('logininclude.php');
                                     </li>
                                     <li class="left clearfix">
                                         <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
                                     </span>
                                         <div class="chat-body clearfix">
                                             <div class="header">

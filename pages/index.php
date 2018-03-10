@@ -63,7 +63,7 @@ include ('logininclude.php');
 			
 			?>
         </nav>
-        <div id="page-wrapper" style="min-width:400px">
+        <div id="page-wrapper" style="padding:10px">
             <div class="row-eq-height">
                 <div class="col-lg-12">
                     <h1></h1>

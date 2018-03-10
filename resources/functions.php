@@ -93,7 +93,7 @@ Function FetchLastTenDaysChart($StockSymbol){
                         <th>Date</th>
                         <th>Price</th>
                         <th>Change</th>
-                        <th>Change (%)</th>
+                        <th>Percent</th>
                     </tr>
                 </thead>
                 <tbody>";
@@ -106,11 +106,27 @@ Function FetchLastTenDaysChart($StockSymbol){
             $PDifference = round((($Difference / $PreviousClose) * 100),2) . "%";
                echo "
                 <tr>
-                <td>"  . substr($row['timestamp'], 0, 10) . "</td>
-                <td>"  . $row['Close'] . "</td>
-                <td>"  . $Difference .  "</td>
-                <td>"  . $PDifference .  "</td>
-                </tr>";
+                <td>"  . substr($row['timestamp'], 0, 10) . "</td>";
+               echo "<td>"  . $row['Close'] . "</td>";
+                if ($Difference > 0) {
+                    echo"
+                    <td style='color:#28a745'>"  . $Difference .  "</td>
+                    <td style='color:#28a745'> <i class='fa fa-lg fa-caret-up'> </i> "  . $PDifference .  "</td>
+                    </tr>";
+                }
+                elseif ($Difference < 0) {
+                    echo"
+                    <td style='color:#dc3545'>"  . $Difference .  "</td>
+                    <td style='color:#dc3545'> <i class='fa fa-lg fa-caret-down'> </i> "  . $PDifference .  "</td>
+                    </tr>";
+                }
+                elseif ($Difference == 0) {
+                    echo"
+                    <td style='color:#337ab7'>"  . $Difference .  "</td>
+                    <td style='color:#337ab7'> <i class='fa fa-lg fa-minus'> </i> "  . $PDifference .  "</td>
+                    </tr>";
+                }
+
                 //Storing close value for previous day.
                 $PreviousClose = $row['Close'];
             }else{
@@ -253,8 +269,7 @@ Function StockGraph($StockSymbol){
         echo '
 <style>
 #chartdiv {
-	width	: 100%;
-	height	: 800px;
+	height	: 85vh;
 }										
 </style>
         ';    
