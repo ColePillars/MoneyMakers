@@ -84,95 +84,12 @@ include ('logininclude.php');
 								style="margin-right: 12px; margin-top: 3px"></div>
 						</div>
 						<!-- /.panel-heading -->
-						<div class="panel-body" style="height: 750px">
+						<div class="panel-body" style="height: 695px">
 							<div class="list-group-sm">
-								<div class="panel panel-default">
-									<a href="stockpage.php">
-										<div class="panel-heading">
-											<div class="row">
-												<div class="col-xs-4">
-													<i class="fa fa-bar-chart fa-4x"
-														style="margin-top: 32px; display: block; text-align: center"></i>
-												</div>
-												<div class="col-xs-8" style="padding-left: 10%">
-                                                <?php
-                                                // $sql = "SELECT * FROM UserCredentials.tbl_stock_subs WHERE atr_username ='" . $_SESSION['username'] . "' "; -->
-                                                // $result = mysqli_query($conn, $sql); -->
-                                                // $count = mysqli_num_rows($result); -->
-                                                
-                                                // if ($count == 0) { -->
-                                                // echo "User is not subscribed to any stocks!"; -->
-                                                // } else { -->
-                                                // while ($row = mysqli_fetch_assoc($result)) { -->
-                                                // // echo $row['atr_stock_id']; -->
-                                                // echo nl2br("" . $row['atr_stock_id'] . "\n"); -->
-                                                // }
-                                                // }
-                                                // ?>
-                                                    <div class="h3">Stock
-														Name</div>
-													<div>Stock points</div>
-													<div>Stock change</div>
-													<div style="margin-bottom: 6px">Stock % change</div>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
-								<div class="panel panel-default">
-									<a href="stockpage.php">
-										<div class="panel-heading">
-											<div class="row">
-												<div class="col-xs-4">
-													<i class="fa fa-bar-chart fa-4x"
-														style="margin-top: 32px; display: block; text-align: center"></i>
-												</div>
-												<div class="col-xs-8" style="padding-left: 10%">
-													<div class="h3">Stock Name</div>
-													<div>Stock points</div>
-													<div>Stock change</div>
-													<div style="margin-bottom: 6px">Stock % change</div>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
-								<div class="panel panel-default">
-									<a href="stockpage.php">
-										<div class="panel-heading">
-											<div class="row">
-												<div class="col-xs-4">
-													<i class="fa fa-bar-chart fa-4x"
-														style="margin-top: 32px; display: block; text-align: center"></i>
-												</div>
-												<div class="col-xs-8" style="padding-left: 10%">
-													<div class="h3">Stock Name</div>
-													<div>Stock points</div>
-													<div>Stock change</div>
-													<div style="margin-bottom: 6px">Stock % change</div>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
-								<div class="panel panel-default">
-									<a href="stockpage.php">
-										<div class="panel-heading">
-											<div class="row">
-												<div class="col-xs-4">
-													<i class="fa fa-bar-chart fa-4x"
-														style="margin-top: 32px; display: block; text-align: center"></i>
-												</div>
-												<div class="col-xs-8" style="padding-left: 10%">
-													<div class="h3">Stock Name</div>
-													<div>Stock points</div>
-													<div>Stock change</div>
-													<div style="margin-bottom: 6px">Stock % change</div>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
+							<?php 
+							include ('../resources/functions.php');
+							ShowSubbedStocks();
+							?>
 							</div>
 						</div>
 					</div>
@@ -467,10 +384,7 @@ include ('logininclude.php');
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="table-responsive">
-                                        <?php
-                                        include ('../resources/functions.php');
-                                        ShowMostGains();
-                                        ?>
+                                        <?php ShowMostGains();?>
                                     </div>
 								<!-- /.table-responsive -->
 							</div>
