@@ -91,11 +91,15 @@ include ('logininclude.php');
                                         $SearchResult = mysqli_query($conn, $GetStockName);
                                         if ($SearchResult->num_rows > 0){
                                             while($row = $SearchResult->fetch_assoc()) {
+                                                $GLOBALS['StockFullName'] = $row['Name'];
                                                 echo $row['Name'];
                                             }
                                         }
                                         else{
                                             //if no results, push user to another page
+                                            $_SESSION['InvalidStockMessage'] = " - " . $_GET['Symbol'] . " is an invalid stock";
+                                            header('Location: search.php');
+                                            exit();
                                         }
                                     ?>
                                     </div>
@@ -107,28 +111,14 @@ include ('logininclude.php');
                             <ul class="nav nav-pills">
                                 <li class="active"><a href="#status-pills" data-toggle="tab">Status</a>
                                 </li>
-                                <li><a href="#history-pills" data-toggle="tab">History</a>
-                                </li>
+                          
                                 <li><a href="#details-pills" data-toggle="tab">Details</a>
                                 </li>
-                                <button type="button" class="btn btn-warning btn-circle btn-l pull-right" data-toggle="modal" data-target="#submodal" style="margin-top:6px"><i class="fa fa-star fa-lg"></i>
-                                </button>
-                                <div class="modal fade" id="submodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h3 class="modal-title" id="myModalLabel">Subscribe to stock</h3>
-                                            </div>
-                                            <div class="modal-body">
-                                                This stock will appear in "My Subs" on your homepage
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                <button type="button" class="btn btn-success" data-dismiss="modal">Okay</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <?php 
+                                    include('../resources/functions.php');
+                                    //Showing the sub/unsub button
+                                    ShowSubUnsubIcon();
+                                ?>
                             </ul>
                         </div>
                     </div>
@@ -150,13 +140,13 @@ include ('logininclude.php');
                                             //echo "Advise on whether you should buy or sell right now";
                                         }?></center></p>
                                 </div>
-                                <div class="tab-pane fade" id="history-pills">
-                                    <h4>History</h4>
-                                    <p>History of the stock, noting any significant events</p>
-                                </div>
+         
                                 <div class="tab-pane fade" id="details-pills">
-                                    <h4>Details</h4>
-                                    <p>Tips on whether to invest or not</p>
+                                    <h3>Details:</h3>
+                                    <?php 
+                                        ShowCompanyInformation($_GET['Symbol']);
+                                    ?>
+
                                 </div>
                             </div>
                         </div>
@@ -167,7 +157,7 @@ include ('logininclude.php');
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
                                         <?php 
-                                        include('../resources/functions.php');
+                                       // include('../resources/functions.php');
                                         //output changes from the last ten days
                                         FetchLastTenDaysChart($_GET['Symbol']);
                                         ?>
@@ -191,182 +181,10 @@ include ('logininclude.php');
                         <div class="chat-panel panel panel-default">
                             <div class="panel-body" style="height:562px;font-size:12px">
                                 <ul class="chat">
-                                    <li class="left clearfix">
-                                        <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px" style="max-width:25px">
-                                    </span>
-                                        <div class="chat-body clearfix">
-                                            <div class="header">
-                                                <strong class="primary-font">Story 1</strong>
-                                                <small class="pull-right text-muted">
-                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
-                                            </small>
-                                            </div>
-                                            <p>
-                                                Story headline
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li class="left clearfix">
-                                        <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
-                                    </span>
-                                        <div class="chat-body clearfix">
-                                            <div class="header">
-                                                <strong class="primary-font">Story 2</strong>
-                                                <small class="pull-right text-muted">
-                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
-                                            </small>
-                                            </div>
-                                            <p>
-                                                Story headline
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li class="left clearfix">
-                                        <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
-                                    </span>
-                                        <div class="chat-body clearfix">
-                                            <div class="header">
-                                                <strong class="primary-font">Story 3</strong>
-                                                <small class="pull-right text-muted">
-                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
-                                            </small>
-                                            </div>
-                                            <p>
-                                                Story headline
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li class="left clearfix">
-                                        <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
-                                    </span>
-                                        <div class="chat-body clearfix">
-                                            <div class="header">
-                                                <strong class="primary-font">Story 4</strong>
-                                                <small class="pull-right text-muted">
-                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
-                                            </small>
-                                            </div>
-                                            <p>
-                                                Story headline
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li class="left clearfix">
-                                        <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
-                                    </span>
-                                        <div class="chat-body clearfix">
-                                            <div class="header">
-                                                <strong class="primary-font">Story 5</strong>
-                                                <small class="pull-right text-muted">
-                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
-                                            </small>
-                                            </div>
-                                            <p>
-                                                Story headline
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li class="left clearfix">
-                                        <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
-                                    </span>
-                                        <div class="chat-body clearfix">
-                                            <div class="header">
-                                                <strong class="primary-font">Story 6</strong>
-                                                <small class="pull-right text-muted">
-                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
-                                            </small>
-                                            </div>
-                                            <p>
-                                                Story headline
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li class="left clearfix">
-                                        <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
-                                    </span>
-                                        <div class="chat-body clearfix">
-                                            <div class="header">
-                                                <strong class="primary-font">Story 7</strong>
-                                                <small class="pull-right text-muted">
-                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
-                                            </small>
-                                            </div>
-                                            <p>
-                                                Story headline
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li class="left clearfix">
-                                        <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
-                                    </span>
-                                        <div class="chat-body clearfix">
-                                            <div class="header">
-                                                <strong class="primary-font">Story 8</strong>
-                                                <small class="pull-right text-muted">
-                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
-                                            </small>
-                                            </div>
-                                            <p>
-                                                Story headline
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li class="left clearfix">
-                                        <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
-                                    </span>
-                                        <div class="chat-body clearfix">
-                                            <div class="header">
-                                                <strong class="primary-font">Story 9</strong>
-                                                <small class="pull-right text-muted">
-                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
-                                            </small>
-                                            </div>
-                                            <p>
-                                                Story headline
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li class="left clearfix">
-                                        <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
-                                    </span>
-                                        <div class="chat-body clearfix">
-                                            <div class="header">
-                                                <strong class="primary-font">Story 10</strong>
-                                                <small class="pull-right text-muted">
-                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
-                                            </small>
-                                            </div>
-                                            <p>
-                                                Story headline
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li class="left clearfix">
-                                        <span class="chat-img pull-left">
-                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" style="max-width:25px">
-                                    </span>
-                                        <div class="chat-body clearfix">
-                                            <div class="header">
-                                                <strong class="primary-font">Story 11</strong>
-                                                <small class="pull-right text-muted">
-                                                <i class="fa fa-clock-o fa-fw"></i> Date/Time
-                                            </small>
-                                            </div>
-                                            <p>
-                                                Story headline
-                                            </p>
-                                        </div>
-                                    </li>
+                                    <?php 
+                                        //Showing all stock related news for the cpmany name
+                                        ShowRssFeedNews($StockFullName);         
+                                    ?>
                                 </ul>
                             </div>
                         </div>
