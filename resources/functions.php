@@ -211,6 +211,7 @@ Function ShowMostGains(){
         ORDER BY Timestamp DESC LIMIT 1 OFFSET 1)
     ) as y on c.atr_stock_id = y.atr_stock_id
     WHERE c.Timestamp = (SELECT DISTINCT Timestamp from StockInfo.Time_Series_Daily order by Timestamp DESC LIMIT 1 )
+    AND (c.Close  - y.Close) > 0     
     ORDER BY ClosePercentChange DESC limit 5";
     
     
@@ -265,6 +266,7 @@ Function ShowMostLosses(){
         ORDER BY Timestamp DESC LIMIT 1 OFFSET 1)
     ) as y on c.atr_stock_id = y.atr_stock_id
     WHERE c.Timestamp = (SELECT DISTINCT Timestamp from StockInfo.Time_Series_Daily order by Timestamp DESC LIMIT 1 )
+    AND (c.Close  - y.Close) < 0    
     ORDER BY ClosePercentChange ASC limit 5";
 
     
@@ -313,45 +315,45 @@ Function ShowMostMoving(){
     //Query to show most gain
     $ShowMostMovingSQL = "
 
-
-
-
-    SELECT  c.atr_stock_id, c.Close, c.Timestamp, (c.Close  - y.Close) as 'Change', (((c.Close / y.Close)  -1 ) * 100) as 'ClosePercentChange'
+    SELECT  c.atr_stock_id, c.Volume, c.Timestamp, (c.Volume  - y.Volume) as 'Change', (((c.Volume / y.Volume)  -1 ) * 100) as 'VolumePercentChange'
     FROM StockInfo.Time_Series_Daily as c
     INNER JOIN
     (
-    	SELECT atr_stock_id, timestamp, Close
+    	SELECT atr_stock_id, timestamp, Volume
     	FROM StockInfo.Time_Series_Daily
     	WHERE Timestamp = (SELECT DISTINCT Timestamp from StockInfo.Time_Series_Daily
         ORDER BY Timestamp DESC LIMIT 1 OFFSET 1)
     ) as y on c.atr_stock_id = y.atr_stock_id
     WHERE c.Timestamp = (SELECT DISTINCT Timestamp from StockInfo.Time_Series_Daily order by Timestamp DESC LIMIT 1 )
-    ORDER BY ClosePercentChange ASC limit 5
+    ORDER BY (c.Volume  - y.Volume)  DESC limit 5
+
+
+        
 
 
 
 ";
     
     
-    $SearchResultLosses = mysqli_query($conn, $ShowMostLossesSQL);
-    if ($SearchResultLosses->num_rows > 0){
+    $ShowMostMovingResults = mysqli_query($conn, $ShowMostMovingSQL);
+    if ($ShowMostMovingResults->num_rows > 0){
         echo"<table class='table table-hover'>
                                             <thead>
                                                 <tr>
                                                     <th>Stock</th>
-                                                    <th>Price</th>
+                                                    <th>Volume</th>
                                                     <th>Change</th>
                                                     <th>Change (%)</th>
                                                 </tr>
                                             </thead>
                                             <tbody>";
-        while($row = $SearchResultLosses->fetch_assoc()) {
+        while($row = $ShowMostMovingResults->fetch_assoc()) {
             echo "
             <tr>
             <td>"  . $row['atr_stock_id'] . "</td>
-            <td>"  . $row['Close'] . "</td>
+            <td>"  . $row['Volume'] . "</td>
             <td>"  . $row['Change'] . "</td>
-            <td>"  . $row['ClosePercentChange'] . "</td>
+            <td>"  . $row['VolumePercentChange'] . "</td>
             </tr>";
             
             //Counter to skip the 11th day
@@ -363,7 +365,7 @@ Function ShowMostMoving(){
     }
     else{
         echo "fail";
-        echo $ShowMostLossesSQL;
+        echo $ShowMostMovingResults;
     }
 }
 
@@ -588,6 +590,58 @@ Function ShowSubUnsubIcon(){
                 </div>";
      
          }
-    }
+    }   
 }
 
+Function ShowCompanyInformation($Symbol){
+
+ include('connection.php');
+ 
+ $FetchStockMetaInfo = "SELECT Sector, Industry FROM StockInfo.Stock_Symbol_Index WHERE Symbol='" . $Symbol . "';";
+ 
+ $FetchStockMetaResults = mysqli_query($conn, $FetchStockMetaInfo);
+ if ($FetchStockMetaResults->num_rows > 0){
+     
+     while($row = $FetchStockMetaResults->fetch_assoc()) {
+         echo "<p>Industry: " . $row['Industry'] . "</p>";
+         echo "<p>Sector: " . $row['Sector'] . "</p>";
+     }    
+ } 
+}
+
+
+Function ShowRssFeedNews($Topic){
+    
+    
+    
+    $Topicleaned=str_replace(' ','%20', $Topic);
+    echo $test2;
+    $googlersssource = "https://news.google.com/news/rss/search/section/q/" . $Topicleaned . "/" . $Topicleaned . "?hl=en&gl=US&ned=us";
+    $xml = simplexml_load_file($googlersssource);
+    for($itemcounter = 0; $itemcounter < 10; $itemcounter++){
+        $title = $xml->channel->item[$itemcounter]->title;
+        $href = $xml->channel->item[$itemcounter]->link;
+        $date = $xml->channel->item[$itemcounter]->pubDate;
+        
+        echo "
+                                        <li>
+                                        <div class='chat-body clearfix'>
+                                            <div class='header'>
+                                              <a  href='" . $href . "'><strong class='primary-font'>" . $title . "</strong></a>
+                                                <small class='text-muted'><br>
+                                                <i class='fa fa-clock-o fa-fw'></i>" . $date . "
+                                            </small>
+                                            </div>
+                                        </div>
+                                    </li>";
+    }
+    
+    
+    
+    
+    
+}
+
+
+
+?>
