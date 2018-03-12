@@ -6,7 +6,7 @@ include ('logininclude.php');
 <html lang="en">
 
 <head>
-
+	<link rel="icon" href="../resources/mm_favicon.png.ico">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,7 +63,7 @@ include ('logininclude.php');
 			
 			?>
         </nav>
-        <div id="page-wrapper" style="padding:10px">
+        <div id="page-wrapper" style="padding:10px;min-height:900px">
             <div class="row-eq-height">
                 <div class="col-lg-12">
                     <h1></h1>
@@ -217,7 +217,7 @@ include ('logininclude.php');
                                                     <th>Stock</th>
                                                     <th>Price</th>
                                                     <th>Change</th>
-                                                    <th>Change (%)</th>
+                                                    <th>Percent</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

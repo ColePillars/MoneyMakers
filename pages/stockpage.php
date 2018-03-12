@@ -6,7 +6,7 @@ include ('logininclude.php');
 <html lang="en">
 
 <head>
-
+	<link rel="icon" href="../resources/mm_favicon.png.ico">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -68,7 +68,7 @@ include ('logininclude.php');
 			
 			?>
         </nav>
-        <div id="page-wrapper" style="padding:10px">
+        <div id="page-wrapper" style="padding:10px;min-height:900px">
             <div class="row-eq-height">
                 <div class="col-lg-12">
                     <h1></h1>
@@ -81,10 +81,10 @@ include ('logininclude.php');
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-4">
-                                    <i class="fa fa-bar-chart fa-5x" style="margin-top:32px;display:block;text-align:center"></i>
+                                    <i class="fa fa-bar-chart fa-5x" style="margin-top:22px;display:block;text-align:center"></i>
                                 </div>
                                 <div class="col-xs-8">
-                                    <div class="h3">
+                                    <div class="h4">
                                     <?php 
                                         include('../resources/connection.php');
                                         $GetStockName = "SELECT Name FROM StockInfo.Stock_Symbol_Index WHERE Symbol = '" .  $_GET['Symbol'] . "';";
@@ -103,7 +103,25 @@ include ('logininclude.php');
                                         }
                                     ?>
                                     </div>
-                                    <div style="margin-bottom:6px">Stock percent change</div>
+                                    <div style="margin-bottom:6px">
+                                    <?php 
+                                        include('../resources/connection.php');
+                                        $GetStockName = "SELECT Name FROM StockInfo.Stock_Symbol_Index WHERE Symbol = '" .  $_GET['Symbol'] . "';";
+                                        $SearchResult = mysqli_query($conn, $GetStockName);
+                                        if ($SearchResult->num_rows > 0){
+                                            while($row = $SearchResult->fetch_assoc()) {
+                                                $GLOBALS['StockFullName'] = $row['Name'];
+                                                echo $row['Name'];
+                                            }
+                                        }
+                                        else{
+                                            //if no results, push user to another page
+                                            $_SESSION['InvalidStockMessage'] = " - " . $_GET['Symbol'] . " is an invalid stock";
+                                            header('Location: search.php');
+                                            exit();
+                                        }
+                                    ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -127,7 +145,7 @@ include ('logininclude.php');
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" id="status-pills">
                                     <!--<h4>Status</h4>-->
-                                    <p><center style="font-size:28px"><?php
+                                    <h3 class='alert alert-warning' style='margin-top:3px;margin-bottom:3px;font-size:28px;text-align:center'><?php
                                         include('../resources/connection.php');
                                         $status = "SELECT Final_Decision FROM StockInfo.Buy_Sell_Hold WHERE Symbol = '" .  $_GET['Symbol'] . "';";
                                         $statusResult = mysqli_query($conn, $status);
@@ -137,16 +155,13 @@ include ('logininclude.php');
                                             }
                                         }
                                         else{
-                                            //echo "Advise on whether you should buy or sell right now";
-                                        }?></center></p>
+                                        }?></h3>
                                 </div>
          
                                 <div class="tab-pane fade" id="details-pills">
-                                    <h3>Details:</h3>
                                     <?php 
                                         ShowCompanyInformation($_GET['Symbol']);
                                     ?>
-
                                 </div>
                             </div>
                         </div>
