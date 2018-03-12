@@ -16,6 +16,3 @@
 				<a href='../pages/login.php'><i class='fa fa-sign-in fa-fw'></i> Login</a>
 			</div>
 		</nav>
-		
-		
-		
