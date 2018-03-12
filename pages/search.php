@@ -6,14 +6,14 @@ include ('../resources/logininclude.php');
 <html lang="en">
 
 <head>
-
+	<link rel="icon" href="../resources/mm_favicon.png.ico">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Search</title>
+    <title>Money Makers - Search</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -50,7 +50,7 @@ include ('../resources/logininclude.php');
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">
+                    <h3 class="page-header">
                     Search Results
                     <?php 
                     session_start();
@@ -59,7 +59,7 @@ include ('../resources/logininclude.php');
                     ?>
                     
                     
-                    </h1>
+                    </h3>
                     
                 </div>
                 <!-- /.col-lg-12 -->
