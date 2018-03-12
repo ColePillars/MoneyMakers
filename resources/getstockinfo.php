@@ -1,5 +1,5 @@
 <?php 
-
+/*
 // include connections page
 include('connection.php');
 $Interval = "daily";
@@ -56,5 +56,5 @@ if ($all_query_ok) { $conn->commit(); }
 
 //Rollback changes if ANY query fails
 else { $conn->rollback(); }
- 
+ */
 ?>

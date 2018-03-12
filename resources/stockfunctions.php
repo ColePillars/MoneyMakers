@@ -513,7 +513,7 @@ function FetchRSIJSON($StockSymbol, $Interval, $TimePeriod){
                 $MidQuery = $MidQuery . "'" . $Timestamp . "',";
             }
             //loop through each value, open, high, low, close, volume, append to insert query
-            if($limit < 30){
+            if($limit < 107){
                 foreach ($TimeSeries as $ObjectHeader => $ObjectValue){
                     $MidQuery = $MidQuery . "'" . $ObjectValue . "',";
                 }

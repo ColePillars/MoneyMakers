@@ -259,20 +259,94 @@ function Final_Decision(){
 }
 
 function Simulation(){
- session_start();
- include('connection.php');
+    session_start();
+    include('connection.php');
+    
+    function Heikin($O, $H, $L, $C, $oldO, $oldC){
+        $HA_Close = ($O + $H + $L + $C)/4;
+        $HA_Open = ($oldC + $oldO)/2;
+        $HA_Low = min($L, $HA_Open, $HA_Close);
+        $HA_High = max($H, $HA_Open, $HA_Close);
+        return array($HA_Open, $HA_High, $HA_Low, $HA_Close);
+    }
+    
+    //$selectRSI = "SELECT atr_stock_id, Timestamp, RSI FROM StockInfo.Technical_Analysis_RSI WHERE Timestamp > (SELECT DISTINCT
+      //   Timestamp FROM StockInfo.Technical_Analysis_RSI ORDER BY Timestamp DESC LIMIT 1 offset 5) order by atr_stock_id ASC, Timestamp ASC";
+    //$selectRSIResult = mysqli_query($conn, $selectRSI);
  
- $select = "SELECT atr_stock_id, Timestamp, Open, High, Low, Close FROM StockInfo.Time_Series_Daily WHERE Timestamp > (SELECT DISTINCT
- Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 100) order by atr_stock_id ASC, Timestamp ASC";
- $selectResult = mysqli_query($conn, $select);
- echo "hello";
+    $select = "SELECT atr_stock_id, Timestamp, Open, High, Low, Close FROM StockInfo.Time_Series_Daily WHERE Timestamp > (SELECT DISTINCT
+        Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 100) order by atr_stock_id ASC, Timestamp ASC";
+    $selectResult = mysqli_query($conn, $select);
+    
+    //$rsi = "";
+    //$heikin= "";
+    $initial = 100;
+    $oldC = 0;
+    $oldO = 0;
+    
+    if ($selectResult->num_rows > 0){
+        while($row = $selectResult->fetch_assoc()){
+            if (($initial%100) == 0){
+                $oldO = $row['Open'];
+                $oldC = $row['Close'];
+                //testing echo
+                //echo "INITIAL SYMBOL SKIP#" . $initial . "<br>";
+                $initial = $initial +1;
+            } else {
+                $list = Heikin($row['Open'], $row['High'], $row['Low'], $row['Close'], $oldO, $oldC);
+                
+                if(($list[0] > $list[3]) && ($oldO > $oldC) && (abs($list[0] - $list[3]) > abs($oldO - $oldC)) && ($list[0] == $list[1])){
+                    $insert = "INSERT INTO StockInfo.Simulation(Symbol,Timestamp,Heikin_Ashi,Close,Final_Decision,Composite_Key) VALUES('" . $row['atr_stock_id'] . "',
+                    '" . $row['Timestamp'] ."','Buy', '" . $row['Close'] . "','Buy', '" . $row['atr_stock_id'] .  "_" . $row['Timestamp'] . "')";
+                    if ($conn->query($insert) === TRUE){}
+                    else{
+                        //output mysql error if fail, DEV PURPOSE ONLY
+                        //MUST HANDEL ERROR
+                        echo "<br>Error: " . $insert . "<br>" . $conn->error;
+                    }
+                    
+                } elseif (($list[0] < $list[3]) && ($oldO < $oldC) && (abs($list[0] - $list[3]) > abs($oldO - $oldC)) && ($list[0] == $list[2])) {
+                    $insert = "INSERT INTO StockInfo.Simulation(Symbol,Timestamp,Heikin_Ashi,Close,Final_Decision,Composite_Key) VALUES('" . $row['atr_stock_id'] . "',
+                    '" . $row['Timestamp'] ."','Sell', '" . $row['Close'] . "','Sell', '" . $row['atr_stock_id'] .  "_" . $row['Timestamp'] . "')";
+                    if ($conn->query($insert) === TRUE){}
+                    else{
+                        //output mysql error if fail, DEV PURPOSE ONLY
+                        //MUST HANDEL ERROR
+                        echo "<br>Error: " . $insert . "<br>" . $conn->error;
+                    }
+                } else {
+                        $insert = "INSERT INTO StockInfo.Simulation(Symbol,Timestamp,Heikin_Ashi,Close,Final_Decision,Composite_Key) VALUES('" . $row['atr_stock_id'] . "',
+                        '" . $row['Timestamp'] ."','Hold', '" . $row['Close'] . "','Hold', '" . $row['atr_stock_id'] .  "_" . $row['Timestamp'] . "')";
+                        if ($conn->query($insert) === TRUE){}
+                        else{
+                            //output mysql error if fail, DEV PURPOSE ONLY
+                            //MUST HANDEL ERROR
+                            echo "<br>Error: " . $insert . "<br>" . $conn->error;
+                        }
+                    }
+                }
+                $oldO = $list[0];
+                $oldC = $list[3];
+                //testing echo
+                //echo "INSERT/UPDATE #" . $initial . "<br>";
+                $initial = $initial +1;
+                //the last value for heikin ashi...Buy/sell/hold here
+            }
+        /*initial = 100, SKIP First timestamp
+         *  use first as heikin base case, then next 99 for 99 days, then next symbol
+         *  same oldc and O
+         *  save heikin buy sell
+         * use the date to get rsi value for symbol
+         * save rsi buy sell 
+         * compare to make final decision
+         * save final decisions
+         * back to top
+         *  
+         * */
+        }
+        
+        
+ }
  
- if ($selectResult->num_rows > 0){
- while($row = $selectResult->fetch_assoc()){
- echo "Hello Fam";
- }
- }
- }
- 
- Simulation();
+ //Simulation();
 ?>
