@@ -357,6 +357,62 @@ var chart = AmCharts.makeChart( "chartdiv", {
     }
 }
 
+Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol) {
+    
+    include('../resources/connection.php');
+    
+    echo $initialMoney." ".$numberOfDays." ".$commission." ".$stockSymbol;
+    
+    $finalSellPrice;
+    $stock = 0;
+    $money = $initialMoney;
+    $sql = "SELECT * FROM StockInfo.Simulation WHERE StockInfo.Simulation.Symbol = '".$stockSymbol."' ORDER BY StockInfo.Simulation.Timestamp ASC LIMIT ".$numberOfDays;
+
+    $result = mysqli_query($conn, $sql);
+    if ($result -> num_rows > 0) {
+        echo " Hello";
+        while($row = $result->fetch_assoc()) {
+            
+            echo "</br>".$row['Timestamp']."</br>";
+            echo "  Money = ".$money."</br>";
+            echo "  Stock = ".$stock."</br>";
+
+            //Final Decision is to BUY
+            if ($row['Final_Decision'] == "Buy") {
+                echo "Buy @ ".$row['Close']."</br>";
+                //Have enough money to buy
+                if ($money >= $row['Close']) {
+                    $effectiveRate = (1 + $commission) * $row['Close'];
+                    $stock = $stock + floor($money / $effectiveRate);
+                    $money = $money % $effectiveRate;
+                }
+            }
+
+            //Final Decision is to SELL
+            if ($row['Final_Decision'] == "Sell") {
+                echo "Sell @ ".$row['Close']."</br>";
+                //Own stock to sell
+                if ($stock > 0) {
+                    $effectiveRate = (1 - $commission) * $row['Close'];
+                    $money = $money + ($stock * $effectiveRate);
+                    $stock = 0;
+                }
+            }
+            
+            $finalSellPrice = $row['Close'];
+            
+        }
+    }
+    
+    $effectiveRate = (1 - $commission) * $finalSellPrice;
+    $total = $money + ($stock * $effectiveRate);
+    
+    echo '</br>Number of stocks: '.$stock.'</br>';
+    echo 'Money: '.$money.'</br>';
+    echo 'Total Money if stocks are sold: '.$total.'</br>';
+    
+    return $total;
+}
 
 
 ?>
