@@ -12,6 +12,9 @@
                 	</div>
                 </form>
             </div>
+            <?php
+            if ($_SESSION['is_logged_in']){
+                echo '
             <ul class="nav navbar-top-links navbar-right btn">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -27,5 +30,14 @@
 						</li>
                     </ul>
                 </li>
-            </ul>
+            </ul>';
+            }
+            else {
+                echo '
+            <div class="nav navbar-top-links navbar-right btn" style="margin-top:12px;font-size:16px">
+				<a href="../pages/login.php"><i class="fa fa-sign-in fa-fw"></i> Login</a>
+			</div>';
+            }
+            ?>
+            
      	</nav>

@@ -6,6 +6,7 @@ include ('../resources/logininclude.php');
 <html lang="en">
 
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,7 +18,12 @@ include ('../resources/logininclude.php');
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+    
+    <!-- Graphing Resources, scripts must stay above StockGraph function -->
+    <script src="../graphing/amcharts/amcharts.js"></script>
+	<script src="../graphing/amcharts/serial.js"></script>
+	<script src="../graphing/amcharts/plugins/export/export.min.js"></script>
+    <link rel="stylesheet" href="../graphing/amcharts/plugins/export/export.css" type="text/css" media="all" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -29,12 +35,7 @@ include ('../resources/logininclude.php');
 <body>
     <div id="wrapper" style="min-width:400px">
         <?php
-		if ($_SESSION['is_logged_in']){
-		    include ('../pageelements/loggedinnav.php');
-		}
-		else {
-		    include ('../pageelements/loggedoutnav.php');
-		}
+        include ('../pageelements/navbar.php');
 		?>
         <div id="page-wrapper" style="padding:10px">
             <div class="row-eq-height">

@@ -35,12 +35,7 @@ include ('../resources/logininclude.php');
 <body>
     <div id="wrapper" style="min-height:400px">
         <?php
-		if ($_SESSION['is_logged_in']){
-		    include ('../pageelements/loggedinnav.php');
-		}
-		else {
-		    include ('../pageelements/loggedoutnav.php');
-		}
+        include ('../pageelements/navbar.php');
 		?>
         <div id="page-wrapper" style="padding:10px">
             <div class="row-eq-height">

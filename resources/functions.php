@@ -504,6 +504,15 @@ var chart = AmCharts.makeChart( "chartdiv", {
     }
 }
 
+//This function will output sparkline of chosen stock
+//Assumes graphing resources are included in page above
+Function StockSparkline($StockSymbol){
+    
+    include('connection.php');
+    echo "Hello";
+    
+}
+
 
 Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol) {
     
@@ -546,6 +555,11 @@ Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol)
                     $stock = 0;
                 }
             }
+            
+            if ($row['Final_Decision'] == "Hold") {
+                echo "Hold @ ".$row['Close']."</br>";
+            }
+            
             
             $finalSellPrice = $row['Close'];
             

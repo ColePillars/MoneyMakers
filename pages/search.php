@@ -45,12 +45,7 @@ include ('../resources/logininclude.php');
 <body>
     <div id="wrapper">
         <?php
-		if ($_SESSION['is_logged_in']){
-		    include ('../pageelements/loggedinnav.php');
-		}
-		else {
-		    include ('../pageelements/loggedoutnav.php');
-		}
+        include ('../pageelements/navbar.php');
 		?>
         <div id="page-wrapper">
             <div class="row">
