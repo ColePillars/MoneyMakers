@@ -161,15 +161,14 @@ Function FetchLastTenDaysChart($StockSymbol){
         while($row = $SearchResult->fetch_assoc()) {
             //Skipping the 11th day
             if ($SkipCounter <> 0) {
-
-            //Computing difference between previous day and current day
-            $Difference = round($row['Close'] - $PreviousClose,2);
-            //Computing percent difference between previous day and current day
-            $PDifference = round((($Difference / $PreviousClose) * 100),2) . "%";
+                //Computing difference between previous day and current day
+                $Difference = round($row['Close'] - $PreviousClose,2);
+                //Computing percent difference between previous day and current day
+                $PDifference = round((($Difference / $PreviousClose) * 100),2) . "%";
                 array_push($Output,(string)substr($row['timestamp'], 0, 10));
                 array_push($Output,(string)$row['Close']);
                 array_push($Output,(string)$Difference);
-                array_push($Output,(string)$PDifference);      
+                array_push($Output,(string)$PDifference);
                 //Storing close value for previous day.
                 $PreviousClose = $row['Close'];
             }else{
