@@ -560,7 +560,7 @@ Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol)
     
     include('../resources/connection.php');
     
-    echo $initialMoney." ".$numberOfDays." ".$commission." ".$stockSymbol;
+    //echo $initialMoney." ".$numberOfDays." ".$commission." ".$stockSymbol;
     
     $finalSellPrice;
     $stock = 0;
@@ -569,16 +569,16 @@ Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol)
 
     $result = mysqli_query($conn, $sql);
     if ($result -> num_rows > 0) {
-        echo " Hello";
+        //echo " Hello";
         while($row = $result->fetch_assoc()) {
             
-            echo "</br>".$row['Timestamp']."</br>";
-            echo "  Money = ".$money."</br>";
-            echo "  Stock = ".$stock."</br>";
+            //echo "</br>".$row['Timestamp']."</br>";
+            //echo "  Money = ".$money."</br>";
+            //echo "  Stock = ".$stock."</br>";
 
             //Final Decision is to BUY
             if ($row['Final_Decision'] == "Buy") {
-                echo "Buy @ ".$row['Close']."</br>";
+                //echo "Buy @ ".$row['Close']."</br>";
                 //Have enough money to buy
                 if ($money >= $row['Close']) {
                     $effectiveRate = (1 + $commission) * $row['Close'];
@@ -589,7 +589,7 @@ Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol)
 
             //Final Decision is to SELL
             if ($row['Final_Decision'] == "Sell") {
-                echo "Sell @ ".$row['Close']."</br>";
+                //echo "Sell @ ".$row['Close']."</br>";
                 //Own stock to sell
                 if ($stock > 0) {
                     $effectiveRate = (1 - $commission) * $row['Close'];
@@ -598,10 +598,9 @@ Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol)
                 }
             }
             
-            if ($row['Final_Decision'] == "Hold") {
-                echo "Hold @ ".$row['Close']."</br>";
-            }
-            
+//             if ($row['Final_Decision'] == "Hold") {
+//                 echo "Hold @ ".$row['Close']."</br>";
+//             }
             
             $finalSellPrice = $row['Close'];
             
@@ -610,12 +609,15 @@ Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol)
     
     $effectiveRate = (1 - $commission) * $finalSellPrice;
     $total = $money + ($stock * $effectiveRate);
+    $percent = 100 * (($total / $initialMoney) - 1);
     
-    echo '</br>Number of stocks: '.$stock.'</br>';
-    echo 'Money: '.$money.'</br>';
-    echo 'Total Money if stocks are sold: '.$total.'</br>';
+    //echo '</br>Number of stocks: '.$stock.'</br>';
+    //echo 'Money: '.$money.'</br>';
+    //echo 'Total Money if stocks are sold: '.$total.'</br>';
     
-    return $total;
+    
+    
+    return $percent;
 }
 
 
