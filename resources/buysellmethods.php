@@ -9,7 +9,8 @@ function Two_Period_RSI(){
     session_start();
     include('connection.php');
     $selectRSI = "SELECT atr_stock_id, Timestamp, RSI FROM StockInfo.Technical_Analysis_RSI WHERE Timestamp > (SELECT DISTINCT
-         Timestamp FROM StockInfo.Technical_Analysis_RSI ORDER BY Timestamp DESC LIMIT 1 offset 1) order by atr_stock_id ASC, Timestamp ASC";
+         Timestamp FROM StockInfo.Technical_Analysis_RSI ORDER BY Timestamp DESC LIMIT 1 offset 1) 
+        AND atr_stock_id IN (SELECT DISTINCT atr_stock_id FROM UserCredentials.tbl_stock_subs) order by atr_stock_id ASC, Timestamp ASC";
     $selectRSIResult = mysqli_query($conn, $selectRSI);
     
     if($selectRSIResult->num_rows > 0){
@@ -100,7 +101,8 @@ function Heikin_Ashi(){
     }
 //Select open, high, low, close, from time_Series_daily where (last 11 time_stamps) for each distinct symbol
     $select = "SELECT atr_stock_id, Timestamp, Open, High, Low, Close FROM StockInfo.Time_Series_Daily WHERE Timestamp > (SELECT DISTINCT
-         Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 11) order by atr_stock_id ASC, Timestamp ASC";
+         Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 11)
+    AND atr_stock_id IN (SELECT DISTINCT atr_stock_id FROM UserCredentials.tbl_stock_subs) order by atr_stock_id ASC, Timestamp ASC";
     $selectResult = mysqli_query($conn, $select);
     
     $initial = 11;
@@ -275,7 +277,8 @@ function Simulation(){
     //$selectRSIResult = mysqli_query($conn, $selectRSI);
  
     $select = "SELECT atr_stock_id, Timestamp, Open, High, Low, Close FROM StockInfo.Time_Series_Daily WHERE Timestamp > (SELECT DISTINCT
-        Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 100) order by atr_stock_id ASC, Timestamp ASC";
+         Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 100)
+        AND atr_stock_id IN (SELECT DISTINCT atr_stock_id FROM UserCredentials.tbl_stock_subs) order by atr_stock_id ASC, Timestamp ASC";
     $selectResult = mysqli_query($conn, $select);
     
     //$rsi = "";
