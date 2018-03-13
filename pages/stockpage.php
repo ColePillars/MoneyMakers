@@ -74,21 +74,7 @@ include ('../resources/logininclude.php');
                                     </div>
                                     <div style="margin-bottom:6px">
                                     <?php 
-                                        include('../resources/connection.php');
-                                        $GetStockName = "SELECT Name FROM StockInfo.Stock_Symbol_Index WHERE Symbol = '" .  $_GET['Symbol'] . "';";
-                                        $SearchResult = mysqli_query($conn, $GetStockName);
-                                        if ($SearchResult->num_rows > 0){
-                                            while($row = $SearchResult->fetch_assoc()) {
-                                                $GLOBALS['StockFullName'] = $row['Name'];
-                                                echo $row['Name'];
-                                            }
-                                        }
-                                        else{
-                                            //if no results, push user to another page
-                                            $_SESSION['InvalidStockMessage'] = " - " . $_GET['Symbol'] . " is an invalid stock";
-                                            header('Location: search.php');
-                                            exit();
-                                        }
+                                    echo $_GET['Symbol'];
                                     ?>
                                     </div>
                                 </div>
@@ -136,10 +122,12 @@ include ('../resources/logininclude.php');
                                     ?>
                                 </div>
                                 <div class="tab-pane fade" id="simulation-pills">
+                                <h3 class='alert alert-info' style='margin-top:3px;margin-bottom:3px;font-size:28px;text-align:center'>
                                 	<?php 
                                 	   $var = PotentialGains(1000, 100, 0, $_GET['Symbol']);
                                 	   echo $var;
-                                	?>
+
+                                	?> %</h3>
                                 </div>
                             </div>
                         </div>
