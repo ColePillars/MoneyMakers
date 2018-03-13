@@ -101,6 +101,9 @@ include ('../resources/logininclude.php');
                           
                                 <li><a href="#details-pills" data-toggle="tab">Details</a>
                                 </li>
+                                
+                                <li><a href="#simulation-pills" data-toggle="tab">Sim</a>
+                                </li>
                                 <?php 
                                     include('../resources/functions.php');
                                     //Showing the sub/unsub button
@@ -131,6 +134,12 @@ include ('../resources/logininclude.php');
                                     <?php 
                                         ShowCompanyInformation($_GET['Symbol']);
                                     ?>
+                                </div>
+                                <div class="tab-pane fade" id="simulation-pills">
+                                	<?php 
+                                	   $var = PotentialGains(1000, 100, 0, $_GET['Symbol']);
+                                	   echo $var;
+                                	?>
                                 </div>
                             </div>
                         </div>
