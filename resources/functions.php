@@ -578,18 +578,23 @@ Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol)
 
             //Final Decision is to BUY
             if ($row['Final_Decision'] == "Buy") {
-                //echo "Buy @ ".$row['Close']."</br>";
+//                 echo "Buy @ ".$row['Close']."</br>";
                 //Have enough money to buy
                 if ($money >= $row['Close']) {
                     $effectiveRate = (1 + $commission) * $row['Close'];
-                    $stock = $stock + floor($money / $effectiveRate);
-                    $money = $money % $effectiveRate;
+                    $tempStock = floor($money / $effectiveRate);
+                    $money = $money - ($tempStock * $effectiveRate);
+                    $stock = $stock + $tempStock;
+                    
+//                     echo $effectiveRate."   ";
+//                     echo $stock."   ";
+//                     echo $money."</br>";
                 }
             }
 
             //Final Decision is to SELL
             if ($row['Final_Decision'] == "Sell") {
-                //echo "Sell @ ".$row['Close']."</br>";
+//                 echo "Sell @ ".$row['Close']."</br>";
                 //Own stock to sell
                 if ($stock > 0) {
                     $effectiveRate = (1 - $commission) * $row['Close'];
@@ -604,6 +609,9 @@ Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol)
             
             $finalSellPrice = $row['Close'];
             
+//             echo "  Money = ".$money."</br>";
+//             echo "  Stock = ".$stock."</br>";
+            
         }
     }
     
@@ -611,9 +619,9 @@ Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol)
     $total = $money + ($stock * $effectiveRate);
     $percent = 100 * (($total / $initialMoney) - 1);
     
-    //echo '</br>Number of stocks: '.$stock.'</br>';
-    //echo 'Money: '.$money.'</br>';
-    //echo 'Total Money if stocks are sold: '.$total.'</br>';
+//     echo '</br>Number of stocks: '.$stock.'</br>';
+//     echo 'Money: '.$money.'</br>';
+//     echo 'Total Money if stocks are sold: '.$total.'</br>';
     
     
     
