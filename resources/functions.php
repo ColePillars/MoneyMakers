@@ -774,6 +774,60 @@ Function ShowRssFeedNews($Topic){
     
     
 }
+Function ShowSubbedStocks()
+{
+    include ('connection.php');
+    $GetSubbedStocksSQL = "    SELECT  c.atr_stock_id, c.Close, c.Timestamp, n.Name, ROUND((c.Close  - y.Close), 2) as 'Change', ROUND((((c.Close / y.Close)  -1 ) * 100),2) as 'ClosePercentChange'
+    FROM StockInfo.Time_Series_Daily as c
+    INNER JOIN
+    (
+    	SELECT atr_stock_id, timestamp, Close
+    	FROM StockInfo.Time_Series_Daily
+    	WHERE Timestamp = (SELECT DISTINCT Timestamp from StockInfo.Time_Series_Daily
+        ORDER BY Timestamp DESC LIMIT 1 OFFSET 1)
+    ) as y on c.atr_stock_id = y.atr_stock_id
+	INNER JOIN
+	(
+		SELECT DISTINCT atr_stock_id
+		FROM UserCredentials.tbl_stock_subs
+		WHERE atr_username = '" . $_SESSION['username'] . "'
+	) as s on c.atr_stock_id= s.atr_stock_id
+    INNER JOIN StockInfo.Stock_Symbol_Index as n ON c.atr_stock_id = n.Symbol
+    WHERE c.Timestamp = (SELECT DISTINCT Timestamp from StockInfo.Time_Series_Daily order by Timestamp DESC LIMIT 1 )
+    ORDER BY ClosePercentChange;";
+    
+    $GetSubbedStocksResults = mysqli_query($conn, $GetSubbedStocksSQL);
+    if ($GetSubbedStocksResults->num_rows > 0) {
+        
+        while ($row = $GetSubbedStocksResults->fetch_assoc()) {
+            echo "
+            <div class='panel panel-default' style='margin-bottom:10px'>
+                <a href='stockpage.php?Symbol=" . $row['atr_stock_id'] . "'>
+                    <div style='width: 90%' class='panel-heading'>
+                        <div class='row'>
+                            <div class='col-xs-4'>
+                                <i class='fa fa-bar-chart fa-4x' style='margin-top: 32px; display: block; text-align: center'></i>
+    	                    </div>
+    	                    <div class='col-xs-8' style='padding-left: 10%'>
+                                <div class='h5'><b>" . $row['Name'] . "</b>
+                                </div>
+                                <div style='font-size:90%';>
+                                    Price ($): " . $row['Close'] . "
+                                </div>
+                                <div style='font-size:90%';>
+                                    Change: " . $row['Change'] . "
+                                </div>
+                                <div style='margin-bottom: 3px; font-size:90%'>
+                                    Percent: " . $row['ClosePercentChange'] . "
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+		    </div>";
+        }
+    }
+}
 
 
 

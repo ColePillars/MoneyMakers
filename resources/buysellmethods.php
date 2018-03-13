@@ -273,6 +273,4 @@ function Simulation(){
  }
  }
  }
- 
- Simulation();
 ?>
