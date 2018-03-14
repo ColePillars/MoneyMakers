@@ -23,6 +23,8 @@ Heikin_Ashi();
 //Make final buy/sell choice
 Final_Decision();
 
+Simulation();
+
 //push user back to their stock page
 header('Location: ../pages/stockpage.php?Symbol=' . $_POST['Symbol']);
 exit();
