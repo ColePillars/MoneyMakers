@@ -480,6 +480,4 @@ function Simulation(){
         //echo $rsi[1] . "<br>";
         //echo $heikin[1] . "<br>";*/
  }
- 
- Simulation();
 ?>

@@ -143,7 +143,7 @@ Function FetchLastTenDaysChart($StockSymbol){
     $SkipCounter = 0;
     $Output = array();
     //Query to show the last 11days of close prices
-    $ShowLastTenSQL = "SELECT atr_Stock_id, timestamp, Open, High, Low, Close FROM StockInfo.Time_Series_Daily WHERE Timestamp >
+    $ShowLastTenSQL = "SELECT atr_Stock_id, DATE_FORMAT(timestamp, '%m-%d-%y') as 'timestamp', Open, High, Low, Close FROM StockInfo.Time_Series_Daily WHERE Timestamp >
 (SELECT DISTINCT Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 11) AND atr_Stock_id = '" . $StockSymbol . "'
  order by atr_stock_id ASC, Timestamp ASC";
     $SearchResult = mysqli_query($conn, $ShowLastTenSQL);
@@ -152,7 +152,7 @@ Function FetchLastTenDaysChart($StockSymbol){
                 <thead>
                     <tr>
                         <th>Date</th>
-                        <th>Price</th>
+                        <th>Price ($)</th>
                         <th>Change</th>
                         <th>Percent</th>
                     </tr>
@@ -216,7 +216,7 @@ Function ShowMostGains(){
     
     //Query to show most gain
     $ShowMostGainsSQL = "
-    SELECT  c.atr_stock_id, c.Close, c.Timestamp, (c.Close  - y.Close) as 'Change', (((c.Close / y.Close)  -1 ) * 100) as 'ClosePercentChange'
+    SELECT  c.atr_stock_id, c.Close, c.Timestamp, (c.Close  - y.Close) as 'Change', ROUND((((c.Close / y.Close)  -1 ) * 100),2) as 'ClosePercentChange'
     FROM StockInfo.Time_Series_Daily as c
     INNER JOIN
     (
@@ -236,9 +236,9 @@ Function ShowMostGains(){
                 <thead>
                     <tr>
                         <th>Stock</th>
-                        <th>Price</th>
+                        <th>Price ($)</th>
                         <th>Change</th>
-                        <th>Change (%)</th>
+                        <th>Percent</th>
                     </tr>
                 </thead>
                 <tbody>";
@@ -246,11 +246,25 @@ Function ShowMostGains(){
             echo "
             <tr>
             <td>"  . $row['atr_stock_id'] . "</td>
-            <td>"  . $row['Close'] . "</td>
-            <td>"  . $row['Change'] . "</td>
-            <td>"  . $row['ClosePercentChange'] . "</td>
-            </tr>";
-                
+            <td>"  . $row['Close'] . "</td>";
+            if ($row['Change']> 0) {
+                echo"
+                    <td style='color:#28a745'>"  . $row['Change'].  "</td>
+                    <td style='color:#28a745'> <i class='fa fa-lg fa-caret-up'> </i> "  . $row['ClosePercentChange'].  "% </td>
+                    </tr>";
+            }
+            elseif ($row['Change']< 0) {
+                echo"
+                    <td style='color:#dc3545'>"  . $row['Change'].  "</td>
+                    <td style='color:#dc3545'> <i class='fa fa-lg fa-caret-down'> </i> "  . $row['ClosePercentChange'].  "% </td>
+                    </tr>";
+            }
+            elseif ($row['Change']== 0) {
+                echo"
+                    <td style='color:#337ab7'>"  . $row['Change'].  "</td>
+                    <td style='color:#337ab7'> <i class='fa fa-lg fa-minus'> </i> "  . $row['ClosePercentChange'].  "% </td>
+                    </tr>";
+            }
             //Counter to skip the 11th day
             $SkipCounter = $SkipCounter  +1;
         }
@@ -271,7 +285,7 @@ Function ShowMostLosses(){
     
     //Query to show most gain
     $ShowMostLossesSQL = "
-    SELECT  c.atr_stock_id, c.Close, c.Timestamp, (c.Close  - y.Close) as 'Change', (((c.Close / y.Close)  -1 ) * 100) as 'ClosePercentChange'
+    SELECT  c.atr_stock_id, c.Close, c.Timestamp, (c.Close  - y.Close) as 'Change', ROUND((((c.Close / y.Close)  -1 ) * 100),2) as 'ClosePercentChange'
     FROM StockInfo.Time_Series_Daily as c
     INNER JOIN
     (
@@ -291,9 +305,9 @@ Function ShowMostLosses(){
                                             <thead>
                                                 <tr>
                                                     <th>Stock</th>
-                                                    <th>Price</th>
+                                                    <th>Price ($)</th>
                                                     <th>Change</th>
-                                                    <th>Change (%)</th>
+                                                    <th>Percent</th>
                                                 </tr>
                                             </thead>
                                             <tbody>";
@@ -301,11 +315,25 @@ Function ShowMostLosses(){
             echo "
             <tr>
             <td>"  . $row['atr_stock_id'] . "</td>
-            <td>"  . $row['Close'] . "</td>
-            <td>"  . $row['Change'] . "</td>
-            <td>"  . $row['ClosePercentChange'] . "</td>
-            </tr>";
-            
+            <td>"  . $row['Close'] . "</td>";
+            if ($row['Change']> 0) {
+                echo"
+                    <td style='color:#28a745'>"  . $row['Change'].  "</td>
+                    <td style='color:#28a745'> <i class='fa fa-lg fa-caret-up'> </i> "  . $row['ClosePercentChange'].  "% </td>
+                    </tr>";
+            }
+            elseif ($row['Change']< 0) {
+                echo"
+                    <td style='color:#dc3545'>"  . $row['Change'].  "</td>
+                    <td style='color:#dc3545'> <i class='fa fa-lg fa-caret-down'> </i> "  . $row['ClosePercentChange'].  "% </td>
+                    </tr>";
+            }
+            elseif ($row['Change']== 0) {
+                echo"
+                    <td style='color:#337ab7'>"  . $row['Change'].  "</td>
+                    <td style='color:#337ab7'> <i class='fa fa-lg fa-minus'> </i> "  . $row['ClosePercentChange'].  "</td>
+                    </tr>";
+            }
             //Counter to skip the 11th day
             $SkipCounter = $SkipCounter  +1;
         }
@@ -330,7 +358,7 @@ Function ShowMostMoving(){
     //Query to show most gain
     $ShowMostMovingSQL = "
 
-    SELECT  c.atr_stock_id, c.Volume, c.Timestamp, (c.Volume  - y.Volume) as 'Change', (((c.Volume / y.Volume)  -1 ) * 100) as 'VolumePercentChange'
+    SELECT  c.atr_stock_id, ROUND((c.Volume/1000000),2) as 'Volume', c.Timestamp, ROUND(((c.Volume  - y.Volume)/1000000),2) as 'Change', ROUND((((c.Volume / y.Volume)  -1 ) * 100)/1000,2) as 'VolumePercentChange'
     FROM StockInfo.Time_Series_Daily as c
     INNER JOIN
     (
@@ -358,7 +386,7 @@ Function ShowMostMoving(){
                                                     <th>Stock</th>
                                                     <th>Volume</th>
                                                     <th>Change</th>
-                                                    <th>Change (%)</th>
+                                                    <th>Percent</th>
                                                 </tr>
                                             </thead>
                                             <tbody>";
@@ -366,11 +394,25 @@ Function ShowMostMoving(){
             echo "
             <tr>
             <td>"  . $row['atr_stock_id'] . "</td>
-            <td>"  . $row['Volume'] . "</td>
-            <td>"  . $row['Change'] . "</td>
-            <td>"  . $row['VolumePercentChange'] . "</td>
-            </tr>";
-            
+            <td>"  . $row['Volume'] . " M </td>";
+            if ($row['Change']> 0) {
+                echo"
+                    <td style='color:#337ab7'>"  . $row['Change'].  " M </td>
+                    <td style='color:#337ab7'> <i class='fa fa-lg fa-caret-up'> </i> "  . $row['VolumePercentChange'].  " K </td>
+                    </tr>";
+            }
+            elseif ($row['Change']< 0) {
+                echo"
+                    <td style='color:#337ab7'>"  . $row['Change'].  " M </td>
+                    <td style='color:#337ab7'> <i class='fa fa-lg fa-caret-down'> </i> "  . $row['VolumeePercentChange'].  " K </td>
+                    </tr>";
+            }
+            elseif ($row['Change']== 0) {
+                echo"
+                    <td style='color:#337ab7'>"  . $row['Change'].  " M </td>
+                    <td style='color:#337ab7'> <i class='fa fa-lg fa-minus'> </i> "  . $row['VolumePercentChange'].  " K </td>
+                    </tr>";
+            }
             //Counter to skip the 11th day
             $SkipCounter = $SkipCounter  +1;
         }
@@ -504,6 +546,89 @@ var chart = AmCharts.makeChart( "chartdiv", {
     }
 }
 
+//This function will output sparkline of chosen stock
+//Assumes graphing resources are included in page above
+Function StockSparkline($StockSymbol){
+    
+    include('connection.php');
+    echo "Hello";
+    
+}
+
+
+Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol) {
+    
+    include('../resources/connection.php');
+    
+    //echo $initialMoney." ".$numberOfDays." ".$commission." ".$stockSymbol;
+    
+    $finalSellPrice;
+    $stock = 0;
+    $money = $initialMoney;
+    $sql = "SELECT * FROM StockInfo.Simulation WHERE StockInfo.Simulation.Symbol = '".$stockSymbol."' ORDER BY StockInfo.Simulation.Timestamp ASC LIMIT ".$numberOfDays;
+
+    $result = mysqli_query($conn, $sql);
+    if ($result -> num_rows > 0) {
+        //echo " Hello";
+        while($row = $result->fetch_assoc()) {
+            
+            //echo "</br>".$row['Timestamp']."</br>";
+            //echo "  Money = ".$money."</br>";
+            //echo "  Stock = ".$stock."</br>";
+
+            //Final Decision is to BUY
+            if ($row['Final_Decision'] == "Buy") {
+//                 echo "Buy @ ".$row['Close']."</br>";
+                //Have enough money to buy
+                if ($money >= $row['Close']) {
+                    $effectiveRate = (1 + $commission) * $row['Close'];
+                    $tempStock = floor($money / $effectiveRate);
+                    $money = $money - ($tempStock * $effectiveRate);
+                    $stock = $stock + $tempStock;
+                    
+//                     echo $effectiveRate."   ";
+//                     echo $stock."   ";
+//                     echo $money."</br>";
+                }
+            }
+
+            //Final Decision is to SELL
+            if ($row['Final_Decision'] == "Sell") {
+//                 echo "Sell @ ".$row['Close']."</br>";
+                //Own stock to sell
+                if ($stock > 0) {
+                    $effectiveRate = (1 - $commission) * $row['Close'];
+                    $money = $money + ($stock * $effectiveRate);
+                    $stock = 0;
+                }
+            }
+            
+//             if ($row['Final_Decision'] == "Hold") {
+//                 echo "Hold @ ".$row['Close']."</br>";
+//             }
+            
+            $finalSellPrice = $row['Close'];
+            
+//             echo "  Money = ".$money."</br>";
+//             echo "  Stock = ".$stock."</br>";
+            
+        }
+    }
+    
+    $effectiveRate = (1 - $commission) * $finalSellPrice;
+    $total = $money + ($stock * $effectiveRate);
+    $percent = 100 * (($total / $initialMoney) - 1);
+    
+//     echo '</br>Number of stocks: '.$stock.'</br>';
+//     echo 'Money: '.$money.'</br>';
+//     echo 'Total Money if stocks are sold: '.$total.'</br>';
+    
+    
+    
+    return $percent;
+}
+
+
 //this function will determine what button to output for the sub/unsub button
 Function ShowSubUnsubIcon(){
 
@@ -515,14 +640,16 @@ Function ShowSubUnsubIcon(){
     if ($CheckSubResults->num_rows > 0){
 
         echo "
-           <button type='button' class='btn btn-danger btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-star fa-lg'></i>
+           <button type='button' class='btn btn-primary btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-minus fa-lg'></i>
             </button>
+           <i class='btn-success btn-xs pull-left' style='margin-top:10px;margin-right:6px;margin-left:12px'> <i class='fa fa-check'></i>
+            </i>
             <div class='modal fade' id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>
 
                 <div class='modal-dialog'>
                     <div class='modal-content'>
                         <div class='modal-header'>
-                            <h3 class='modal-title' id='myModalLabel'>UnSubscribe to stock</h3>
+                            <h3 class='modal-title' id='myModalLabel'>Unsubscribe from stock</h3>
                         </div>
                         <div class='modal-body'>
                             This stock will be removed from 'My Subs' on your homepage
@@ -547,7 +674,7 @@ Function ShowSubUnsubIcon(){
         
         echo "
 
-               <button type='button' class='btn btn-success btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-star fa-lg'></i>
+               <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-plus fa-lg'></i>
                 </button>
                 <div class='modal fade' id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>
 
@@ -564,18 +691,19 @@ Function ShowSubUnsubIcon(){
                             	<input type='hidden' name='Symbol' value = '"  . $_GET['Symbol'] . "'>
                             </form>
                                 <button type='button' class='btn btn-default' data-dismiss='modal'>Cancel</button>
-                                <button type='submit'class='btn btn-success'  form='form1' Value='Sumbit'>Okay</button>
+                                <button type='submit'class='btn btn-success'  form='form1' Value='Submit'>Okay</button>
                             </div>
                         </div>
                     </div>
                 </div><br>
-                <label>This information may be outdated, subscribe to update.</label>";
+                <br><h3 class='alert alert-info' style='margin-top:18px;margin-bottom:6px;font-size:12px;text-align:center'>
+                This information may be outdated. Subscribe to update.</h3>";
     }
 
      else{
         //at this point we dont hold stock info for this item, which means the user isnt subbed     
          echo "
-                  <button type='button' class='btn btn-success btn-circle btn-l pull-right'  style='margin-top:6px'><i class='fa fa-star fa-lg'></i>
+                  <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right'  style='margin-top:6px'><i class='fa fa-refresh fa-spin fa-lg'></i>
                 </button>
                    <div   id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='
                        height: 300px;
@@ -590,7 +718,7 @@ Function ShowSubUnsubIcon(){
                                 <h3 class='modal-title' id='myModalLabel'>Subscribe to stock</h3>
                             </div>
                             <div class='modal-body'>
-                                  Subscribe to this stock to view detailed information.
+                                  Subscribe to this stock to view detailed information?
                             </div>
                             <div class='modal-footer'>
                               <form action='../resources/subtostock.php' method='POST' id='form1'>
@@ -607,6 +735,7 @@ Function ShowSubUnsubIcon(){
     }   
 }
 
+
 Function ShowCompanyInformation($Symbol){
 
  include('connection.php');
@@ -617,8 +746,8 @@ Function ShowCompanyInformation($Symbol){
  if ($FetchStockMetaResults->num_rows > 0){
      
      while($row = $FetchStockMetaResults->fetch_assoc()) {
-         echo "<p>Industry: " . $row['Industry'] . "</p>";
-         echo "<p>Sector: " . $row['Sector'] . "</p>";
+         echo "<p style='font-size:12px'><b style='font-weight:bold'>Industry: </b>" . $row['Industry'] . "</p>";
+         echo "<p style='font-size:12px'><b style='font-weight:bold'>Sector: </b>" . $row['Sector'] . "</p>";
      }    
  } 
 }
@@ -654,6 +783,60 @@ Function ShowRssFeedNews($Topic){
     
     
     
+}
+Function ShowSubbedStocks()
+{
+    include ('connection.php');
+    $GetSubbedStocksSQL = "    SELECT  c.atr_stock_id, c.Close, c.Timestamp, n.Name, ROUND((c.Close  - y.Close), 2) as 'Change', ROUND((((c.Close / y.Close)  -1 ) * 100),2) as 'ClosePercentChange'
+    FROM StockInfo.Time_Series_Daily as c
+    INNER JOIN
+    (
+    	SELECT atr_stock_id, timestamp, Close
+    	FROM StockInfo.Time_Series_Daily
+    	WHERE Timestamp = (SELECT DISTINCT Timestamp from StockInfo.Time_Series_Daily
+        ORDER BY Timestamp DESC LIMIT 1 OFFSET 1)
+    ) as y on c.atr_stock_id = y.atr_stock_id
+	INNER JOIN
+	(
+		SELECT DISTINCT atr_stock_id
+		FROM UserCredentials.tbl_stock_subs
+		WHERE atr_username = '" . $_SESSION['username'] . "'
+	) as s on c.atr_stock_id= s.atr_stock_id
+    INNER JOIN StockInfo.Stock_Symbol_Index as n ON c.atr_stock_id = n.Symbol
+    WHERE c.Timestamp = (SELECT DISTINCT Timestamp from StockInfo.Time_Series_Daily order by Timestamp DESC LIMIT 1 )
+    ORDER BY ClosePercentChange;";
+    
+    $GetSubbedStocksResults = mysqli_query($conn, $GetSubbedStocksSQL);
+    if ($GetSubbedStocksResults->num_rows > 0) {
+        
+        while ($row = $GetSubbedStocksResults->fetch_assoc()) {
+            echo "
+            <div class='panel panel-default' style='margin-bottom:10px'>
+                <a href='stockpage.php?Symbol=" . $row['atr_stock_id'] . "'>
+                    <div style='width: 90%' class='panel-heading'>
+                        <div class='row'>
+                            <div class='col-xs-4'>
+                                <i class='fa fa-bar-chart fa-4x' style='margin-top: 32px; display: block; text-align: center'></i>
+    	                    </div>
+    	                    <div class='col-xs-8' style='padding-left: 10%'>
+                                <div class='h5'><b>" . $row['Name'] . "</b>
+                                </div>
+                                <div style='font-size:90%';>
+                                    Price ($): " . $row['Close'] . "
+                                </div>
+                                <div style='font-size:90%';>
+                                    Change: " . $row['Change'] . "
+                                </div>
+                                <div style='margin-bottom: 3px; font-size:90%'>
+                                    Percent: " . $row['ClosePercentChange'] . "
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+		    </div>";
+        }
+    }
 }
 
 

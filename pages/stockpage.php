@@ -1,12 +1,12 @@
 <?php
-include ('logininclude.php');
+include ('../resources/logininclude.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
+	<link rel="icon" href="../resources/mm_favicon.png.ico">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,41 +34,10 @@ include ('logininclude.php');
 
 <body>
     <div id="wrapper" style="min-height:400px">
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div>
-                <a href="index.php"><img class="navbar-left" style="max-width:175px;padding:6px" src="../resources/mm_logo.png" </img>
-                </a>
-                </div>
-            <div class="col-md-3">
-            	<form action="search.php" role="form" method="POST">	
-                	<div class="form-group input-group" style="margin-top:16px;max-width:400px">
-                    	<input type="text" class="form-control"  name="SearchString" id="SearchString" placeholder="Search stocks">
-                    	<span class="input-group-btn">
-                        	<button class="btn btn-info btn" type="submit"><i class="fa fa-search"></i>
-                        	</button>
-                    	</span>
-                	</div>
-                </form>
-            </div>
-            <div class="col-lg-6">
-            </div>
-            <?php
-			session_start();
-			if ($_SESSION['is_logged_in']){
-		    include ('../resources/loggedinnav.php');
-			//echo "test";
-			}
-			else {
-			    echo "
-						<div class='nav navbar-top-links navbar-right btn-lg' style='margin-top:12px;font-size:16px'>
-							<a href='login.php'><i class='fa fa-sign-in fa-fw'></i> Login</a>
-						</div>
-				";
-			}
-			
-			?>
-        </nav>
-        <div id="page-wrapper" style="padding:10px">
+        <?php
+        include ('../pageelements/navbar.php');
+		?>
+        <div id="page-wrapper" style="padding:10px;min-height:900px">
             <div class="row-eq-height">
                 <div class="col-lg-12">
                     <h1></h1>
@@ -81,10 +50,10 @@ include ('logininclude.php');
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-4">
-                                    <i class="fa fa-bar-chart fa-5x" style="margin-top:32px;display:block;text-align:center"></i>
+                                    <i class="fa fa-bar-chart fa-5x" style="margin-top:22px;display:block;text-align:center"></i>
                                 </div>
                                 <div class="col-xs-8">
-                                    <div class="h3">
+                                    <div class="h4">
                                     <?php 
                                         include('../resources/connection.php');
                                         $GetStockName = "SELECT Name FROM StockInfo.Stock_Symbol_Index WHERE Symbol = '" .  $_GET['Symbol'] . "';";
@@ -103,7 +72,11 @@ include ('logininclude.php');
                                         }
                                     ?>
                                     </div>
-                                    <div style="margin-bottom:6px">Stock percent change</div>
+                                    <div style="margin-bottom:6px">
+                                    <?php 
+                                    echo $_GET['Symbol'];
+                                    ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -113,6 +86,9 @@ include ('logininclude.php');
                                 </li>
                           
                                 <li><a href="#details-pills" data-toggle="tab">Details</a>
+                                </li>
+                                
+                                <li><a href="#simulation-pills" data-toggle="tab">Sim</a>
                                 </li>
                                 <?php 
                                     include('../resources/functions.php');
@@ -127,7 +103,7 @@ include ('logininclude.php');
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" id="status-pills">
                                     <!--<h4>Status</h4>-->
-                                    <p><center style="font-size:28px"><?php
+                                    <h3 class='alert alert-warning' style='margin-top:3px;margin-bottom:3px;font-size:28px;text-align:center'><?php
                                         include('../resources/connection.php');
                                         $status = "SELECT Final_Decision FROM StockInfo.Buy_Sell_Hold WHERE Symbol = '" .  $_GET['Symbol'] . "';";
                                         $statusResult = mysqli_query($conn, $status);
@@ -137,16 +113,21 @@ include ('logininclude.php');
                                             }
                                         }
                                         else{
-                                            //echo "Advise on whether you should buy or sell right now";
-                                        }?></center></p>
+                                        }?></h3>
                                 </div>
          
                                 <div class="tab-pane fade" id="details-pills">
-                                    <h3>Details:</h3>
                                     <?php 
                                         ShowCompanyInformation($_GET['Symbol']);
                                     ?>
+                                </div>
+                                <div class="tab-pane fade" id="simulation-pills">
+                                <h3 class='alert alert-info' style='margin-top:3px;margin-bottom:3px;font-size:28px;text-align:center'>
+                                	<?php 
+                                	   $var = PotentialGains(1000, 100, 0, $_GET['Symbol']);
+                                	   echo $var;
 
+                                	?> %</h3>
                                 </div>
                             </div>
                         </div>
