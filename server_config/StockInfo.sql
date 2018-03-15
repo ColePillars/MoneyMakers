@@ -145,3 +145,16 @@ CREATE TABLE `Buy_Sell_Hold` (
   `Final_Decision` enum('Buy','Sell','Hold') COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+--
+-- Table structure for table `Simulation`
+--
+
+CREATE TABLE `Simulation` (
+  `Symbol` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `Timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Close` decimal(10,3) NOT NULL,
+  `Final_Decision` enum('Buy','Sell','Hold') COLLATE utf8_bin NOT NULL,
+  `Composite_Key` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+
