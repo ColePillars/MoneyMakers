@@ -551,7 +551,83 @@ var chart = AmCharts.makeChart( "chartdiv", {
 Function StockSparkline($StockSymbol){
     
     include('connection.php');
-    echo "Hello";
+    
+    $sql = "SELECT * FROM StockInfo.Time_Series_Daily WHERE StockInfo.Time_Series_Daily.atr_stock_id ='".$StockSymbol."' ORDER BY Time_Series_Daily.Timestamp ASC LIMIT 10";
+    $result = mysqli_query($conn, $sql);
+    
+    if ($result -> num_rows > 0) {
+        
+        //Chartdiv style
+        echo '
+<style>
+#chartdiv {
+    width: 100%;
+    height: 500px;
+}
+</style>
+        ';
+        
+        //1st half of chart script
+        echo '
+<script>
+AmCharts.makeChart( "'.$StockSymbol.'Graph", {
+    "type": "serial",
+    "theme": "light",
+
+    "dataProvider": [ {
+        ';
+        
+        //Stock data
+        $var = 1;
+        while($row = $result->fetch_assoc()) {
+            if ($var == 1) {
+                echo '"day": '.$var.',';
+                echo '"value": '.$row['Close'];
+            }
+            else {
+                echo '}, {';
+                echo '"day": '.$var.',';
+                echo '"value": '.$row['Close'];
+            }
+            $var++;
+        }
+        echo '} ],';
+        
+        //2nd-half of chart script
+        echo '
+    "categoryField": "day",
+    "autoMargins": false,
+    "marginLeft": 0,
+    "marginRight": 5,
+    "marginTop": 0,
+    "marginBottom": 0,
+    "graphs": [ {
+        "valueField": "value",
+        "bulletField": "bullet",
+        "showBalloon": false,
+        "lineColor": "#a9ec49"
+    } ],
+    "valueAxes": [ {
+        "gridAlpha": 0,
+        "axisAlpha": 0
+    } ],
+    "categoryAxis": {
+        "gridAlpha": 0,
+        "axisAlpha": 0,
+        "startOnAxis": true
+    }
+} );
+</script>
+        ';
+        
+        //Chart Div
+        echo '
+<div class="chart-block" style="display: block; margin-left: auto;margin-right: auto;">
+    <div id="'.$StockSymbol.'Graph" style="vertical-align: middle; display: inline-block; width: 100%; height: 50px;"></div>
+</div>
+        ';
+        
+    }
     
 }
 
@@ -813,11 +889,16 @@ Function ShowSubbedStocks()
             echo "
             <div class='panel panel-default' style='margin-bottom:10px'>
                 <a href='stockpage.php?Symbol=" . $row['atr_stock_id'] . "'>
-                    <div style='width: 90%' class='panel-heading'>
-                        <div class='row'>
-                            <div class='col-xs-4'>
-                                <i class='fa fa-bar-chart fa-4x' style='margin-top: 32px; display: block; text-align: center'></i>
-    	                    </div>
+                    <div style='width: 100%' class='panel-heading'>
+                        <div class='row'>";
+            
+//                             <div class='col-xs-4'>
+//                                 <i class='fa fa-bar-chart fa-4x' style='margin-top: 32px; display: block; text-align: center'></i>
+//                             </div>
+                            
+            StockSparkline($row['atr_stock_id']);
+                            
+            echo "
     	                    <div class='col-xs-8' style='padding-left: 10%'>
                                 <div class='h5'><b>" . $row['Name'] . "</b>
                                 </div>
