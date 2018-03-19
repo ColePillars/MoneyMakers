@@ -9,7 +9,7 @@ function Two_Period_RSI(){
     session_start();
     include('connection.php');
     $selectRSI = "SELECT atr_stock_id, Timestamp, RSI FROM StockInfo.Technical_Analysis_RSI WHERE Timestamp > (SELECT DISTINCT
-         Timestamp FROM StockInfo.Technical_Analysis_RSI ORDER BY Timestamp DESC LIMIT 1 offset 4) order by atr_stock_id ASC, Timestamp ASC";
+         Timestamp FROM StockInfo.Technical_Analysis_RSI ORDER BY Timestamp DESC LIMIT 1 offset 1) order by atr_stock_id ASC, Timestamp ASC";
     $selectRSIResult = mysqli_query($conn, $selectRSI);
     
     if($selectRSIResult->num_rows > 0){
@@ -257,4 +257,20 @@ function Final_Decision(){
         }
     }
 }
+
+function Simulation(){
+ session_start();
+ include('connection.php');
+ 
+ $select = "SELECT atr_stock_id, Timestamp, Open, High, Low, Close FROM StockInfo.Time_Series_Daily WHERE Timestamp > (SELECT DISTINCT
+ Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 100) order by atr_stock_id ASC, Timestamp ASC";
+ $selectResult = mysqli_query($conn, $select);
+ echo "hello";
+ 
+ if ($selectResult->num_rows > 0){
+ while($row = $selectResult->fetch_assoc()){
+ echo "Hello Fam";
+ }
+ }
+ }
 ?>
