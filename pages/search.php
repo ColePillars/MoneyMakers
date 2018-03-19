@@ -1,15 +1,19 @@
+<?php 
+include ('../resources/logininclude.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
+	<link rel="icon" href="../resources/mm_favicon.png.ico">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Search</title>
+    <title>Money Makers - Search</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -40,44 +44,23 @@
 
 <body>
     <div id="wrapper">
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div>
-                <a href="index.php"><img class="navbar-left" style="max-width:225px;padding:6px" src="../resources/mm_logo.png" </img>
-                </a>
-                </div>
-            <div class="col-md-3">
-            	<form action="search.php" role="form" method="POST">
-                	<div class="form-group-lg input-group" style="margin-top:16px;max-width:400px">
-                    	<input type="text" class="form-control" name="SearchString" id="SearchString" placeholder="Search stocks">
-                    	<span class="input-group-btn">
-                        	<button class="btn btn-info btn-lg" type="submit"><i class="fa fa-search"></i>
-                        	</button>
-                    </span>
-                </div>
-                </form>
-            </div>
-            <div class="col-lg-6">
-            </div>
-            <?php
-			session_start();
-			if ($_SESSION['is_logged_in']){
-		    include ('../resources/loggedinnav.php');
-			//echo "test";
-			}
-			else {
-			    echo "
-						<div class='nav navbar-top-links navbar-right btn-lg' style='margin-top:12px'>
-							<a href='login.php'><i class='fa fa-sign-in fa-fw'></i> Login</a>
-						</div>
-				";
-			}
-			
-			?>
-        </nav>
+        <?php
+        include ('../pageelements/navbar.php');
+		?>
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Search Results</h1>
+                    <h3 class="page-header">
+                    Search Results
+                    <?php 
+                    session_start();
+                    echo  $_SESSION['InvalidStockMessage'];
+                    unset($_SESSION['InvalidStockMessage']);
+                    ?>
+                    
+                    
+                    </h3>
+                    
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
