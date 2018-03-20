@@ -1,49 +1,40 @@
 <?php
 include ('../resources/logininclude.php');
+include ('../resources/functions.php');
+session_start();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-	<link rel="icon" href="../resources/mm_favicon.png.ico">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Money Makers - Stock</title>
-    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+	<title>Money Makers - Stock Page</title>
+   	<link rel="icon" href="../resources/mm_favicon.png.ico">
+   	<meta charset="utf-8">
+   	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+   	<meta name="viewport" content="width=device-width, initial-scale=1">
+   	<meta name="description" content="">
+  	<meta name="author" content="">
+        
+	<!-- Styling Resources -->
+   	<link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  	<link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
-    <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
-    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+   	<link href="../vendor/morrisjs/morris.css" rel="stylesheet">
+   	<link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- Graphing Resources, scripts must stay above StockGraph function -->
-    <script src="../graphing/amcharts/amcharts.js"></script>
-	<script src="../graphing/amcharts/serial.js"></script>
-	<script src="../graphing/amcharts/plugins/export/export.min.js"></script>
+   	<script src="../graphing/amcharts/amcharts.js"></script>
+    <script src="../graphing/amcharts/serial.js"></script>
+    <script src="../graphing/amcharts/plugins/export/export.min.js"></script>
     <link rel="stylesheet" href="../graphing/amcharts/plugins/export/export.css" type="text/css" media="all" />
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 
 <body>
-    <div id="wrapper" style="min-height:400px">
+    <div id="wrapper" style="min-width:400px">
         <?php
         include ('../pageelements/navbar.php');
 		?>
-        <div id="page-wrapper" style="padding:10px;min-height:900px">
-            <div class="row-eq-height">
-                <div class="col-lg-12">
-                    <h1></h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
+        <div id="page-wrapper" style="padding-top:70px;min-height:900px">
             <div class="row-eq-height">
                 <div class="col-lg-3">
                     <div class="panel panel-primary" style="font-size:12px"> 
@@ -54,8 +45,8 @@ include ('../resources/logininclude.php');
                                 </div>
                                 <div class="col-xs-8">
                                     <div class="h4">
-                                    <?php 
-                                        include('../resources/connection.php');
+                                        <?php 
+                                        include ('../resources/connection.php');
                                         $GetStockName = "SELECT Name FROM StockInfo.Stock_Symbol_Index WHERE Symbol = '" .  $_GET['Symbol'] . "';";
                                         $SearchResult = mysqli_query($conn, $GetStockName);
                                         if ($SearchResult->num_rows > 0){
@@ -66,16 +57,16 @@ include ('../resources/logininclude.php');
                                         }
                                         else{
                                             //if no results, push user to another page
-                                            $_SESSION['InvalidStockMessage'] = " - " . $_GET['Symbol'] . " is an invalid stock";
+                                            $_SESSION['InvalidStockMessage'] = $_GET['Symbol'] . " is an invalid stock";
                                             header('Location: search.php');
                                             exit();
                                         }
-                                    ?>
+                                        ?>
                                     </div>
                                     <div style="margin-bottom:6px">
-                                    <?php 
-                                    echo $_GET['Symbol'];
-                                    ?>
+                                        <?php 
+                                        echo $_GET['Symbol'];
+                                        ?>
                                     </div>
                                 </div>
                             </div>
@@ -84,16 +75,12 @@ include ('../resources/logininclude.php');
                             <ul class="nav nav-pills">
                                 <li class="active"><a href="#status-pills" data-toggle="tab">Status</a>
                                 </li>
-                          
                                 <li><a href="#details-pills" data-toggle="tab">Details</a>
                                 </li>
-                                
                                 <li><a href="#simulation-pills" data-toggle="tab">Sim</a>
                                 </li>
-                                <?php 
-                                    include('../resources/functions.php');
-                                    //Showing the sub/unsub button
-                                    ShowSubUnsubIcon();
+                                <?php
+                                ShowSubUnsubIcon();
                                 ?>
                             </ul>
                         </div>
@@ -102,9 +89,9 @@ include ('../resources/logininclude.php');
                         <div class="panel-body">
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" id="status-pills">
-                                    <!--<h4>Status</h4>-->
-                                    <h3 class='alert alert-warning' style='margin-top:3px;margin-bottom:3px;font-size:28px;text-align:center'><?php
-                                        include('../resources/connection.php');
+                                    <h3 class='alert alert-warning' style='margin-top:3px;margin-bottom:3px;font-size:28px;text-align:center'>
+                                    	<?php
+                                        include ('../resources/connection.php');
                                         $status = "SELECT Final_Decision FROM StockInfo.Buy_Sell_Hold WHERE Symbol = '" .  $_GET['Symbol'] . "';";
                                         $statusResult = mysqli_query($conn, $status);
                                         if ($statusResult->num_rows > 0){
@@ -112,22 +99,20 @@ include ('../resources/logininclude.php');
                                                 echo $row['Final_Decision'];
                                             }
                                         }
-                                        else{
-                                        }?></h3>
+                                        ?>
+                                  	</h3>
                                 </div>
-         
                                 <div class="tab-pane fade" id="details-pills">
                                     <?php 
-                                        ShowCompanyInformation($_GET['Symbol']);
+                                    ShowCompanyInformation($_GET['Symbol']);
                                     ?>
                                 </div>
                                 <div class="tab-pane fade" id="simulation-pills">
-                                <h3 class='alert alert-info' style='margin-top:3px;margin-bottom:3px;font-size:28px;text-align:center'>
+                                	<h3 class='alert alert-info' style='margin-top:3px;margin-bottom:3px;font-size:28px;text-align:center'>
                                 	<?php 
-                                	   $var = PotentialGains(1000, 100, 0, $_GET['Symbol']);
-                                	   echo $var;
-
-                                	?> %</h3>
+                                    echo PotentialGains(1000, 100, 0, $_GET['Symbol']);
+                                    ?> %
+                                    </h3>
                                 </div>
                             </div>
                         </div>
@@ -137,13 +122,10 @@ include ('../resources/logininclude.php');
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="table-responsive">
-                                        <?php 
-                                       // include('../resources/functions.php');
-                                        //output changes from the last ten days
+                                        <?php
                                         FetchLastTenDaysChart($_GET['Symbol']);
                                         ?>
                                     </div>
-                                    <!-- /.table-responsive -->
                                 </div>
                             </div>
                         </div>
@@ -162,23 +144,18 @@ include ('../resources/logininclude.php');
                         <div class="chat-panel panel panel-default">
                             <div class="panel-body" style="height:562px;font-size:12px">
                                 <ul class="chat">
-                                    <?php 
-                                        //Showing all stock related news for the cpmany name
-                                        ShowRssFeedNews($StockFullName);         
+                                    <?php
+                                    ShowRssFeedNews($StockFullName);         
                                     ?>
                                 </ul>
                             </div>
                         </div>
-                        <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-4">
                                 </div>
-                                <!-- /.col-lg-4 (nested) -->
                             </div>
-                            <!-- /.row -->
                         </div>
-                        <!-- /.panel-body -->
                     </div>
                 </div>
             </div>
