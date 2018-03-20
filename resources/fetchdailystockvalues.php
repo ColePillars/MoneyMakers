@@ -16,6 +16,15 @@ if ($GetSubbedStocksResult->num_rows > 0){
         sleep(1);
         FetchRSIJSON($row['atr_stock_id'], "daily", "100");
     }
+    
+    //Determine buy/sell for Two_Period_RsE
+    Two_Period_RSI();
+    //Determine buy/sell for Heikin_Ashi
+    Heikin_Ashi();
+    //Make final buy/sell choice
+    Final_Decision();
+    
 }
+
 
 ?>
