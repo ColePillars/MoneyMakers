@@ -36,101 +36,85 @@ Function SearchStockIndex($SearchString){
     WHERE Symbol LIKE '%" . $SearchString . "%'
     OR NAME LIKE '%" . $SearchString . "%'
     OR Sector LIKE '%" . $SearchString . "%'
-    OR Industry LIKE '%" . $SearchString . "%'";
+    OR Industry LIKE '%" . $SearchString . "%'
+    LIMIT 500";
     
     //Execute SQL Query
     $SearchResult = mysqli_query($conn, $SearchSQL);
-    if ($SearchResult->num_rows > 0){
-          
-        echo"<div class='panel-body'>
-            <table width='100%' class='table table-striped table-bordered table-hover' id='dataTables-example'>
-            <thead>
-            <tr>
-            <th>Symbol</th>
-            <th>Name</th>
-            <th>Sector</th>
-            <th>Industry</th>
-            </tr>
-            </thead>
-            <tbody>";
-        
-        
+    if ($SearchResult->num_rows > 0) {
+        echo '
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>Symbol</th>
+                                <th>Name</th>
+                                <th>Sector</th>
+                                <th>Industry</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
         while($row = $SearchResult->fetch_assoc()) {
-            echo "
-            <tr>
-            <td><a href='../pages/stockpage.php?Symbol=" . $row['Symbol'] . "'>"  . $row['Symbol'] . "</a></td>
-            <td>"  . $row['Name'] . "</td>
-            <td>"  . $row['Sector'] . "</td>
-            <td>"  . $row['Industry'] . "</td>
-            </tr>";           
+            echo '
+                            <tr>
+                                <td>'.$row["Symbol"].'</td>
+                                <td><a href="../pages/stockpage.php?Symbol='.$row["Symbol"].'">'.$row["Name"].'</a></td>
+                                <td>'.$row["Sector"].'</td>
+                                <td>'.$row["Industry"].'</td>
+                            </tr>';         
         } 
-        
-        echo "
-        </tbody>
-        </table>
-        <!-- /.table-responsive -->
-        </div>
-        <!-- /.panel-body -->";
+        echo '
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>';
         
     }  
-    else{
-        $SearchSQLNOthing = "
-    SELECT Symbol, Name, Industry, Sector
-    FROM StockInfo.Stock_Symbol_Index";
+    else {
+        $SearchSQLNothing = "
+        SELECT *
+        FROM StockInfo.Stock_Symbol_Index
+        LIMIT 500";
         
         //Execute SQL Query
-        $SearchResultNothing = mysqli_query($conn, $SearchSQLNOthing);
+        $SearchResultNothing = mysqli_query($conn, $SearchSQLNothing);
         if ($SearchResultNothing->num_rows > 0){
-            echo "<h4>No matching results, please search again<h4>";
-            echo"<div class='panel-body'>
-            <table width='100%' class='table table-striped table-bordered table-hover' id='dataTables-example'>
-            <thead>
-            <tr>
-            <th>Symbol</th>
-            <th>Name</th>
-            <th>Sector</th>
-            <th>Industry</th>
-            </tr>
-            </thead>
-            <tbody>";
-            
-            
+            echo '
+            <h3>No matching search results</h3>';
+            echo '
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel-body">
+                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Name</th>
+                                    <th>Sector</th>
+                                    <th>Industry</th>
+                                </tr>
+                            </thead>
+                            <tbody>';
             while($row = $SearchResultNothing->fetch_assoc()) {
-                echo "
-            <tr>
-            <td><a href='../pages/stockpage.php?Symbol=" . $row['Symbol'] . "'>"  . $row['Symbol'] . "</a></td>
-            <td>"  . $row['Name'] . "</td>
-            <td>"  . $row['Sector'] . "</td>
-            <td>"  . $row['Industry'] . "</td>
-            </tr>";
+                echo '
+                                <tr>
+                                    <td><a href="../pages/stockpage.php?Symbol='.$row["Symbol"].'">'.$row["Symbol"].'</a></td>
+                                    <td>'.$row["Name"].'</td>
+                                    <td>'.$row["Sector"].'</td>
+                                    <td>'.$row["Industry"].'</td>
+                                </tr>';
             }
-            
-            echo "
-        </tbody>
-        </table>
-        <!-- /.table-responsive -->
-        </div>
-        <!-- /.panel-body -->";
-            
-            
-        }
-  
-        
-        
+            echo '
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>';   
+        }   
     }
-    
-    
-    
-    
-   
-
-        
-    
-    
-    
-    
-    
-    
 }
 
 

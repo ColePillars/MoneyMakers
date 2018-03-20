@@ -30,7 +30,7 @@ session_start();
 </head>
 
 <body>
-    <div id="wrapper" style="min-width:400px">
+    <div id="wrapper" style="min-width:350px">
 		<?php
         include ('../pageelements/navbar.php');
         ?>

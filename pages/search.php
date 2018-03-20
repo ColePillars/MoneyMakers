@@ -25,7 +25,7 @@ session_start();
 </head>
 
 <body>
-    <div id="wrapper" style="min-width:400px">
+    <div id="wrapper" style="min-width:350px">
         <?php
         include ('../pageelements/navbar.php');
 		?>
@@ -36,13 +36,9 @@ session_start();
                 unset($_SESSION['InvalidStockMessage']);
                 ?>
            	</h3>
-            <div class="row">
-                <div class="col-lg-12">
-                    <?php
-                    SearchStockIndex($_POST['SearchString']);
-                    ?>
-                </div>
-            </div>
+          	<?php
+            SearchStockIndex($_POST['SearchString']);
+            ?>
         </div>
     </div>
 
@@ -57,6 +53,7 @@ session_start();
     <script>
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
+            searching: false,
             responsive: true
         });
     });
