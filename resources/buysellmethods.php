@@ -5,7 +5,7 @@ session_start();
 include('connection.php');
 
 function Two_Period_RSI(){
-    session_start();
+    //session_start();
     include('connection.php');
     $selectRSI = "SELECT atr_stock_id, Timestamp, RSI FROM StockInfo.Technical_Analysis_RSI WHERE Timestamp > (SELECT DISTINCT
          Timestamp FROM StockInfo.Technical_Analysis_RSI ORDER BY Timestamp DESC LIMIT 1 offset 1) 
@@ -15,11 +15,11 @@ function Two_Period_RSI(){
     if($selectRSIResult->num_rows > 0){
         while($row = $selectRSIResult->fetch_assoc()){
             //sell if...
-            echo $row['atr_stock_id'];
             if($row['RSI'] >= 90){
                 $check = "SELECT Two_Period_RSI FROM StockInfo.Buy_Sell_Hold WHERE Symbol = '" . $row['atr_stock_id'] . "'";
                 $checkResult = mysqli_query($conn, $check);
                 if ($checkResult->num_rows > 0){
+                    //echo $row['atr_stock_id'] . " UPDATE SELL<br>";
                     $update = "UPDATE StockInfo.Buy_Sell_Hold SET Two_Period_RSI = 'Sell' WHERE Symbol='" . $row['atr_stock_id'] . "'";
                     if ($conn->query($update) === TRUE){}
                     else{
@@ -28,7 +28,8 @@ function Two_Period_RSI(){
                         echo "Error: " . $update . "<br>" . $conn->error;
                     }
                 } else {
-                    $insert = "INSERT INTO StockInfo.Buy_Sell_Hold(Symbol,Two_Period_RSI) VALUES('" . $row['atr_stock_id'] . "','Sell')";
+                    //echo $row['atr_stock_id'] . " INSERT SELL<br>";
+                    $insert = "INSERT IGNORE INTO StockInfo.Buy_Sell_Hold(Symbol,Two_Period_RSI) VALUES('" . $row['atr_stock_id'] . "','Sell')";
                     if ($conn->query($insert) === TRUE){}
                     else{
                         //output mysql error if fail, DEV PURPOSE ONLY
@@ -41,6 +42,7 @@ function Two_Period_RSI(){
                 $check = "SELECT Two_Period_RSI FROM StockInfo.Buy_Sell_Hold WHERE Symbol = '" . $row['atr_stock_id'] . "'";
                 $checkResult = mysqli_query($conn, $check);
                 if ($checkResult->num_rows > 0){
+                    //echo $row['atr_stock_id'] . " UPDATE BUY<br>";
                     $update = "UPDATE StockInfo.Buy_Sell_Hold SET Two_Period_RSI = 'Buy' WHERE Symbol='" . $row['atr_stock_id'] . "'";
                     if ($conn->query($update) === TRUE){}
                     else{
@@ -49,7 +51,8 @@ function Two_Period_RSI(){
                         echo "Error: " . $update . "<br>" . $conn->error;
                     }
                 } else {
-                    $insert = "INSERT INTO StockInfo.Buy_Sell_Hold(Symbol,Two_Period_RSI) VALUES('" . $row['atr_stock_id'] . "','Buy')";
+                    //echo $row['atr_stock_id'] . " INSERT BUY<br>";
+                    $insert = "INSERT IGNORE INTO StockInfo.Buy_Sell_Hold(Symbol,Two_Period_RSI) VALUES('" . $row['atr_stock_id'] . "','Buy')";
                     if ($conn->query($insert) === TRUE){}
                     else{
                         //output mysql error if fail, DEV PURPOSE ONLY
@@ -62,6 +65,7 @@ function Two_Period_RSI(){
                 $check = "SELECT Two_Period_RSI FROM StockInfo.Buy_Sell_Hold WHERE Symbol = '" . $row['atr_stock_id'] . "'";
                 $checkResult = mysqli_query($conn, $check);
                 if ($checkResult->num_rows > 0){
+                    //echo $row['atr_stock_id'] . " UPDATE HOLD<br>";
                     $update = "UPDATE StockInfo.Buy_Sell_Hold SET Two_Period_RSI = 'Hold' WHERE Symbol='" . $row['atr_stock_id'] . "'";
                     if ($conn->query($update) === TRUE){}
                     else{
@@ -70,7 +74,8 @@ function Two_Period_RSI(){
                         echo "Error: " . $update . "<br>" . $conn->error;
                     }
                 } else {
-                    $insert = "INSERT INTO StockInfo.Buy_Sell_Hold(Symbol,Two_Period_RSI) VALUES('" . $row['atr_stock_id'] . "','Hold')";
+                    //echo $row['atr_stock_id'] . " INSERT HOLD<br>";
+                    $insert = "INSERT IGNORE INTO StockInfo.Buy_Sell_Hold(Symbol,Two_Period_RSI) VALUES('" . $row['atr_stock_id'] . "','Hold')";
                     if ($conn->query($insert) === TRUE){}
                     else{
                         //output mysql error if fail, DEV PURPOSE ONLY
@@ -88,7 +93,7 @@ function Two_Period_RSI(){
 
 
 function Heikin_Ashi(){
-    session_start();
+    //session_start();
     include('connection.php');
     
     function Heikin($O, $H, $L, $C, $oldO, $oldC){
@@ -204,7 +209,7 @@ function Heikin_Ashi(){
 }
 
 function Final_Decision(){
-    session_start();
+    //session_start();
     include('connection.php');
     
     $selectFinal = "SELECT DISTINCT Symbol,Two_Period_RSI,Heikin_Ashi,other_method FROM StockInfo.Buy_Sell_Hold";
@@ -261,7 +266,7 @@ function Final_Decision(){
 
 //MAKE SURE THAT NEW SUBBED STOCKS GET UPDATED TOO
 function Simulation(){
-    session_start();
+    //session_start();
     include('connection.php');
     
     function Heikin($O, $H, $L, $C, $oldO, $oldC){
@@ -480,4 +485,8 @@ function Simulation(){
         //echo $rsi[1] . "<br>";
         //echo $heikin[1] . "<br>";*/
  }
+ Two_Period_RSI();
+ Heikin_Ashi();
+ Final_Decision();
+ Simulation();
 ?>
