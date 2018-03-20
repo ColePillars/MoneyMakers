@@ -10,7 +10,10 @@ SELECT DISTINCT atr_stock_id FROM UserCredentials.tbl_stock_subs ORDER BY atr_st
 $GetSubbedStocksResult = mysqli_query($conn, $GetSubbedStocksSQL);
 if ($GetSubbedStocksResult->num_rows > 0){    
     while($row = $GetSubbedStocksResult->fetch_assoc()) {
+        
+        sleep(1);
         FetchDailyJSON($row['atr_stock_id']);
+        sleep(1);
         FetchRSIJSON($row['atr_stock_id'], "daily", "100");
     }
 }
