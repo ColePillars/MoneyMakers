@@ -37,7 +37,9 @@ session_start();
                 ?>
            	</h3>
           	<?php
-            SearchStockIndex($_POST['SearchString']);
+          	
+          	
+            SearchStockIndex($_GET['SearchString']);
             ?>
         </div>
     </div>

@@ -8,7 +8,7 @@
           	</button>
        	</div>
        	<div class="navbar-collapse collapse" id="navbar">
-          	<form action="search.php" role="form" method="POST" class="nav navbar-nav navbar-left">
+          	<form action="search.php" role="form" method="GET" class="nav navbar-nav navbar-left">
            		<div class="form-group input-group" style="margin-top:10px; margin-left:10px; max-width:265px; min-width:200px">
                 	<input type="text" class="form-control"  name="SearchString" id="SearchString" placeholder="Search stocks">
                 	<span class="input-group-btn">
