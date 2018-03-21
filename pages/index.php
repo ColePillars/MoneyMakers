@@ -22,6 +22,9 @@ session_start();
    	<link href="../vendor/morrisjs/morris.css" rel="stylesheet">
    	<link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <!-- scripts for adjusting page elemnts to screen size -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    
     <!-- Graphing Resources, scripts must stay above StockGraph function -->
    	<script src="../graphing/amcharts/amcharts.js"></script>
     <script src="../graphing/amcharts/serial.js"></script>
@@ -182,7 +185,7 @@ session_start();
                     </div>
                 </div>
             </div>
-        </div>
+        </div>        
         <?php
         include ('../pageelements/footer.php');
         ?>
@@ -194,6 +197,7 @@ session_start();
     <script src="../vendor/morrisjs/morris.min.js"></script>
     <script src="../data/morris-data.js"></script>
     <script src="../dist/js/sb-admin-2.js"></script>
+    
 </body>
 
 </html>
