@@ -28,8 +28,11 @@ Function SearchStockIndex($SearchString){
     //include database connection
     include ('connection.php');
     
+    //cleaning search input
+    $SearchString = mysqli_escape_string($conn, $SearchString);
+    
+    
     //Search all fields for the substring and dump results to table,
- 
     $SearchSQL = "
     SELECT *
     FROM StockInfo.Stock_Symbol_Index
