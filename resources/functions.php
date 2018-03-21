@@ -622,9 +622,6 @@ AmCharts.makeChart( "'.$StockSymbol.'Graph", {
 Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol) {
     
     include('../resources/connection.php');
-    
-    //echo $initialMoney." ".$numberOfDays." ".$commission." ".$stockSymbol;
-    
     $finalSellPrice;
     $stock = 0;
     $money = $initialMoney;
@@ -632,32 +629,19 @@ Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol)
 
     $result = mysqli_query($conn, $sql);
     if ($result -> num_rows > 0) {
-        //echo " Hello";
         while($row = $result->fetch_assoc()) {
-            
-            //echo "</br>".$row['Timestamp']."</br>";
-            //echo "  Money = ".$money."</br>";
-            //echo "  Stock = ".$stock."</br>";
-
             //Final Decision is to BUY
             if ($row['Final_Decision'] == "Buy") {
-//                 echo "Buy @ ".$row['Close']."</br>";
                 //Have enough money to buy
                 if ($money >= $row['Close']) {
                     $effectiveRate = (1 + $commission) * $row['Close'];
                     $tempStock = floor($money / $effectiveRate);
                     $money = $money - ($tempStock * $effectiveRate);
                     $stock = $stock + $tempStock;
-                    
-//                     echo $effectiveRate."   ";
-//                     echo $stock."   ";
-//                     echo $money."</br>";
                 }
             }
-
             //Final Decision is to SELL
             if ($row['Final_Decision'] == "Sell") {
-//                 echo "Sell @ ".$row['Close']."</br>";
                 //Own stock to sell
                 if ($stock > 0) {
                     $effectiveRate = (1 - $commission) * $row['Close'];
@@ -665,29 +649,38 @@ Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol)
                     $stock = 0;
                 }
             }
-            
-//             if ($row['Final_Decision'] == "Hold") {
-//                 echo "Hold @ ".$row['Close']."</br>";
-//             }
-            
             $finalSellPrice = $row['Close'];
-            
-//             echo "  Money = ".$money."</br>";
-//             echo "  Stock = ".$stock."</br>";
-            
         }
     }
-    
     $effectiveRate = (1 - $commission) * $finalSellPrice;
     $total = $money + ($stock * $effectiveRate);
     $percent = 100 * (($total / $initialMoney) - 1);
+    return $percent;
+}
+
+Function MarketGains($initialMoney, $numberOfDays, $commission, $stockSymbol) {
     
-//     echo '</br>Number of stocks: '.$stock.'</br>';
-//     echo 'Money: '.$money.'</br>';
-//     echo 'Total Money if stocks are sold: '.$total.'</br>';
+    include('../resources/connection.php');
+    $finalSellPrice;
+    $stock = 0;
+    $money = $initialMoney;
+    $sql = "SELECT * FROM StockInfo.Simulation WHERE StockInfo.Simulation.Symbol = '".$stockSymbol."' ORDER BY StockInfo.Simulation.Timestamp ASC LIMIT ".$numberOfDays;
     
-    
-    
+    $result = mysqli_query($conn, $sql);
+    if ($result -> num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            if ($money >= $row['Close']) {
+                $effectiveRate = (1 + $commission) * $row['Close'];
+                $tempStock = floor($money / $effectiveRate);
+                $money = $money - ($tempStock * $effectiveRate);
+                $stock = $stock + $tempStock;
+            }
+            $finalSellPrice = $row['Close'];
+        }
+    }
+    $effectiveRate = (1 - $commission) * $finalSellPrice;
+    $total = $money + ($stock * $effectiveRate);
+    $percent = 100 * (($total / $initialMoney) - 1);
     return $percent;
 }
 
