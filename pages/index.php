@@ -183,6 +183,9 @@ session_start();
                 </div>
             </div>
         </div>
+        <?php
+        include ('../pageelements/footer.php');
+        ?>
     </div>
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
