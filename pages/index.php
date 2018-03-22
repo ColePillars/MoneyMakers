@@ -21,9 +21,6 @@ session_start();
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
    	<link href="../vendor/morrisjs/morris.css" rel="stylesheet">
    	<link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <!-- scripts for adjusting page elemnts to screen size -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     
     <!-- Graphing Resources, scripts must stay above StockGraph function -->
    	<script src="../graphing/amcharts/amcharts.js"></script>
@@ -37,8 +34,11 @@ session_start();
 		<?php
         include ('../pageelements/navbar.php');
         ?>
-        <div id="page-wrapper" style="padding-top:70px;min-height:900px">
-            <div class="row-eq-height">
+        <div id="page-wrapper" style="padding-top:60px;">
+        	<?php
+            include ('../pageelements/stockcarousel.php');
+            ?>
+            <div class="row">
                 <div class="col-lg-3">
                     <div class="chat-panel panel panel-green chat" style="height:615px">
                         <div class="panel-heading" style="font-size:12px">My Subs
@@ -198,6 +198,38 @@ session_start();
     <script src="../data/morris-data.js"></script>
     <script src="../dist/js/sb-admin-2.js"></script>
     
+    <!-- Slick Carousel Scripts -->
+    <script src="../vendor/slick-master/slick/slick.min.js"></script>
+	<script>
+	$('.responsive').slick({
+		  infinite: true,
+		  slidesToShow: 5,
+		  slidesToScroll: 5,
+		  responsive: [
+		    {
+		      breakpoint: 1200,
+		      settings: {
+		        slidesToShow: 4,
+		        slidesToScroll: 4
+		      }
+		    },
+		    {
+		      breakpoint: 992,
+		      settings: {
+		        slidesToShow: 3,
+		        slidesToScroll: 3
+		      }
+		    },
+		    {
+		      breakpoint: 768,
+		      settings: {
+		        slidesToShow: 2,
+		        slidesToScroll: 2
+		      }
+		    }
+		  ]
+		});
+	</script>
 </body>
 
 </html>

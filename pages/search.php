@@ -22,6 +22,12 @@ session_start();
     <link href="../vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    <!-- Graphing Resources, scripts must stay above StockGraph function -->
+   	<script src="../graphing/amcharts/amcharts.js"></script>
+    <script src="../graphing/amcharts/serial.js"></script>
+    <script src="../graphing/amcharts/plugins/export/export.min.js"></script>
+    <link rel="stylesheet" href="../graphing/amcharts/plugins/export/export.css" type="text/css" media="all" />
 </head>
 
 <body>
@@ -29,7 +35,10 @@ session_start();
         <?php
         include ('../pageelements/navbar.php');
 		?>
-        <div id="page-wrapper" style="padding-top:60px;min-height:900px">
+        <div id="page-wrapper" style="padding-top:60px;">
+        	<?php
+            include ('../pageelements/stockcarousel.php');
+            ?>
 			<h3>
               	<?php
                 echo  $_SESSION['InvalidStockMessage'];
@@ -37,13 +46,13 @@ session_start();
                 ?>
            	</h3>
           	<?php
-          	
-          	
             SearchStockIndex($_GET['SearchString']);
             ?>
         </div>
+        <?php
+        include ('../pageelements/footer.php');
+        ?>
     </div>
-
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="../vendor/metisMenu/metisMenu.min.js"></script>
@@ -51,7 +60,6 @@ session_start();
     <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
     <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
     <script src="../dist/js/sb-admin-2.js"></script>
-
     <script>
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
@@ -59,8 +67,40 @@ session_start();
             responsive: true
         });
     });
-	</script>   
-
+	</script>
+	
+	<!-- Slick Carousel Scripts -->
+	<script src="../vendor/slick-master/slick/slick.min.js"></script>
+	<script>
+	$('.responsive').slick({
+		  infinite: true,
+		  slidesToShow: 5,
+		  slidesToScroll: 5,
+		  responsive: [
+		    {
+		      breakpoint: 1200,
+		      settings: {
+		        slidesToShow: 4,
+		        slidesToScroll: 4
+		      }
+		    },
+		    {
+		      breakpoint: 992,
+		      settings: {
+		        slidesToShow: 3,
+		        slidesToScroll: 3
+		      }
+		    },
+		    {
+		      breakpoint: 768,
+		      settings: {
+		        slidesToShow: 2,
+		        slidesToScroll: 2
+		      }
+		    }
+		  ]
+		});
+	</script>
 </body>
 
 </html>

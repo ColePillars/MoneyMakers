@@ -811,8 +811,6 @@ Function ShowCompanyInformation($Symbol){
 
 Function ShowRssFeedNews($Topic){
     
-    
-    
     $Topicleaned=str_replace(' ','%20', $Topic);
     echo $test2;
     $googlersssource = "https://news.google.com/news/rss/search/section/q/" . $Topicleaned . "/" . $Topicleaned . "?hl=en&gl=US&ned=us";
@@ -834,12 +832,8 @@ Function ShowRssFeedNews($Topic){
                                         </div>
                                     </li>";
     }
-    
-    
-    
-    
-    
 }
+
 Function ShowSubbedStocks()
 {
     include ('connection.php');
