@@ -97,17 +97,17 @@
             ";
             if ($row['ClosePercentChange'] > 0) {
                 echo "
-                    <h5 style='color:#28a745'><i class='fa fa-lg fa-caret-up'></i> " . $row['ClosePercentChange'] . "%</h5>
+                    <h5 style='color:#28a745'><i class='fa fa-lg fa-caret-up'></i> " . abs($row['ClosePercentChange']) . "%</h5>
                 ";
             }
             if ($row['ClosePercentChange'] < 0) {
                 echo "
-                    <h5 style='color:#dc3545'><i class='fa fa-lg fa-caret-down'></i> " . $row['ClosePercentChange'] . "%</h5>
+                    <h5 style='color:#dc3545'><i class='fa fa-lg fa-caret-down'></i> " . abs($row['ClosePercentChange']) . "%</h5>
                 ";
             }
             if ($row['ClosePercentChange'] == 0) {
                 echo "
-                    <h5 style='color:#337ab7'><i class='fa fa-lg fa-minus'></i> " . $row['ClosePercentChange'] . "%</h5>
+                    <h5 style='color:#337ab7'><i class='fa fa-lg fa-minus'></i> " . abs($row['ClosePercentChange']) . "%</h5>
                 ";
             }
             echo "
