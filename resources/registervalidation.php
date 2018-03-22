@@ -141,7 +141,7 @@ mail($EmailAddress,"Account Registration Confirmation",$EmailContents);
 $conn->close();
 
 //Output instructions and push user to register.php
-$_SESSION['CheckEmail'] = True;
+$_SESSION['CheckEmailMessage'] = "Please check your email to verify your account";
 header('Location: ../pages/login.php');
 exit(); 
 

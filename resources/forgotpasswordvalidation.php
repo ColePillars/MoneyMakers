@@ -9,7 +9,6 @@ $email = mysqli_escape_string($conn,$_POST['email']);
 $checkEmail = "SELECT atr_email FROM UserCredentials.tbl_user_info
  WHERE atr_email ='" . $email . "';";
 $checkEmailResult = mysqli_query($conn, $checkEmail);
-
 //checks to see if the query returns a value or not
 if ($checkEmailResult->num_rows > 0 ) {
     //loops through the results which is an array (mostly likely of 1 element)
@@ -19,7 +18,6 @@ if ($checkEmailResult->num_rows > 0 ) {
         //the new password or the confirmed password are not NULL
         
         if ($row['atr_email'] == $email) {
-            
             $resetPassKey = GenerateRandomKey();
             $UpdateKeySql = "UPDATE UserCredentials.tbl_user_info SET atr_user_key = '" . $resetPassKey .  "' WHERE atr_email ='" . $email .  "';";
             $result = mysqli_query($conn,$UpdateKeySql);
@@ -39,12 +37,18 @@ if ($checkEmailResult->num_rows > 0 ) {
             
                     // send email with confirmation link
                     mail($email,"Password reset",$EmailContents);
-                    $_SESSION['CheckEmail'] = True;
+                    $_SESSION['CheckEmailMessage'] = "Please check your email to reset your password";
                     header('Location: ../pages/login.php');
                     exit();
                 }
             
             }
+            
+        }
+        else {
+            $_SESSION['Invalid'] = "Invalid Email: Email is not registered";
+            header('Location: ../pages/forgotpassword.php');
+            exit();
         }
         //Prompts for your credentials if the passwords do not match
     }
