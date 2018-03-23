@@ -485,8 +485,8 @@ function Simulation(){
         //echo $rsi[1] . "<br>";
         //echo $heikin[1] . "<br>";*/
  }
- Two_Period_RSI();
- Heikin_Ashi();
- Final_Decision();
- Simulation();
+ //Two_Period_RSI();
+ //Heikin_Ashi();
+ //Final_Decision();
+ //Simulation();
 ?>
