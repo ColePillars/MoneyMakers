@@ -1,43 +1,48 @@
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        	<div>
-                <a href="../pages/index.php"><img class="navbar-left" style="max-width:175px;padding:6px" src="../resources/mm_logo.png" </img></a>
-          	</div>
-            <div class="col-md-3">
-            	<form action="search.php" role="form" method="POST">
-               		<div class="form-group input-group" style="margin-top:16px;max-width:400px;min-width:200px">
-                    	<input type="text" class="form-control"  name="SearchString" id="SearchString" placeholder="Search stocks">
-                    	<span class="input-group-btn">
-                        	<button class="btn btn-info btn" type="submit"><i class="fa fa-search"></i></button>
-                    	</span>
-                	</div>
-                </form>
-            </div>
+<nav class="navbar navbar-default navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+          	<a href="../pages/index.php"><img class="nav navbar-top-links navbar-left" style="max-width:175px; margin-left:10px; margin-right:10px;" src="../resources/mm_logo.png" </img></a>
+        	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            	<span class="sr-only">Toggle navigation</span>
+            	<i class="fa fa-bars fa-lg fa-fw"></i>
+          	</button>
+       	</div>
+       	<div class="navbar-collapse collapse" id="navbar">
+          	<form action="search.php" role="form" method="GET" class="nav navbar-nav navbar-left">
+           		<div class="form-group input-group" style="margin-top:10px; margin-left:10px; max-width:265px; min-width:200px">
+                	<input type="text" class="form-control"  name="SearchString" id="SearchString" placeholder="Search stocks">
+                	<span class="input-group-btn">
+                    	<button class="btn btn-info btn" type="submit"><i class="fa fa-search"></i></button>
+                	</span>
+            	</div>
+            </form>
             <?php
             if ($_SESSION['is_logged_in']){
                 echo '
-            <ul class="nav navbar-top-links navbar-right btn">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-lg fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li>
-                        	<a href="../pages/profilepage.php"><i class="fa fa-pencil fa-fw"></i> Edit my profile</a>
-                        </li>
-						<li class="divider"></li>
-						<li>
-							<a href="../resources/logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-						</li>
-                    </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li> 
+                    <a href="../pages/index.php"><i class="fa fa-home fa-fw"></i>Home</a>
                 </li>
-            </ul>';
+                <li>
+                    <a href="../pages/profilepage.php"><i class="fa fa-pencil fa-fw"></i>Profile</a>
+                </li>
+    		    <li>
+                    <a href="../resources/logout.php"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
+                </li>
+          	</ul>';
             }
             else {
                 echo '
-            <div class="nav navbar-top-links navbar-right btn" style="margin-top:12px;font-size:16px">
-				<a href="../pages/login.php"><i class="fa fa-sign-in fa-fw"></i> Login</a>
-			</div>';
+            <ul class="nav navbar-nav navbar-right" style="margin-right:0px;">
+                <li> 
+                    <a href="../pages/index.php"><i class="fa fa-home fa-fw"></i>Home</a>
+                </li>
+                <li>
+                    <a href="../pages/login.php"><i class="fa fa-sign-in fa-fw"></i> Login</a>
+                </li>
+    		</ul>';
             }
             ?>
-            
-     	</nav>
+    	</div>
+	</div>
+</nav>

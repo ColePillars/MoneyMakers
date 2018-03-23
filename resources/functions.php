@@ -28,109 +28,96 @@ Function SearchStockIndex($SearchString){
     //include database connection
     include ('connection.php');
     
+    //cleaning search input
+    $SearchString = mysqli_escape_string($conn, $SearchString);
+    
+    
     //Search all fields for the substring and dump results to table,
- 
     $SearchSQL = "
     SELECT *
     FROM StockInfo.Stock_Symbol_Index
     WHERE Symbol LIKE '%" . $SearchString . "%'
     OR NAME LIKE '%" . $SearchString . "%'
     OR Sector LIKE '%" . $SearchString . "%'
-    OR Industry LIKE '%" . $SearchString . "%'";
+    OR Industry LIKE '%" . $SearchString . "%'
+    LIMIT 500";
     
     //Execute SQL Query
     $SearchResult = mysqli_query($conn, $SearchSQL);
-    if ($SearchResult->num_rows > 0){
-          
-        echo"<div class='panel-body'>
-            <table width='100%' class='table table-striped table-bordered table-hover' id='dataTables-example'>
-            <thead>
-            <tr>
-            <th>Symbol</th>
-            <th>Name</th>
-            <th>Sector</th>
-            <th>Industry</th>
-            </tr>
-            </thead>
-            <tbody>";
-        
-        
+    if ($SearchResult->num_rows > 0) {
+        echo '
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>Symbol</th>
+                                <th>Name</th>
+                                <th>Sector</th>
+                                <th>Industry</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
         while($row = $SearchResult->fetch_assoc()) {
-            echo "
-            <tr>
-            <td><a href='../pages/stockpage.php?Symbol=" . $row['Symbol'] . "'>"  . $row['Symbol'] . "</a></td>
-            <td>"  . $row['Name'] . "</td>
-            <td>"  . $row['Sector'] . "</td>
-            <td>"  . $row['Industry'] . "</td>
-            </tr>";           
+            echo '
+                            <tr>
+                                <td>'.$row["Symbol"].'</td>
+                                <td><a href="../pages/stockpage.php?Symbol='.$row["Symbol"].'">'.$row["Name"].'</a></td>
+                                <td>'.$row["Sector"].'</td>
+                                <td>'.$row["Industry"].'</td>
+                            </tr>';         
         } 
-        
-        echo "
-        </tbody>
-        </table>
-        <!-- /.table-responsive -->
-        </div>
-        <!-- /.panel-body -->";
+        echo '
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>';
         
     }  
-    else{
-        $SearchSQLNOthing = "
-    SELECT Symbol, Name, Industry, Sector
-    FROM StockInfo.Stock_Symbol_Index";
+    else {
+        $SearchSQLNothing = "
+        SELECT *
+        FROM StockInfo.Stock_Symbol_Index
+        LIMIT 500";
         
         //Execute SQL Query
-        $SearchResultNothing = mysqli_query($conn, $SearchSQLNOthing);
+        $SearchResultNothing = mysqli_query($conn, $SearchSQLNothing);
         if ($SearchResultNothing->num_rows > 0){
-            echo "<h4>No matching results, please search again<h4>";
-            echo"<div class='panel-body'>
-            <table width='100%' class='table table-striped table-bordered table-hover' id='dataTables-example'>
-            <thead>
-            <tr>
-            <th>Symbol</th>
-            <th>Name</th>
-            <th>Sector</th>
-            <th>Industry</th>
-            </tr>
-            </thead>
-            <tbody>";
-            
-            
+            echo '
+            <h3>No matching search results</h3>';
+            echo '
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel-body">
+                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Name</th>
+                                    <th>Sector</th>
+                                    <th>Industry</th>
+                                </tr>
+                            </thead>
+                            <tbody>';
             while($row = $SearchResultNothing->fetch_assoc()) {
-                echo "
-            <tr>
-            <td><a href='../pages/stockpage.php?Symbol=" . $row['Symbol'] . "'>"  . $row['Symbol'] . "</a></td>
-            <td>"  . $row['Name'] . "</td>
-            <td>"  . $row['Sector'] . "</td>
-            <td>"  . $row['Industry'] . "</td>
-            </tr>";
+                echo '
+                                <tr>
+                                    <td><a href="../pages/stockpage.php?Symbol='.$row["Symbol"].'">'.$row["Symbol"].'</a></td>
+                                    <td>'.$row["Name"].'</td>
+                                    <td>'.$row["Sector"].'</td>
+                                    <td>'.$row["Industry"].'</td>
+                                </tr>';
             }
-            
-            echo "
-        </tbody>
-        </table>
-        <!-- /.table-responsive -->
-        </div>
-        <!-- /.panel-body -->";
-            
-            
-        }
-  
-        
-        
+            echo '
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>';   
+        }   
     }
-    
-    
-    
-    
-   
-
-        
-    
-    
-    
-    
-    
-    
 }
 
 
@@ -551,7 +538,83 @@ var chart = AmCharts.makeChart( "chartdiv", {
 Function StockSparkline($StockSymbol){
     
     include('connection.php');
-    echo "Hello";
+    
+    $sql = "SELECT * FROM StockInfo.Time_Series_Daily WHERE StockInfo.Time_Series_Daily.atr_stock_id ='".$StockSymbol."' ORDER BY Time_Series_Daily.Timestamp ASC LIMIT 10";
+    $result = mysqli_query($conn, $sql);
+    
+    if ($result -> num_rows > 0) {
+        
+        //Chartdiv style
+        echo '
+<style>
+#chartdiv {
+    width: 100%;
+    height: 500px;
+}
+</style>
+        ';
+        
+        //1st half of chart script
+        echo '
+<script>
+AmCharts.makeChart( "'.$StockSymbol.'Graph", {
+    "type": "serial",
+    "theme": "light",
+
+    "dataProvider": [ {
+        ';
+        
+        //Stock data
+        $var = 1;
+        while($row = $result->fetch_assoc()) {
+            if ($var == 1) {
+                echo '"day": '.$var.',';
+                echo '"value": '.$row['Close'];
+            }
+            else {
+                echo '}, {';
+                echo '"day": '.$var.',';
+                echo '"value": '.$row['Close'];
+            }
+            $var++;
+        }
+        echo '} ],';
+        
+        //2nd-half of chart script
+        echo '
+    "categoryField": "day",
+    "autoMargins": false,
+    "marginLeft": 0,
+    "marginRight": 5,
+    "marginTop": 0,
+    "marginBottom": 0,
+    "graphs": [ {
+        "valueField": "value",
+        "bulletField": "bullet",
+        "showBalloon": false,
+        "lineColor": "#a9ec49"
+    } ],
+    "valueAxes": [ {
+        "gridAlpha": 0,
+        "axisAlpha": 0
+    } ],
+    "categoryAxis": {
+        "gridAlpha": 0,
+        "axisAlpha": 0,
+        "startOnAxis": true
+    }
+} );
+</script>
+        ';
+        
+        //Chart Div
+        echo '
+<div class="chart-block" style="display: block; margin-left: auto;margin-right: auto;">
+    <div id="'.$StockSymbol.'Graph" style="vertical-align: middle; display: inline-block; width: 100%; height: 50px;"></div>
+</div>
+        ';
+        
+    }
     
 }
 
@@ -559,9 +622,6 @@ Function StockSparkline($StockSymbol){
 Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol) {
     
     include('../resources/connection.php');
-    
-    //echo $initialMoney." ".$numberOfDays." ".$commission." ".$stockSymbol;
-    
     $finalSellPrice;
     $stock = 0;
     $money = $initialMoney;
@@ -569,32 +629,19 @@ Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol)
 
     $result = mysqli_query($conn, $sql);
     if ($result -> num_rows > 0) {
-        //echo " Hello";
         while($row = $result->fetch_assoc()) {
-            
-            //echo "</br>".$row['Timestamp']."</br>";
-            //echo "  Money = ".$money."</br>";
-            //echo "  Stock = ".$stock."</br>";
-
             //Final Decision is to BUY
             if ($row['Final_Decision'] == "Buy") {
-//                 echo "Buy @ ".$row['Close']."</br>";
                 //Have enough money to buy
                 if ($money >= $row['Close']) {
                     $effectiveRate = (1 + $commission) * $row['Close'];
                     $tempStock = floor($money / $effectiveRate);
                     $money = $money - ($tempStock * $effectiveRate);
                     $stock = $stock + $tempStock;
-                    
-//                     echo $effectiveRate."   ";
-//                     echo $stock."   ";
-//                     echo $money."</br>";
                 }
             }
-
             //Final Decision is to SELL
             if ($row['Final_Decision'] == "Sell") {
-//                 echo "Sell @ ".$row['Close']."</br>";
                 //Own stock to sell
                 if ($stock > 0) {
                     $effectiveRate = (1 - $commission) * $row['Close'];
@@ -602,29 +649,38 @@ Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol)
                     $stock = 0;
                 }
             }
-            
-//             if ($row['Final_Decision'] == "Hold") {
-//                 echo "Hold @ ".$row['Close']."</br>";
-//             }
-            
             $finalSellPrice = $row['Close'];
-            
-//             echo "  Money = ".$money."</br>";
-//             echo "  Stock = ".$stock."</br>";
-            
         }
     }
-    
     $effectiveRate = (1 - $commission) * $finalSellPrice;
     $total = $money + ($stock * $effectiveRate);
     $percent = 100 * (($total / $initialMoney) - 1);
+    return $percent;
+}
+
+Function MarketGains($initialMoney, $numberOfDays, $commission, $stockSymbol) {
     
-//     echo '</br>Number of stocks: '.$stock.'</br>';
-//     echo 'Money: '.$money.'</br>';
-//     echo 'Total Money if stocks are sold: '.$total.'</br>';
+    include('../resources/connection.php');
+    $finalSellPrice;
+    $stock = 0;
+    $money = $initialMoney;
+    $sql = "SELECT * FROM StockInfo.Simulation WHERE StockInfo.Simulation.Symbol = '".$stockSymbol."' ORDER BY StockInfo.Simulation.Timestamp ASC LIMIT ".$numberOfDays;
     
-    
-    
+    $result = mysqli_query($conn, $sql);
+    if ($result -> num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            if ($money >= $row['Close']) {
+                $effectiveRate = (1 + $commission) * $row['Close'];
+                $tempStock = floor($money / $effectiveRate);
+                $money = $money - ($tempStock * $effectiveRate);
+                $stock = $stock + $tempStock;
+            }
+            $finalSellPrice = $row['Close'];
+        }
+    }
+    $effectiveRate = (1 - $commission) * $finalSellPrice;
+    $total = $money + ($stock * $effectiveRate);
+    $percent = 100 * (($total / $initialMoney) - 1);
     return $percent;
 }
 
@@ -755,8 +811,6 @@ Function ShowCompanyInformation($Symbol){
 
 Function ShowRssFeedNews($Topic){
     
-    
-    
     $Topicleaned=str_replace(' ','%20', $Topic);
     echo $test2;
     $googlersssource = "https://news.google.com/news/rss/search/section/q/" . $Topicleaned . "/" . $Topicleaned . "?hl=en&gl=US&ned=us";
@@ -778,12 +832,8 @@ Function ShowRssFeedNews($Topic){
                                         </div>
                                     </li>";
     }
-    
-    
-    
-    
-    
 }
+
 Function ShowSubbedStocks()
 {
     include ('connection.php');
@@ -813,11 +863,16 @@ Function ShowSubbedStocks()
             echo "
             <div class='panel panel-default' style='margin-bottom:10px'>
                 <a href='stockpage.php?Symbol=" . $row['atr_stock_id'] . "'>
-                    <div style='width: 90%' class='panel-heading'>
-                        <div class='row'>
-                            <div class='col-xs-4'>
-                                <i class='fa fa-bar-chart fa-4x' style='margin-top: 32px; display: block; text-align: center'></i>
-    	                    </div>
+                    <div style='width: 100%' class='panel-heading'>
+                        <div class='row'>";
+            
+//                             <div class='col-xs-4'>
+//                                 <i class='fa fa-bar-chart fa-4x' style='margin-top: 32px; display: block; text-align: center'></i>
+//                             </div>
+                            
+            StockSparkline($row['atr_stock_id']);
+                            
+            echo "
     	                    <div class='col-xs-8' style='padding-left: 10%'>
                                 <div class='h5'><b>" . $row['Name'] . "</b>
                                 </div>

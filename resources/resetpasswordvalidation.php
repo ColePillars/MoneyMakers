@@ -59,7 +59,9 @@ if ($checkUserNameResult->num_rows == 1 ) {
                 //MUST HANDEL ERROR
                 echo "Error: " . $ResetKeySQL . "<br>" . $conn->error;
             }
+            
             //redirects the user to the login page after changing their password
+            $_SESSION['ResetConfirmMessage'] = "Password has been reset";
             header('Location: ../pages/login.php');
             exit();
     }
