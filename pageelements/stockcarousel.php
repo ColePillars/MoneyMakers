@@ -137,8 +137,6 @@
                 echo "
                         <script type='text/javascript'>
                         $(function() {
-            ";
-                echo "
                         var myvalues" . $var . " = [";
                 
                 $var2 = 0;
@@ -156,18 +154,10 @@
                     }
                 }
             echo "];
-            ";
-            echo "
                         $('.dynamicsparkline" . $var . "').sparkline(myvalues" . $var . ");
-            ";
-            echo "
                         });
                         </script>
-            ";
-            echo "
                         <span class='dynamicsparkline" . $var . "'>Loading..</span>
-            ";
-            echo "
                     </div>
                 </div>
             </a>
