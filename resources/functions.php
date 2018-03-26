@@ -693,7 +693,6 @@ Function ShowSubUnsubIcon(){
     $CheckSubResults = mysqli_query($conn, $CheckIfSubbedSQL);
 
     if ($CheckSubResults->num_rows > 0){
-
         echo "
            <button type='button' class='btn btn-primary btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-minus fa-lg'></i>
             </button>
@@ -721,14 +720,13 @@ Function ShowSubUnsubIcon(){
             </div>";
     }
     else{
-    //at this point user is not subbed, but there still may be stock info here
-    //check this stock exsits but user isnt subbed
-    $CheckIfStockExists = "SELECT * FROM StockInfo.Time_Series_Daily WHERE atr_stock_id='" . $_GET['Symbol'] . "';";
-    $CheckIfStockExistsResults = mysqli_query($conn, $CheckIfStockExists);
-    if ($CheckIfStockExistsResults->num_rows > 0){
+        //at this point user is not subbed, but there still may be stock info here
+        //check this stock exsits but user isnt subbed
+        $CheckIfStockExists = "SELECT * FROM StockInfo.Time_Series_Daily WHERE atr_stock_id='" . $_GET['Symbol'] . "';";
+        $CheckIfStockExistsResults = mysqli_query($conn, $CheckIfStockExists);
+        if ($CheckIfStockExistsResults->num_rows > 0){
         
-        echo "
-
+            echo "
                <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-plus fa-lg'></i>
                 </button>
                 <div class='modal fade' id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>
@@ -752,12 +750,13 @@ Function ShowSubUnsubIcon(){
                     </div>
                 </div><br>
                 <br><h3 class='alert alert-info' style='margin-top:18px;margin-bottom:6px;font-size:12px;text-align:center'>
-                This information may be outdated. Subscribe to update.</h3>";
-    }
+                This information may be outdated. Subscribe to update.</h3>
+            ";
+        }
 
-     else{
-        //at this point we dont hold stock info for this item, which means the user isnt subbed     
-         echo "
+        else{
+            //at this point we dont hold stock info for this item, which means the user isnt subbed     
+            echo "
                   <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right'  style='margin-top:6px'><i class='fa fa-refresh fa-spin fa-lg'></i>
                 </button>
                    <div   id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='
@@ -784,9 +783,9 @@ Function ShowSubUnsubIcon(){
                             </div>
                         </div>
                     </div>
-                </div>";
-     
-         }
+                </div>
+            ";
+        }
     }   
 }
 
