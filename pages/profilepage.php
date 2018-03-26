@@ -1,4 +1,5 @@
 <?php
+session_start();
 include ('../resources/logininclude.php');
 ?>
 
@@ -40,7 +41,6 @@ include ('../resources/logininclude.php');
     <div class="container">
         <div class="row">
             <?php
-session_start();
 
 // including database connection file
 include ('../resources/connection.php');

@@ -1,7 +1,7 @@
-<?php 
+<?php
+session_start();
 include ('../resources/logininclude.php');
 include ('../resources/functions.php');
-session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
