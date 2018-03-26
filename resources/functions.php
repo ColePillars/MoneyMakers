@@ -131,7 +131,7 @@ Function FetchLastTenDaysChart($StockSymbol){
     $Output = array();
     //Query to show the last 11days of close prices
     $ShowLastTenSQL = "SELECT atr_Stock_id, DATE_FORMAT(timestamp, '%m-%d-%y') as 'timestamp', Open, High, Low, Close FROM StockInfo.Time_Series_Daily WHERE Timestamp >
-(SELECT DISTINCT Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 11) AND atr_Stock_id = '" . $StockSymbol . "'
+(SELECT DISTINCT Timestamp FROM StockInfo.Time_Series_Daily WHERE atr_stock_id ='" . $StockSymbol . "' ORDER BY Timestamp DESC LIMIT 1 offset 11) AND atr_Stock_id = '" . $StockSymbol . "'
  order by atr_stock_id ASC, Timestamp ASC";
     $SearchResult = mysqli_query($conn, $ShowLastTenSQL);
     if ($SearchResult->num_rows > 0){
@@ -174,19 +174,19 @@ Function FetchLastTenDaysChart($StockSymbol){
             if ($Output[$i-1] > 0) {
                 echo"
                     <td style='color:#28a745'>"  . $Output[$i-1] .  "</td>
-                    <td style='color:#28a745'> <i class='fa fa-lg fa-caret-up'> </i> "  . $Output[$i] .  "</td>
+                    <td style='color:#28a745'> <i class='fa fa-lg fa-caret-up'> </i> "  . abs($Output[$i]) .  "%</td>
                     </tr>";
             }
             elseif ($Output[$i-1] < 0) {
                 echo"
                     <td style='color:#dc3545'>"  . $Output[$i-1] .  "</td>
-                    <td style='color:#dc3545'> <i class='fa fa-lg fa-caret-down'> </i> "  . $Output[$i] .  "</td>
+                    <td style='color:#dc3545'> <i class='fa fa-lg fa-caret-down'> </i> "  . abs($Output[$i]) .  "%</td>
                     </tr>";
             }
             elseif ($Output[$i-1] == 0) {
                 echo"
                     <td style='color:#337ab7'>"  . $Output[$i-1] .  "</td>
-                    <td style='color:#337ab7'> <i class='fa fa-lg fa-minus'> </i> "  . $Output[$i] .  "</td>
+                    <td style='color:#337ab7'> <i class='fa fa-lg fa-minus'> </i> "  . abs($Output[$i]) .  "%</td>
                     </tr>";
             }
         }
@@ -617,7 +617,6 @@ AmCharts.makeChart( "'.$StockSymbol.'Graph", {
     }
     
 }
-
 
 Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol) {
     

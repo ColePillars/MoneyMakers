@@ -53,7 +53,6 @@ session_start();
         include ('../pageelements/footer.php');
         ?>
     </div>
-    <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="../vendor/metisMenu/metisMenu.min.js"></script>
     <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
@@ -67,39 +66,6 @@ session_start();
             responsive: true
         });
     });
-	</script>
-	
-	<!-- Slick Carousel Scripts -->
-	<script src="../vendor/slick-master/slick/slick.min.js"></script>
-	<script>
-	$('.responsive').slick({
-		  infinite: true,
-		  slidesToShow: 5,
-		  slidesToScroll: 5,
-		  responsive: [
-		    {
-		      breakpoint: 1200,
-		      settings: {
-		        slidesToShow: 4,
-		        slidesToScroll: 4
-		      }
-		    },
-		    {
-		      breakpoint: 992,
-		      settings: {
-		        slidesToShow: 3,
-		        slidesToScroll: 3
-		      }
-		    },
-		    {
-		      breakpoint: 768,
-		      settings: {
-		        slidesToShow: 2,
-		        slidesToScroll: 2
-		      }
-		    }
-		  ]
-		});
 	</script>
 </body>
 

@@ -1,15 +1,19 @@
 <!-- Slick Carousel Resources -->
 <link rel="stylesheet" type="text/css" href="../vendor/slick-master/slick/slick.css">
 <link rel="stylesheet" type="text/css" href="../vendor/slick-master/slick/slick-theme.css">
-
-
+<!-- Sparkline Resources -->
+<script type="text/javascript" src="../vendor/jquery/jquery.js"></script>
+<script type="text/javascript" src="../vendor/jquery.sparkline.js"></script>
 <style type="text/css">
     html, body {
-      margin: 0;
-      padding: 0;
+        margin: 0;
+        padding: 0;
     }
-    * {
+    * { 
         box-sizing: border-box;
+    }
+    .jqstooltip{
+        box-sizing: content-box;
     }
     .slider {
         width: 80%;
@@ -29,7 +33,7 @@
         transition: all ease-in-out .3s;
         opacity: .2;
     }
-    .slick-active { 
+    .slick-active {
         opacity: 1;
     }
 </style>
@@ -79,6 +83,9 @@
         WHERE c.Timestamp = (SELECT DISTINCT Timestamp from StockInfo.Time_Series_Daily order by Timestamp DESC LIMIT 1 )
         ORDER BY atr_stock_id ASC";
 	}
+	
+	$var = 0;
+	
     $result = mysqli_query($conn, $sql);
     if ($result -> num_rows > 0) {
         while($row = $result->fetch_assoc()) {
@@ -87,43 +94,119 @@
                 $str = substr($str, 0, 27) . '...';
             }
             echo "
-            <a href='../pages/stockpage.php?Symbol=" . $row['atr_stock_id'] . "' style='text-decoration: none; color: black;'>
+            <a href='../pages/stockpage.php?Symbol=" . $row['atr_stock_id'] . "' class='container' style='text-decoration: none; color: black;'>
                 <div class='row'>
-                <div class='col-sm-6 text-center'>
-                    <h4> " . $str . " </h4>
-                </div>
-                <div class='col-sm-6 text-center'>
-                    <h5> " . $row['Close'] . " </h5>
+                    <div class='col-sm-6 text-center'>
+                        <h4> " . $str . " </h4>
+                    </div>
+                    <div class='col-sm-6 text-center'>
+                        <h5> " . $row['Close'] . " </h5>
             ";
             if ($row['ClosePercentChange'] > 0) {
                 echo "
-                    <h5 style='color:#28a745'><i class='fa fa-lg fa-caret-up'></i> " . abs($row['ClosePercentChange']) . "%</h5>
+                        <h5 style='color:#28a745'><i class='fa fa-lg fa-caret-up'></i> " . abs($row['ClosePercentChange']) . "%</h5>
                 ";
             }
             if ($row['ClosePercentChange'] < 0) {
                 echo "
-                    <h5 style='color:#dc3545'><i class='fa fa-lg fa-caret-down'></i> " . abs($row['ClosePercentChange']) . "%</h5>
+                        <h5 style='color:#dc3545'><i class='fa fa-lg fa-caret-down'></i> " . abs($row['ClosePercentChange']) . "%</h5>
                 ";
             }
             if ($row['ClosePercentChange'] == 0) {
                 echo "
-                    <h5 style='color:#337ab7'><i class='fa fa-lg fa-minus'></i> " . abs($row['ClosePercentChange']) . "%</h5>
+                        <h5 style='color:#337ab7'><i class='fa fa-lg fa-minus'></i> " . abs($row['ClosePercentChange']) . "%</h5>
                 ";
             }
             echo "
-                </div>
+                    </div>
                 </div>
                 <div class='row'>
-                    <div class='col-sm-12 text-center'>
+                    <div class='col-sm-12 text-center' >
             ";
-            StockSparkline($row['atr_stock_id']);
+            
+            $sql2 = "
+            SELECT * FROM
+            (
+                SELECT * FROM StockInfo.Time_Series_Daily
+                WHERE StockInfo.Time_Series_Daily.atr_stock_id ='" . $row['atr_stock_id'] . "'
+                ORDER BY Time_Series_Daily.Timestamp DESC LIMIT 35
+            ) AS tmp
+            ORDER BY Timestamp ASC
+            ";
+            
+                echo "
+                        <script type='text/javascript'>
+                        $(function() {
+            ";
+                echo "
+                        var myvalues" . $var . " = [";
+                
+                $var2 = 0;
+                
+                $result2 = mysqli_query($conn, $sql2);
+                if ($result2 -> num_rows > 0) {
+                    while($row2 = $result2->fetch_assoc()) {
+                        if ($var2 == 0) {
+                            echo $row2['Close'];
+                        }
+                        else {
+                            echo "," . $row2['Close'];
+                        }
+                        $var2++;
+                    }
+                }
+            echo "];
+            ";
+            echo "
+                        $('.dynamicsparkline" . $var . "').sparkline(myvalues" . $var . ");
+            ";
+            echo "
+                        });
+                        </script>
+            ";
+            echo "
+                        <span class='dynamicsparkline" . $var . "'>Loading..</span>
+            ";
             echo "
                     </div>
                 </div>
             </a>
             ";
+            $var++;
         }
     }
 	?>
 </section>
+<!-- Slick Carousel Scripts -->
+<script src="../vendor/slick-master/slick/slick.min.js"></script>
+<script>
+$('.responsive').slick({
+	infinite: true,
+	slidesToShow: 5,
+	slidesToScroll: 5,
+	responsive: [
+		{
+	    	breakpoint: 1200,
+	    	settings: {
+	        	slidesToShow: 4,
+	        	slidesToScroll: 4
+	      	}
+	    },
+	    {
+	      	breakpoint: 992,
+	      	settings: {
+	        	slidesToShow: 3,
+	        	slidesToScroll: 3
+	      	}
+	    },
+	    {
+	      	breakpoint: 768,
+	      	settings: {
+	        	slidesToShow: 2,
+	        	slidesToScroll: 2
+	      	}
+	    }
+	]
+});
+</script>
 
