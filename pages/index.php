@@ -27,6 +27,14 @@ session_start();
     <script src="../graphing/amcharts/serial.js"></script>
     <script src="../graphing/amcharts/plugins/export/export.min.js"></script>
     <link rel="stylesheet" href="../graphing/amcharts/plugins/export/export.css" type="text/css" media="all" /> 
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    
+
+    
+
+
+
 </head>
 
 <body>
@@ -39,43 +47,124 @@ session_start();
             include ('../pageelements/stockcarousel.php');
             ?>
             <div class="row">
-                <div class="col-lg-3">
-                    <div class="chat-panel panel panel-green chat" style="height:615px">
-                        <div class="panel-heading" style="font-size:12px">My Subs
-                            <div class="fa fa-star pull-left" style="margin-right:12px;margin-top:3px"></div>
-                        </div>
-                        <div class="chat-panel panel panel-default">
-                            <div class="panel-body" style="font-size:12px;height:562px">
-                                <ul class="chat">
-                                    <?php
-                                    ShowSubbedStocks();
-                                    ?>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="panel panel-yellow" style="height:615px">
-                        <div class="panel-heading" style="font-size:12px">News
-                            <div class="fa fa-rss pull-left" style="margin-right:12px;margin-top:3px"></div>
-                        </div>
-                        <div class="chat-panel panel panel-default">
-                            <div class="panel-body" style="font-size:12px;height:562px">
-                                <ul class="chat">
-                                    <?php
-                                    ShowRssFeedNews("Stock Market");
-                                    ?>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            
+            
+            <!-- old my subs -->
+                <div class="col-lg-6">
+
+               <div class="row">
+              	<div class="col-lh-6"  id="newsfeed" style="overflow-y:scroll; height:600px; ">
+
+     <?php 
+     
+     $news = simplexml_load_file('https://news.google.com/news/rss/search/section/q/ford/ford?hl=en&gl=US&ned=us');
+     $feeds = array();
+     
+     $i = 0;
+     
+     foreach ($news->channel->item as $item)
+     {
+         preg_match('@src="([^"]+)"@', $item->description, $match);
+         $parts = explode('<li>', $item->description);
+         $title = (string) $item->title;
+         $link = (string) $item->link;
+         $img= $match[1];
+         $sitetitle = strip_tags($parts[1]);
+         $story = strip_tags($parts[2]);
+         $date =  (string) $item->pubDate;
+         
+         echo"
+  	    
+<style>
+    .img2 {
+        float: left;
+        width:240x;
+        height 180px;
+        padding: 5px;
+        border-radius: 25px;
+    }
+    .dateinfo{
+        position:absolute;
+        bottom:5;
+        right:5;
+        }
+  	    
+    .TitleHeading{
+        text-align: centerl
+        font-familty: Arial, Helvetica, sans-serif;
+        color: black;
+    }
+    .clearfix {
+        width:80%;
+    }
+    .pullbottomright{
+        position:absolute;
+        bottom:0;
+        right:0;
+        padding-right:5px;
+    }
+  	    
+    .dateholder{
+        padding: 5px;
+        position:relative;
+    }
+    @media only screen and (max-width: 768px) {
+    .TitleHeading{
+        border: 1px solid red;
+        padding-bottom: 10px;
+        font-size: 18px;
+    }
+       .img2 {
+              display:none;
+            }
+     small {
+        font-size: 10px;
+      }
+    }
+  	    
+    #newsfeed::-webkit-scrollbar
+    {
+       width: 0px;  /* remove scrollbar space */
+       background: transparent;  /* optional: just make scrollbar invisible */
+    }
+  	    
+</style>
+<div class='w3-card-4 w3-margin' style='width:90%'>
+    <div class='clearfix'>
+    <div>
+        <img class='img2' src='" . $img ."' >
+            <div style='overflow:hidden'>
+                <h3 class='TitleHeading'>" . $title . "</h3>
+            </div>
+        </div>
+    </div>
+    <div class='dateholder'>
+        <small class='text-muted pullbottomright'>
+        <i class='fa fa-clock-o fa-fw'></i>" . $date . "
+    </small>
+    </div>
+</div>";
+         
+         $i++;
+     }
+     
+     
+       
+     ?>
+
+                     	          	</div>
+                     	<div class="col-lg-12">
+                   
+                     	</div>
+                     	<div class="col-lg-6">
+                     
+                     	</div>
+                     	<div class="col-lg-6">
+               
+                     	</div>
+                     	
+                     
+                     </div>              
                 </div>
                 <div class="col-lg-3">
                     <div class="panel panel-primary">
