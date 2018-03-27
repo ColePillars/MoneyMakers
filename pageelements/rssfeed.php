@@ -1,10 +1,10 @@
-	<link href="../vendor/w3.css" rel="stylesheet">
-    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  	<link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
-   	<link href="../vendor/morrisjs/morris.css" rel="stylesheet">
-   	<link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    
+<link href="../vendor/w3.css" rel="stylesheet">
+<link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+<link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+<link href="../vendor/morrisjs/morris.css" rel="stylesheet">
+<link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
 <?php 
 
 if ($StockFullName) {
@@ -43,12 +43,10 @@ foreach ($news->channel->item as $item)
                     <a href='" . $link . "' style='text-decoration: none; color: black;'>
                         <div class='w3-display-container w3-text-white'>
                             <div style='overflow: auto;'>
-                            
-                                <img src='" . $img ."' style='max-height: 95px; float: left; padding: 5px; border-radius: 15px;'>
+                                <img src='" . $img ."' style='max-height: 95px; float: left; padding: 2px; border-radius: 15px;'>
                                 <h5 style='color:black'>" . $title . "</p>
-                                
                             </div>
-                            <div style='text-align: right; padding: 5px'>
+                            <div style='text-align: right; max-height:18px; padding: 1px'>
                                 <small class='text-muted'>
                                     <i class='fa fa-clock-o fa-fw'></i>" . $date . "
                                 </small>
@@ -60,7 +58,7 @@ foreach ($news->channel->item as $item)
         $i++;
     }
     
-    if ($i == 5 ) break;
+    if ($i == 6 ) break;
 }
 
 ?>

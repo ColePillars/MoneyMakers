@@ -38,121 +38,30 @@ include ('../resources/functions.php');
         	<?php
             include ('../pageelements/stockcarousel.php');
             ?>
-            <div class="row">
-                <div class='col-sm-5 col-sm-offset-1'>
+            <div class='row'>
+        		<div class='col-sm-6 col-sm-offset-1'>
                     <?php 
                     include ('../pageelements/rssfeed.php');
                     ?>
                 </div>
-                
-                <div class="col-sm-3">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading" style="font-size:12px">Most Active
-                            <div class="fa fa-globe pull-left" style="margin-right:12px;margin-top:3px"></div>
-                        </div>
-                        <div class="panel-body" style="font-size:12px">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="table-responsive">
-                                        <?php 
-                                        ShowMostMoving();
-                                        ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-primary">
-                        <div class="panel-heading" style="font-size:12px">Cryptocurrencies
-                            <div class="fa fa-key pull-left" style="margin-right:12px;margin-top:3px"></div>
-                        </div>
-                        <div class="panel-body" style="font-size:12px">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Stock</th>
-                                                    <th>Price</th>
-                                                    <th>Change</th>
-                                                    <th>Percent</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>stock</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>stock</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>stock</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>stock</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>stock</td>
-                                                    <td>price</td>
-                                                    <td>change</td>
-                                                    <td>change %</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading" style="font-size:12px">Most Gains
-                            <div class="fa fa-arrow-up pull-left" style="margin-right:12px;margin-top:3px"></div>
-                        </div>
-                        <div class="panel-body" style="font-size:12px">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="table-responsive">
-                                        <?php 
-                                        ShowMostGains();
-                                        ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-primary">
-                        <div class="panel-heading" style="font-size:12px">Most Losses
-                            <div class="fa fa-arrow-down pull-left" style="margin-right:12px;margin-top:3px"></div>
-                        </div>
-                        <div class="panel-body" style="font-size:12px">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="table-responsive">
-                                        <?php 
-                                        ShowMostLosses();
-                                        ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <div class='col-sm-4'>
+                	<div class='row'>
+                		<?php 
+                		include ('../pageelements/mostgains.php');
+                		?>
+            		</div>
+            		<div class='row'>
+                		<?php 
+                		include ('../pageelements/mostlosses.php');
+                		?>
+            		</div>
+            		<div class='row'>
+                		<?php 
+                		include ('../pageelements/buysell.php');
+                		?>
+            		</div>
+    			</div>
+			</div>
         </div>        
         <?php
         include ('../pageelements/footer.php');

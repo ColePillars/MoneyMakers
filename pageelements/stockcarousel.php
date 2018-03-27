@@ -12,9 +12,9 @@
     * { 
         box-sizing: border-box;
     }
-    .jqstooltip{
-        box-sizing: content-box;
-    }
+     .jqstooltip{ 
+         box-sizing: content-box; 
+     } 
     .slider {
         width: 80%;
         margin: 10px auto;
@@ -104,17 +104,17 @@
             ";
             if ($row['ClosePercentChange'] > 0) {
                 echo "
-                        <h5 style='color:#28a745'><i class='fa fa-lg fa-caret-up'></i> " . abs($row['ClosePercentChange']) . "%</h5>
+                        <h5 style='color:#28a745'><i class='fa fa-lg fa-caret-up'></i>&nbsp;" . abs($row['ClosePercentChange']) . "%</h5>
                 ";
             }
             if ($row['ClosePercentChange'] < 0) {
                 echo "
-                        <h5 style='color:#dc3545'><i class='fa fa-lg fa-caret-down'></i> " . abs($row['ClosePercentChange']) . "%</h5>
+                        <h5 style='color:#dc3545'><i class='fa fa-lg fa-caret-down'></i>&nbsp;" . abs($row['ClosePercentChange']) . "%</h5>
                 ";
             }
             if ($row['ClosePercentChange'] == 0) {
                 echo "
-                        <h5 style='color:#337ab7'><i class='fa fa-lg fa-minus'></i> " . abs($row['ClosePercentChange']) . "%</h5>
+                        <h5 style='color:#337ab7'><i class='fa fa-lg fa-minus'></i>&nbsp;" . abs($row['ClosePercentChange']) . "%</h5>
                 ";
             }
             echo "
@@ -157,7 +157,14 @@
                         $('.dynamicsparkline" . $var . "').sparkline(myvalues" . $var . ");
                         });
                         </script>
-                        <span class='dynamicsparkline" . $var . "'>Loading..</span>
+            ";
+            
+            //Shows the sparklines, literally breaks the whole page if your zoomed in >:(
+//             echo "
+//                         <span class='dynamicsparkline" . $var . "'>Loading..</span>
+//             ";
+            
+            echo "
                     </div>
                 </div>
             </a>
