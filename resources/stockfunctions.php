@@ -22,6 +22,10 @@ Function FetchDailyJSON($StockSymbol){
     //Counter to skip metadata
     $count = 0;
     
+
+    
+    
+    
     $all_query_ok = true;
     $conn->begin_transaction();
     
@@ -139,15 +143,25 @@ Function FetchDailyJSONSub($StockSymbol){
     $StartSQL = "INSERT IGNORE INTO StockInfo.Time_Series_Daily(atr_stock_ID,Timestamp,Open,High,Low,Close,Volume,Composite_Key)
             VALUES('" . $StockSymbol . "',";
     
+    
+    //getting max date to not break everything
+    $MaxDateSQL = "SELECT MAX(Timestamp) as 'MaxTime' FROM StockInfo.Time_Series_Daily";
+    $MaxDateResult = mysqli_query($conn, $MaxDateSQL);
+    if ($MaxDateResult->num_rows > 0) {
+        while($row = $MaxDateResult->fetch_assoc()) {
+            
+            $MaxDate = $row['MaxTime'];
+        }
+    }
+
     //Counter to skip metadata
     $count = 0;
     
     $all_query_ok = true;
     $conn->begin_transaction();
     
-    
     //Looping through each json object
-    
+   
     foreach ($JSONData  as $JSONObject){
         //Loop through each day
         foreach ($JSONObject as $Timestamp => $TimeSeries){
@@ -155,14 +169,12 @@ Function FetchDailyJSONSub($StockSymbol){
             if($count > 4){
                 $MidQuery = $StartSQL;
                 $SkipInsert = False;
-                if ($Timestamp == date('Y-m-d')){
+                if (date('Ymd', strtotime($MaxDate)) < date('Ymd', strtotime($Timestamp))){
                     $SkipInsert = True;
                 }
-                
                 $MidQuery = $MidQuery . "'" . $Timestamp . "',";
             }
-            
-            
+
             //loop through each value, open, high, low, close, volume, append to insert query
             foreach ($TimeSeries as $ObjectHeader => $ObjectValue){
                 $MidQuery = $MidQuery . "'" . $ObjectValue . "',";
@@ -176,8 +188,7 @@ Function FetchDailyJSONSub($StockSymbol){
                     
                     $conn->query($MidQuery) ? null : $all_query_ok = false;
                 }
-                
-                
+
             }
             
             $count = $count + 1;
@@ -211,6 +222,17 @@ function FetchRSIJSONSub($StockSymbol, $Interval, $TimePeriod){
     $StartSQL = "INSERT IGNORE INTO StockInfo.Technical_Analysis_RSI(atr_stock_id,Timestamp,RSI,Composite_Key)
             VALUES('" . $StockSymbol . "',";
     
+    
+    
+    //getting max date to not break everything
+    $MaxDateSQL = "SELECT MAX(Timestamp) as 'MaxTime' FROM StockInfo.Time_Series_Daily";
+    $MaxDateResult = mysqli_query($conn, $MaxDateSQL);
+    if ($MaxDateResult->num_rows > 0) {
+        while($row = $MaxDateResult->fetch_assoc()) { 
+            $MaxDate = $row['MaxTime'];
+        }
+    }
+
     //Counter to skip metadata
     $count = 0;
     $limit = 0;
@@ -226,7 +248,7 @@ function FetchRSIJSONSub($StockSymbol, $Interval, $TimePeriod){
             if($count > 6){
                 $MidQuery = $StartSQL;
                 $SkipInsert = False;
-                if ($Timestamp == date('Y-m-d')){
+                if (date('Ymd', strtotime($MaxDate)) < date('Ymd', strtotime($Timestamp))){
                     $SkipInsert = True;
                 }
                 
@@ -245,8 +267,7 @@ function FetchRSIJSONSub($StockSymbol, $Interval, $TimePeriod){
                         
                         $conn->query($MidQuery) ? null : $all_query_ok = false;
                     }
-                    
-                   
+
                 }
                 $count = $count + 1;
                 $limit = $limit + 1;
