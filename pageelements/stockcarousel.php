@@ -199,4 +199,3 @@ $('.responsive').slick({
 	]
 });
 </script>
-

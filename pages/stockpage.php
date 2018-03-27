@@ -141,26 +141,9 @@ else{
                     ?>
                 </div>
                 <div class="col-lg-3">
-                    <div class="panel panel-yellow" style="height:615px">
-                        <div class="panel-heading" style="font-size:12px">Stock News
-                            <div class="fa fa-rss pull-left" style="margin-right:12px;margin-top:3px"></div>
-                        </div>
-                        <div class="chat-panel panel panel-default">
-                            <div class="panel-body" style="height:562px;font-size:12px">
-                                <ul class="chat">
-                                    <?php
-                                    ShowRssFeedNews($StockFullName);         
-                                    ?>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                    include ('../pageelements/rssfeed.php');
+                    ?>
                 </div>
             </div>
         </div>

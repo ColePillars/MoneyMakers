@@ -39,45 +39,13 @@ include ('../resources/functions.php');
             include ('../pageelements/stockcarousel.php');
             ?>
             <div class="row">
-                <div class="col-lg-3">
-                    <div class="chat-panel panel panel-green chat" style="height:615px">
-                        <div class="panel-heading" style="font-size:12px">My Subs
-                            <div class="fa fa-star pull-left" style="margin-right:12px;margin-top:3px"></div>
-                        </div>
-                        <div class="chat-panel panel panel-default">
-                            <div class="panel-body" style="font-size:12px;height:562px">
-                                <ul class="chat">
-                                    <?php
-                                    ShowSubbedStocks();
-                                    ?>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                <div class='col-sm-5 col-sm-offset-1'>
+                    <?php 
+                    include ('../pageelements/rssfeed.php');
+                    ?>
                 </div>
-                <div class="col-lg-3">
-                    <div class="panel panel-yellow" style="height:615px">
-                        <div class="panel-heading" style="font-size:12px">News
-                            <div class="fa fa-rss pull-left" style="margin-right:12px;margin-top:3px"></div>
-                        </div>
-                        <div class="chat-panel panel panel-default">
-                            <div class="panel-body" style="font-size:12px;height:562px">
-                                <ul class="chat">
-                                    <?php
-                                    ShowRssFeedNews("Stock Market");
-                                    ?>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
+                
+                <div class="col-sm-3">
                     <div class="panel panel-primary">
                         <div class="panel-heading" style="font-size:12px">Most Active
                             <div class="fa fa-globe pull-left" style="margin-right:12px;margin-top:3px"></div>
@@ -150,7 +118,7 @@ include ('../resources/functions.php');
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-sm-3">
                     <div class="panel panel-primary">
                         <div class="panel-heading" style="font-size:12px">Most Gains
                             <div class="fa fa-arrow-up pull-left" style="margin-right:12px;margin-top:3px"></div>
