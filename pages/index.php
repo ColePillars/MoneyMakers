@@ -27,6 +27,8 @@ include ('../resources/functions.php');
     <script src="../graphing/amcharts/serial.js"></script>
     <script src="../graphing/amcharts/plugins/export/export.min.js"></script>
     <link rel="stylesheet" href="../graphing/amcharts/plugins/export/export.css" type="text/css" media="all" /> 
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 
 <body>
