@@ -694,10 +694,8 @@ Function ShowSubUnsubIcon(){
 
     if ($CheckSubResults->num_rows > 0){
         echo "
-           <button type='button' class='btn btn-primary btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-minus fa-lg'></i>
+           <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-check fa-lg'></i>
             </button>
-           <i class='btn-success btn-xs pull-left' style='margin-top:10px;margin-right:6px;margin-left:12px'> <i class='fa fa-check'></i>
-            </i>
             <div class='modal fade' id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>
 
                 <div class='modal-dialog'>
@@ -748,9 +746,7 @@ Function ShowSubUnsubIcon(){
                             </div>
                         </div>
                     </div>
-                </div><br>
-                <br><h3 class='alert alert-info' style='margin-top:18px;margin-bottom:6px;font-size:12px;text-align:center'>
-                This information may be outdated. Subscribe to update.</h3>
+                </div>
             ";
         }
 

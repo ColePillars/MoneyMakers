@@ -55,85 +55,10 @@ else{
             ?>
             <div class="row">
                 <div class="col-lg-3">
-                    <div class="panel panel-primary" style="font-size:12px"> 
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-4">
-                                    <i class="fa fa-bar-chart fa-5x" style="margin-top:22px;display:block;text-align:center"></i>
-                                </div>
-                                <div class="col-xs-8">
-                                    <div class="h4">
-                                        <?php 
-                                        echo $GLOBALS['StockFullName'];
-                                        ?>
-                                    </div>
-                                    <div style="margin-bottom:6px">
-                                        <?php 
-                                        echo $_GET['Symbol'];
-                                        ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-footer">
-                            <ul class="nav nav-pills">
-                                <li class="active"><a href="#status-pills" data-toggle="tab">Status</a>
-                                </li>
-                                <li><a href="#details-pills" data-toggle="tab">Details</a>
-                                </li>
-                                <li><a href="#simulation-pills" data-toggle="tab">Sim</a>
-                                </li>
-                                <?php
-                                ShowSubUnsubIcon();
-                                ?>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="panel panel-primary">
-                        <div class="panel-body">
-                            <div class="tab-content">
-                                <div class="tab-pane fade in active" id="status-pills">
-                                    <h3 class='alert alert-warning' style='margin-top:3px;margin-bottom:3px;font-size:28px;text-align:center'>
-                                    	<?php
-                                        include ('../resources/connection.php');
-                                        $status = "SELECT Final_Decision FROM StockInfo.Buy_Sell_Hold WHERE Symbol = '" .  $_GET['Symbol'] . "';";
-                                        $statusResult = mysqli_query($conn, $status);
-                                        if ($statusResult->num_rows > 0){
-                                            while($row = $statusResult->fetch_assoc()) {
-                                                echo $row['Final_Decision'];
-                                            }
-                                        }
-                                        ?>
-                                  	</h3>
-                                </div>
-                                <div class="tab-pane fade" id="details-pills">
-                                    <?php 
-                                    ShowCompanyInformation($_GET['Symbol']);
-                                    ?>
-                                </div>
-                                <div class="tab-pane fade" id="simulation-pills">
-                                	<h3 class='alert alert-info' style='margin-top:3px;margin-bottom:3px;font-size:28px;text-align:center'>
-                                	<?php 
-                                    echo PotentialGains(1000, 100, 0, $_GET['Symbol']);
-                                    ?> %
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-primary">
-                        <div class="panel-body" style="font-size:12px">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="table-responsive">
-                                        <?php
-                                        FetchLastTenDaysChart($_GET['Symbol']);
-                                        ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php 
+                    include ('../pageelements/stockinfo.php');
+                    include ('../pageelements/recentdata.php');
+                    ?>
                 </div>
                 <div class="col-lg-6">
                     <?php
