@@ -61,9 +61,9 @@ Function SearchStockIndex($SearchString){
                         <tbody>';
         while($row = $SearchResult->fetch_assoc()) {
             echo "
-                            <tr onclick=\"window.location='stockpage.php?Symbol=" . $row['Symbol'] . "';\">
+                            <tr>
                                 <td>".$row['Symbol']."</td>
-                                <td>".$row['Name']."</td>
+                                <td><a href='stockpage.php?Symbol=" . $row['Symbol'] . "'>" . $row['Name'] . "</a></td>
                                 <td>".$row['Sector']."</td>
                                 <td>".$row['Industry']."</td>
                             </tr>";         
