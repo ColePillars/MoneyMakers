@@ -59,7 +59,7 @@
                 <div class="tab-pane fade" id="simulation-pills">
                 	<h3 class='alert alert-warning' style='margin-top:3px;margin-bottom:3px;font-size:28px;text-align:center'>
                 	<?php 
-                    echo PotentialGains(1000, 100, 0, $_GET['Symbol']);
+                    echo round(PotentialGains(1000, 100, 0, $_GET['Symbol']), 3);
                     ?> %
                     </h3>
                 </div>
