@@ -60,13 +60,13 @@ Function SearchStockIndex($SearchString){
                         </thead>
                         <tbody>';
         while($row = $SearchResult->fetch_assoc()) {
-            echo '
+            echo "
                             <tr>
-                                <td>'.$row["Symbol"].'</td>
-                                <td><a href="../pages/stockpage.php?Symbol='.$row["Symbol"].'">'.$row["Name"].'</a></td>
-                                <td>'.$row["Sector"].'</td>
-                                <td>'.$row["Industry"].'</td>
-                            </tr>';         
+                                <td>".$row['Symbol']."</td>
+                                <td><a href='stockpage.php?Symbol=" . $row['Symbol'] . "'>" . $row['Name'] . "</a></td>
+                                <td>".$row['Sector']."</td>
+                                <td>".$row['Industry']."</td>
+                            </tr>";         
         } 
         echo '
                         </tbody>
@@ -131,7 +131,7 @@ Function FetchLastTenDaysChart($StockSymbol){
     $Output = array();
     //Query to show the last 11days of close prices
     $ShowLastTenSQL = "SELECT atr_Stock_id, DATE_FORMAT(timestamp, '%m-%d-%y') as 'timestamp', Open, High, Low, Close FROM StockInfo.Time_Series_Daily WHERE Timestamp >
-(SELECT DISTINCT Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 11) AND atr_Stock_id = '" . $StockSymbol . "'
+(SELECT DISTINCT Timestamp FROM StockInfo.Time_Series_Daily WHERE atr_stock_id ='" . $StockSymbol . "' ORDER BY Timestamp DESC LIMIT 1 offset 11) AND atr_Stock_id = '" . $StockSymbol . "'
  order by atr_stock_id ASC, Timestamp ASC";
     $SearchResult = mysqli_query($conn, $ShowLastTenSQL);
     if ($SearchResult->num_rows > 0){
@@ -174,19 +174,19 @@ Function FetchLastTenDaysChart($StockSymbol){
             if ($Output[$i-1] > 0) {
                 echo"
                     <td style='color:#28a745'>"  . $Output[$i-1] .  "</td>
-                    <td style='color:#28a745'> <i class='fa fa-lg fa-caret-up'> </i> "  . $Output[$i] .  "</td>
+                    <td style='color:#28a745'> <i class='fa fa-lg fa-caret-up'> </i> "  . abs($Output[$i]) .  "%</td>
                     </tr>";
             }
             elseif ($Output[$i-1] < 0) {
                 echo"
                     <td style='color:#dc3545'>"  . $Output[$i-1] .  "</td>
-                    <td style='color:#dc3545'> <i class='fa fa-lg fa-caret-down'> </i> "  . $Output[$i] .  "</td>
+                    <td style='color:#dc3545'> <i class='fa fa-lg fa-caret-down'> </i> "  . abs($Output[$i]) .  "%</td>
                     </tr>";
             }
             elseif ($Output[$i-1] == 0) {
                 echo"
                     <td style='color:#337ab7'>"  . $Output[$i-1] .  "</td>
-                    <td style='color:#337ab7'> <i class='fa fa-lg fa-minus'> </i> "  . $Output[$i] .  "</td>
+                    <td style='color:#337ab7'> <i class='fa fa-lg fa-minus'> </i> "  . abs($Output[$i]) .  "%</td>
                     </tr>";
             }
         }
@@ -618,7 +618,6 @@ AmCharts.makeChart( "'.$StockSymbol.'Graph", {
     
 }
 
-
 Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol) {
     
     include('../resources/connection.php');
@@ -694,12 +693,9 @@ Function ShowSubUnsubIcon(){
     $CheckSubResults = mysqli_query($conn, $CheckIfSubbedSQL);
 
     if ($CheckSubResults->num_rows > 0){
-
         echo "
-           <button type='button' class='btn btn-primary btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-minus fa-lg'></i>
+           <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-check fa-lg'></i>
             </button>
-           <i class='btn-success btn-xs pull-left' style='margin-top:10px;margin-right:6px;margin-left:12px'> <i class='fa fa-check'></i>
-            </i>
             <div class='modal fade' id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>
 
                 <div class='modal-dialog'>
@@ -722,14 +718,13 @@ Function ShowSubUnsubIcon(){
             </div>";
     }
     else{
-    //at this point user is not subbed, but there still may be stock info here
-    //check this stock exsits but user isnt subbed
-    $CheckIfStockExists = "SELECT * FROM StockInfo.Time_Series_Daily WHERE atr_stock_id='" . $_GET['Symbol'] . "';";
-    $CheckIfStockExistsResults = mysqli_query($conn, $CheckIfStockExists);
-    if ($CheckIfStockExistsResults->num_rows > 0){
+        //at this point user is not subbed, but there still may be stock info here
+        //check this stock exsits but user isnt subbed
+        $CheckIfStockExists = "SELECT * FROM StockInfo.Time_Series_Daily WHERE atr_stock_id='" . $_GET['Symbol'] . "';";
+        $CheckIfStockExistsResults = mysqli_query($conn, $CheckIfStockExists);
+        if ($CheckIfStockExistsResults->num_rows > 0){
         
-        echo "
-
+            echo "
                <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-plus fa-lg'></i>
                 </button>
                 <div class='modal fade' id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>
@@ -751,14 +746,13 @@ Function ShowSubUnsubIcon(){
                             </div>
                         </div>
                     </div>
-                </div><br>
-                <br><h3 class='alert alert-info' style='margin-top:18px;margin-bottom:6px;font-size:12px;text-align:center'>
-                This information may be outdated. Subscribe to update.</h3>";
-    }
+                </div>
+            ";
+        }
 
-     else{
-        //at this point we dont hold stock info for this item, which means the user isnt subbed     
-         echo "
+        else{
+            //at this point we dont hold stock info for this item, which means the user isnt subbed     
+            echo "
                   <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right'  style='margin-top:6px'><i class='fa fa-refresh fa-spin fa-lg'></i>
                 </button>
                    <div   id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='
@@ -785,9 +779,9 @@ Function ShowSubUnsubIcon(){
                             </div>
                         </div>
                     </div>
-                </div>";
-     
-         }
+                </div>
+            ";
+        }
     }   
 }
 
