@@ -32,7 +32,7 @@
         if ($result->num_rows > 0){
             while($row = $result->fetch_assoc()) {
                 echo "
-        <tr class='clickable-row' data-href='#'>
+        <tr onclick=\"window.location='stockpage.php?Symbol=" . $row['atr_stock_id'] . "';\">
             <td>" . $row['atr_stock_id'] . "</td>
             <td>" . $row['Close'] . "</td>
                 ";
@@ -62,3 +62,9 @@
         ?>
     </table>
 </div>
+
+
+
+
+
+

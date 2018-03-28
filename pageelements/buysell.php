@@ -14,7 +14,7 @@
         include('../resources/connection.php');
         
         $sql = "
-        SELECT  c.atr_stock_id, c.Close, c.Timestamp, (c.Close  - y.Close) as 'Change', ROUND((((c.Close / y.Close)  -1 ) * 100),2) as 'ClosePercentChange', StockInfo.Buy_Sell_Hold.Final_Decision
+        SELECT  c.atr_stock_id, c.Close, c.Timestamp, (c.Close  - y.Close) as 'Change', ROUND((((c.Close / y.Close)  -1 ) * 100),2) as 'ClosePercentChange', StockInfo.Buy_Sell_Hold.Final_Decision,StockInfo.Stock_Symbol_Index.Name
         FROM StockInfo.Time_Series_Daily as c
         INNER JOIN
         (
@@ -24,6 +24,7 @@
           ORDER BY Timestamp DESC LIMIT 1 OFFSET 1)
         ) as y on c.atr_stock_id = y.atr_stock_id
         INNER JOIN StockInfo.Buy_Sell_Hold on c.atr_stock_id = StockInfo.Buy_Sell_Hold.Symbol        
+        INNER JOIN StockInfo.Stock_Symbol_Index on c.atr_stock_id = StockInfo.Stock_Symbol_Index.Symbol
         WHERE c.Timestamp = (SELECT DISTINCT Timestamp from StockInfo.Time_Series_Daily order by Timestamp DESC LIMIT 1 )
         AND Final_Decision = 'Buy'
         ORDER BY ClosePercentChange DESC LIMIT 3
@@ -33,8 +34,8 @@
         if ($result->num_rows > 0){
             while($row = $result->fetch_assoc()) {
                 echo "
-        <tr class='clickable-row' data-href='#'>
-            <td>" . $row['atr_stock_id'] . "</td>
+        <tr onclick=\"window.location='stockpage.php?Symbol=" . $row['atr_stock_id'] . "';\">
+                        <td>" . $row['atr_stock_id'] . "</td>
             <td>" . $row['Close'] . "</td>
                 ";
                 if ($row['Change'] > 0) {
@@ -60,7 +61,7 @@
         }
             
         $sql2 = "
-        SELECT  c.atr_stock_id, c.Close, c.Timestamp, (c.Close  - y.Close) as 'Change', ROUND((((c.Close / y.Close)  -1 ) * 100),2) as 'ClosePercentChange', StockInfo.Buy_Sell_Hold.Final_Decision
+        SELECT  c.atr_stock_id, c.Close, c.Timestamp, (c.Close  - y.Close) as 'Change', ROUND((((c.Close / y.Close)  -1 ) * 100),2) as 'ClosePercentChange', StockInfo.Buy_Sell_Hold.Final_Decision, StockInfo.Stock_Symbol_Index.Name
         FROM StockInfo.Time_Series_Daily as c
         INNER JOIN
         (
@@ -70,6 +71,7 @@
           ORDER BY Timestamp DESC LIMIT 1 OFFSET 1)
         ) as y on c.atr_stock_id = y.atr_stock_id
         INNER JOIN StockInfo.Buy_Sell_Hold on c.atr_stock_id = StockInfo.Buy_Sell_Hold.Symbol        
+        INNER JOIN StockInfo.Stock_Symbol_Index on c.atr_stock_id = StockInfo.Stock_Symbol_Index.Symbol
         WHERE c.Timestamp = (SELECT DISTINCT Timestamp from StockInfo.Time_Series_Daily order by Timestamp DESC LIMIT 1 )
         AND Final_Decision = 'Sell'
         ORDER BY ClosePercentChange ASC LIMIT 3
@@ -79,7 +81,7 @@
         if ($result2->num_rows > 0){
             while($row = $result2->fetch_assoc()) {
                 echo "
-            <tr class='clickable-row' data-href='#'>
+            <tr onclick=\"window.location='stockpage.php?Symbol=" . $row['atr_stock_id'] . "';\">
                 <td>" . $row['atr_stock_id'] . "</td>
                 <td>" . $row['Close'] . "</td>
                 ";
@@ -100,7 +102,11 @@
                 }
                 echo "
                 <td><b>SELL</b></td>
+
             </tr>
+
+
+
                 ";
             }
         }
