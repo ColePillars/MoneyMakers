@@ -1,0 +1,29 @@
+NRD7+ID SHORT(SELL) ONLY
+	Narrow Range 7- When a trading day range is narrow than any of the previous six days. 
+	Inside Day - Current High < Prev High && Current Low > Prev Low
+
+	Current High < PrevHigh
+	Current Low > PrevLow
+
+	Current High > Prev High > Current Low //NO GOOD?!?
+
+	Current High > Prev Low > Current Low When current high is less than prev Low
+
+http://paststat.com/blog/how-to-trade-nr7-and-inside-day-pattern-on-spy/
+https://www.tradingview.com/script/Dln4aFaM-Narrow-Range-Inside-Day-Long-Only-Strategy-by-ChartArt/
+
+
+NR7- Check last 7 days
+	Narrow[] //Array of last 7 (Current High - Current Low) range
+	If (Narrow[6]) < Narrow[5] and Narrow[4] and Narrow[3]... //Enter trading
+		If Current Close > Prev High
+			Then Buy
+		elseif Current Close < Prev Low 
+			Then Sell
+	
+
+Maybe User NR7 To Buy only and NR7ID to Sell only!?
+
+Buy Hiearchy			Sell
+RSI > Heikin > NR7		RSI > NR7ID > Heikin
+	
