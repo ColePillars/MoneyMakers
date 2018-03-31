@@ -510,14 +510,6 @@ function Simulation(){
  function Sim($stock){
      include('connection.php');
      
-     /*function Heikin($O, $H, $L, $C, $oldO, $oldC){
-         $HA_Close = ($O + $H + $L + $C)/4;
-         $HA_Open = ($oldC + $oldO)/2;
-         $HA_Low = min($L, $HA_Open, $HA_Close);
-         $HA_High = max($H, $HA_Open, $HA_Close);
-         return array($HA_Open, $HA_High, $HA_Low, $HA_Close);
-     }*/
-     
      $select = "SELECT StockInfo.Time_Series_Daily.atr_stock_id, StockInfo.Time_Series_Daily.Timestamp, StockInfo.Time_Series_Daily.Open,
      StockInfo.Time_Series_Daily.High, StockInfo.Time_Series_Daily.Low, StockInfo.Time_Series_Daily.Close, StockInfo.Technical_Analysis_RSI.RSI, StockInfo.Time_Series_Daily.Composite_Key
      FROM StockInfo.Time_Series_Daily INNER JOIN StockInfo.Technical_Analysis_RSI ON StockInfo.Time_Series_Daily.Composite_Key =
@@ -645,7 +637,7 @@ function Simulation(){
  if ($simResult->num_rows > 0){
      while($subStock = $simResult->fetch_assoc()){
          //echo $subStock['atr_stock_id'] . "<br>";
-         Sim($subStock['atr_stock_id']);
+         //Sim($subStock['atr_stock_id']);
      }
  }
  
