@@ -500,17 +500,23 @@ function Simulation(){
             }
         }
  }
- 
+ function Heikin($O, $H, $L, $C, $oldO, $oldC){
+     $HA_Close = ($O + $H + $L + $C)/4;
+     $HA_Open = ($oldC + $oldO)/2;
+     $HA_Low = min($L, $HA_Open, $HA_Close);
+     $HA_High = max($H, $HA_Open, $HA_Close);
+     return array($HA_Open, $HA_High, $HA_Low, $HA_Close);
+ }
  function Sim($stock){
      include('connection.php');
      
-     function Heikin($O, $H, $L, $C, $oldO, $oldC){
+     /*function Heikin($O, $H, $L, $C, $oldO, $oldC){
          $HA_Close = ($O + $H + $L + $C)/4;
          $HA_Open = ($oldC + $oldO)/2;
          $HA_Low = min($L, $HA_Open, $HA_Close);
          $HA_High = max($H, $HA_Open, $HA_Close);
          return array($HA_Open, $HA_High, $HA_Low, $HA_Close);
-     }
+     }*/
      
      $select = "SELECT StockInfo.Time_Series_Daily.atr_stock_id, StockInfo.Time_Series_Daily.Timestamp, StockInfo.Time_Series_Daily.Open,
      StockInfo.Time_Series_Daily.High, StockInfo.Time_Series_Daily.Low, StockInfo.Time_Series_Daily.Close, StockInfo.Technical_Analysis_RSI.RSI, StockInfo.Time_Series_Daily.Composite_Key
@@ -527,13 +533,7 @@ function Simulation(){
      $low = 0.0;
      $arrayHigh = array();
      $arrayLow = array();
-     $FD = '';
-     echo "SELECT StockInfo.Time_Series_Daily.atr_stock_id, StockInfo.Time_Series_Daily.Timestamp, StockInfo.Time_Series_Daily.Open,
-     StockInfo.Time_Series_Daily.High, StockInfo.Time_Series_Daily.Low, StockInfo.Time_Series_Daily.Close, StockInfo.Technical_Analysis_RSI.RSI, StockInfo.Time_Series_Daily.Composite_Key
-     FROM StockInfo.Time_Series_Daily INNER JOIN StockInfo.Technical_Analysis_RSI ON StockInfo.Time_Series_Daily.Composite_Key =
-     StockInfo.Technical_Analysis_RSI.Composite_Key WHERE StockInfo.Time_Series_Daily.atr_stock_id = '" . $stock . "' AND StockInfo.Time_Series_Daily.Timestamp > (SELECT DISTINCT StockInfo.Time_Series_Daily.Timestamp FROM StockInfo.Time_Series_Daily
-     WHERE atr_stock_id = '" . $stock . "' ORDER BY StockInfo.Time_Series_Daily.Timestamp
-         DESC LIMIT 1 offset 100) order by StockInfo.Time_Series_Daily.Timestamp ASC<br>";
+     $FD = 'Hold';
      if ($selectResult->num_rows > 0){
          while($row = $selectResult->fetch_assoc()){
              //skip first 7 for 
@@ -640,98 +640,14 @@ function Simulation(){
  //Narrow_Range();
  //Final_Decision();
  //Simulation();
- $stocks = array();
  $sims = "SELECT DISTINCT atr_stock_id FROM UserCredentials.tbl_stock_subs order by atr_stock_id ASC";
  $simResult = mysqli_query($conn, $sims);
  if ($simResult->num_rows > 0){
      while($subStock = $simResult->fetch_assoc()){
-         echo $subStock['atr_stock_id'] . "<br>";
-         //array_push($stock,(string)$subStock['atr_stock_id']);
+         //echo $subStock['atr_stock_id'] . "<br>";
          Sim($subStock['atr_stock_id']);
-         sleep(1);
      }
  }
- 
- //foreach($stocks as &$stock){
-   //  Sim()
- //}
- 
- //Sim('AA');
-
- //Sim('AAN');
- //Sim('ABBV');
- //Sim('ABM');
- //Sim('ACC');
- //Sim('ACCO');
- //Sim('ACH');
- //Sim('ACN');
- //Sim('ACP');
- //Sim('ADC');
- //Sim('ADNT');
- //Sim('ADX');
- //Sim('AED');
- //Sim('AEE');
- //Sim('AEG');
- //Sim('AEK');
- //Sim('AEM');
- //Sim('AEP');
- //Sim('AER');
- //Sim('AGC');
- //Sim('AGN');
- //Sim('AGS');
- //Sim('AGX');
- //Sim('AHP');
- //Sim('AHT');
- //Sim('AIF');
- 
- //Sim('AIR');
- //Sim('AJG');
- //Sim('AJX');
- //Sim('AJXA');
- //Sim('ALEX');
- //Sim('ALK');
- //Sim('ALL');
- //Sim('ALLY');
- //Sim('AMN');
- //Sim('AMP');
- //('AN');
- //Sim('ANET');
- //Sim('APA');
- //Sim('ASH');
- //Sim('ATEN');
- //Sim('BA');
- //Sim('BAC');
- //Sim('BB');
- //Sim('BLK');
- 
- //Sim('BXMT');
- //Sim('CHS');
- //Sim('CLDR');
- //Sim('CRD.A');
- //Sim('DDD');
- //Sim('EFC');
- //Sim('F');
- //Sim('FIT');
- //Sim('GJH');
- //Sim('GJP');
- //Sim('HGH');
- //Sim('HPE');
- //Sim('JKS');
- //Sim('JONE');
- //Sim('MYN');
- //Sim('ORCL');
- //Sim('OXM');
- //Sim('RHT');
- //Sim('SBS');
- //Sim('SPGI');
- //Sim('TWTR');
- //Sim('VMW');
- //Sim('WBAI');
- //Sim('WUBA');
- //Sim('XYL');
- //Sim('ZOES');
- //Sim('ZX');
- //Sim('ZYME');
  
  
  
