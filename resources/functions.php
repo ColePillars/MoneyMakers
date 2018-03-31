@@ -704,7 +704,7 @@ Function ShowSubUnsubIcon(){
                             <h3 class='modal-title' id='myModalLabel'>Unsubscribe from stock</h3>
                         </div>
                         <div class='modal-body'>
-                            This stock will be removed from 'My Subs' on your homepage
+                            This stock will be removed from your subscribed stock carousel
                         </div>
                         <div class='modal-footer'>
                           <form action='../resources/unsubtostock.php' method='POST' id='form1'>
@@ -735,7 +735,7 @@ Function ShowSubUnsubIcon(){
                                 <h3 class='modal-title' id='myModalLabel'>Subscribe to stock</h3>
                             </div>
                             <div class='modal-body'>
-                                This stock will be added to 'My Subs' on your homepage
+                                This stock will be added to your subscribed stock carousel
                             </div>
                             <div class='modal-footer'>
                               <form action='../resources/subtostock.php' method='POST' id='form1'>
@@ -751,7 +751,9 @@ Function ShowSubUnsubIcon(){
         }
 
         else{
-            //at this point we dont hold stock info for this item, which means the user isnt subbed     
+            //at this point we dont hold stock info for this item, which means the user isnt subbed
+            $_SESSION['Subscribe'] = true;
+            
             echo "
                   <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right'  style='margin-top:6px'><i class='fa fa-refresh fa-spin fa-lg'></i>
                 </button>

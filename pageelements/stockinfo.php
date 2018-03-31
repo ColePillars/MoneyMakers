@@ -57,11 +57,12 @@
                     </h5>
                 </div>
                 <div class="tab-pane fade" id="simulation-pills">
-                	<h3 class='alert alert-warning' style='margin-top:3px;margin-bottom:3px;font-size:28px;text-align:center'>
-                	<?php 
-                    echo round(PotentialGains(1000, 100, 0, $_GET['Symbol']), 3);
-                    ?> %
-                    </h3>
+                	<h5 class='alert alert-warning' style='margin-top:3px;margin-bottom:3px;font-size:28px;text-align:center;font-size:16px;'>
+                    	<?php 
+                        echo "<b>Potential Gains:</b> " . round(PotentialGains(1000, 100, 0, $_GET['Symbol']), 3) . "&nbsp;%</br>";
+                        echo "<b>Market Gains:</b> " . round(MarketGains(1000, 100, 0, $_GET['Symbol']), 3) . "&nbsp;%";
+                        ?>
+                    </h5>
                 </div>
         	</div>
 		</footer>

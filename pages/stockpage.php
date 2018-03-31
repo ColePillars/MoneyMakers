@@ -62,7 +62,12 @@ else{
                 </div>
                 <div class="col-lg-6">
                     <?php
+                    if ($_SESSION['Subscribe']) {
+                        unset($_SESSION['Subscribe']);
+                    }
+                    else {
                 	StockGraph($_GET['Symbol']);
+                    }
                     ?>
                 </div>
                 <div class="col-lg-3">
