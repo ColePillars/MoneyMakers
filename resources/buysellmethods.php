@@ -528,13 +528,47 @@ function Simulation(){
      $arrayHigh = array();
      $arrayLow = array();
      $FD = '';
-     
+     echo "SELECT StockInfo.Time_Series_Daily.atr_stock_id, StockInfo.Time_Series_Daily.Timestamp, StockInfo.Time_Series_Daily.Open,
+     StockInfo.Time_Series_Daily.High, StockInfo.Time_Series_Daily.Low, StockInfo.Time_Series_Daily.Close, StockInfo.Technical_Analysis_RSI.RSI, StockInfo.Time_Series_Daily.Composite_Key
+     FROM StockInfo.Time_Series_Daily INNER JOIN StockInfo.Technical_Analysis_RSI ON StockInfo.Time_Series_Daily.Composite_Key =
+     StockInfo.Technical_Analysis_RSI.Composite_Key WHERE StockInfo.Time_Series_Daily.atr_stock_id = '" . $stock . "' AND StockInfo.Time_Series_Daily.Timestamp > (SELECT DISTINCT StockInfo.Time_Series_Daily.Timestamp FROM StockInfo.Time_Series_Daily
+     WHERE atr_stock_id = '" . $stock . "' ORDER BY StockInfo.Time_Series_Daily.Timestamp
+         DESC LIMIT 1 offset 100) order by StockInfo.Time_Series_Daily.Timestamp ASC<br>";
      if ($selectResult->num_rows > 0){
          while($row = $selectResult->fetch_assoc()){
              //skip first 7 for 
              if ($counter < 7){
-                 $oldO = $row['Open'];
-                 $oldC = $row['Close'];
+                 if($counter != 0){
+                     $list = Heikin($row['Open'], $row['High'], $row['Low'], $row['Close'], $oldO, $oldC);
+                     
+                     if($row['RSI'] > 85){
+                         $FD = 'Sell';
+                     } elseif ($row['RSI'] < 15){
+                         $FD = 'BUY';
+                     } else {
+                         if (($list[0] > $list[3]) && ($oldO > $oldC) && (abs($list[0] - $list[3]) > abs($oldO - $oldC)) && ($list[0] == $list[1])){
+                             $FD = 'Buy';
+                         } elseif (($list[0] < $list[3]) && ($oldO < $oldC) && (abs($list[0] - $list[3]) > abs($oldO - $oldC)) && ($list[0] == $list[2])){
+                             $FD = 'Sell';
+                         } else {
+                             $FD = 'Hold';
+                         }
+                     }
+                     $oldO = $list[0];
+                     $oldC = $list[3];
+                     
+                     $insert = "INSERT IGNORE INTO StockInfo.Simulation(Symbol,Timestamp,Close,Final_Decision,Composite_Key) VALUES('" . $row['atr_stock_id'] . "',
+                    '" . $row['Timestamp'] ."', '" . $row['Close'] . "', '" . $FD . "' , '" . $row['atr_stock_id'] .  "_" . $row['Timestamp'] . "')";
+                     if ($conn->query($insert) === TRUE){}
+                     else{
+                         //output mysql error if fail, DEV PURPOSE ONLY
+                         //MUST HANDEL ERROR
+                         echo "<br>Error: " . $insert . "<br>" . $conn->error;
+                     }
+                 } else {
+                     $oldO = $row['Open'];
+                     $oldC = $row['Close'];
+                 }
                  $high = $row['High'];
                  $low = $row['Low'];
                  array_push($arrayHigh, $high);
@@ -580,8 +614,8 @@ function Simulation(){
                      }
                  }
                  
-                 $oldO = $row['Open'];
-                 $oldC = $row['Low'];
+                 $oldO = $list[0];
+                 $oldC = $list[3];
                  array_push($arrayHigh, $row['High']);
                  array_push($arrayLow, $row['Low']);
                  
@@ -599,20 +633,22 @@ function Simulation(){
          }
          
      }
+     //mysql_free_result($selectResult);
  }
- Two_Period_RSI();
- Heikin_Ashi();
- Narrow_Range();
- Final_Decision();
+ //Two_Period_RSI();
+ //Heikin_Ashi();
+ //Narrow_Range();
+ //Final_Decision();
  //Simulation();
  $stocks = array();
- $sim = "SELECT DISTINCT atr_stock_id FROM UserCredentials.tbl_stock_subs order by atr_stock_id ASC";
- $simResult = mysqli_query($conn, $sim);
+ $sims = "SELECT DISTINCT atr_stock_id FROM UserCredentials.tbl_stock_subs order by atr_stock_id ASC";
+ $simResult = mysqli_query($conn, $sims);
  if ($simResult->num_rows > 0){
      while($subStock = $simResult->fetch_assoc()){
          echo $subStock['atr_stock_id'] . "<br>";
-         array_push($stock,(string)$subStock['atr_stock_id']);
-         //Sim($subStock['atr_stock_id']);
+         //array_push($stock,(string)$subStock['atr_stock_id']);
+         Sim($subStock['atr_stock_id']);
+         sleep(1);
      }
  }
  
@@ -621,6 +657,7 @@ function Simulation(){
  //}
  
  //Sim('AA');
+
  //Sim('AAN');
  //Sim('ABBV');
  //Sim('ABM');
@@ -694,7 +731,7 @@ function Simulation(){
  //Sim('XYL');
  //Sim('ZOES');
  //Sim('ZX');
- Sim('ZYME');
+ //Sim('ZYME');
  
  
  
