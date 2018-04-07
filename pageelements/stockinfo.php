@@ -22,11 +22,11 @@
         </header>
         <div class="w3-container" style="background-color: #f5f5f5; padding-top: 5px;">
         	<ul class="nav nav-pills">
-                <li class="active"><a href="#status-pills" data-toggle="tab">Status</a>
+                <li class="active"><a href="#status-pills" data-toggle="tab" onclick="showRecent();">Status</a>
                 </li>
-                <li><a href="#details-pills" data-toggle="tab">Details</a>
+                <li><a href="#details-pills" data-toggle="tab" onclick="showRecent();">Details</a>
                 </li>
-                <li><a href="#simulation-pills" data-toggle="tab">Sim</a>
+                <li><a href="#simulation-pills" data-toggle="tab" onclick="showPotential();">Sim</a>
                 </li>
                 <?php
                 ShowSubUnsubIcon();
