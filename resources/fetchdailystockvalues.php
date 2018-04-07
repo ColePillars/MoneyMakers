@@ -15,6 +15,11 @@ if ($GetSubbedStocksResult->num_rows > 0){
         FetchDailyJSON($row['atr_stock_id']);
         sleep(3);
         FetchRSIJSON($row['atr_stock_id'], "daily", "100");
+        sleep(1);
+        Sim($row['atr_stock_id']);
+        
+        
+        
     }
     
     //Determine buy/sell for Two_Period_RsE
