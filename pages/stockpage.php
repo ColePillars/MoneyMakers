@@ -57,7 +57,9 @@ else{
                 <div class="col-lg-3">
                     <?php 
                     include ('../pageelements/stockinfo.php');
+                    
                     include ('../pageelements/recentdata.php');
+                    include ('../pageelements/potentialgains.php');
                     ?>
                 </div>
                 <div class="col-lg-6">
@@ -87,6 +89,16 @@ else{
     <script src="../vendor/morrisjs/morris.min.js"></script>
     <script src="../data/morris-data.js"></script>
     <script src="../dist/js/sb-admin-2.js"></script>
+    <script type="text/javascript">
+		function showPotential() {
+			document.getElementById('potentialgains').style.display='block';
+			document.getElementById('recentdata').style.display='none';
+		}
+		function showRecent() {
+			document.getElementById('recentdata').style.display='block';
+			document.getElementById('potentialgains').style.display='none';
+		}
+    </script>
 </body>
 
 </html>
