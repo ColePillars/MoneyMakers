@@ -624,8 +624,18 @@ Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol)
     $finalSellPrice;
     $stock = 0;
     $money = $initialMoney;
-    $sql = "SELECT * FROM StockInfo.Simulation WHERE StockInfo.Simulation.Symbol = '".$stockSymbol."' ORDER BY StockInfo.Simulation.Timestamp ASC LIMIT ".$numberOfDays;
-
+    $sql = "SELECT * FROM ( SELECT * FROM StockInfo.Simulation WHERE StockInfo.Simulation.Symbol = '".$stockSymbol."' ORDER BY StockInfo.Simulation.Timestamp DESC LIMIT ".$numberOfDays." ) AS tmp ORDER BY Timestamp ASC";
+    unset($_SESSION['array1']);
+    unset($_SESSION['array2']);
+    unset($_SESSION['array3']);
+    unset($_SESSION['array4']);
+    unset($_SESSION['array5']);
+    $array1 = array(); //Date
+    $array2 = array(); //Close
+    $array3 = array(); //Buy/Sell
+    $array4 = array(); //Stock
+    $array5 = array(); //Money
+    
     $result = mysqli_query($conn, $sql);
     if ($result -> num_rows > 0) {
         while($row = $result->fetch_assoc()) {
@@ -637,6 +647,11 @@ Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol)
                     $tempStock = floor($money / $effectiveRate);
                     $money = $money - ($tempStock * $effectiveRate);
                     $stock = $stock + $tempStock;
+                    array_push($array1, substr($row['Timestamp'],5,5));
+                    array_push($array2, $row['Close']);
+                    array_push($array3, $row['Final_Decision']);
+                    array_push($array4, $stock);
+                    array_push($array5, $money);
                 }
             }
             //Final Decision is to SELL
@@ -646,6 +661,11 @@ Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol)
                     $effectiveRate = (1 - $commission) * $row['Close'];
                     $money = $money + ($stock * $effectiveRate);
                     $stock = 0;
+                    array_push($array1, substr($row['Timestamp'],5,5));
+                    array_push($array2, $row['Close']);
+                    array_push($array3, $row['Final_Decision']);
+                    array_push($array4, $stock);
+                    array_push($array5, $money);
                 }
             }
             $finalSellPrice = $row['Close'];
@@ -654,6 +674,11 @@ Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol)
     $effectiveRate = (1 - $commission) * $finalSellPrice;
     $total = $money + ($stock * $effectiveRate);
     $percent = 100 * (($total / $initialMoney) - 1);
+    $_SESSION['array1'] = $array1;
+    $_SESSION['array2'] = $array2;
+    $_SESSION['array3'] = $array3;
+    $_SESSION['array4'] = $array4;
+    $_SESSION['array5'] = $array5;
     return $percent;
 }
 
@@ -663,7 +688,8 @@ Function MarketGains($initialMoney, $numberOfDays, $commission, $stockSymbol) {
     $finalSellPrice;
     $stock = 0;
     $money = $initialMoney;
-    $sql = "SELECT * FROM StockInfo.Simulation WHERE StockInfo.Simulation.Symbol = '".$stockSymbol."' ORDER BY StockInfo.Simulation.Timestamp ASC LIMIT ".$numberOfDays;
+    $sql = "SELECT * FROM ( SELECT * FROM StockInfo.Simulation WHERE StockInfo.Simulation.Symbol = '".$stockSymbol."' ORDER BY StockInfo.Simulation.Timestamp DESC LIMIT ".$numberOfDays." ) AS tmp ORDER BY Timestamp ASC";
+    
     
     $result = mysqli_query($conn, $sql);
     if ($result -> num_rows > 0) {
@@ -675,6 +701,62 @@ Function MarketGains($initialMoney, $numberOfDays, $commission, $stockSymbol) {
                 $stock = $stock + $tempStock;
             }
             $finalSellPrice = $row['Close'];
+        }
+    }
+    $effectiveRate = (1 - $commission) * $finalSellPrice;
+    $total = $money + ($stock * $effectiveRate);
+    $percent = 100 * (($total / $initialMoney) - 1);
+    return $percent;
+}
+
+Function MaximumGains($initialMoney, $numberOfDays, $commission, $stockSymbol) {
+    
+    include('../resources/connection.php');
+    $finalSellPrice;
+    $stock = 0;
+    $money = $initialMoney;
+    $sql1 = "SET @rownr1 = 0";
+    $sql2 = "SET @rownr2 = 0";
+    $sql3 = "
+    SELECT tmp1.Symbol, tmp1.Close1 as 'Close1' ,tmp1.Timestamp1, (@rownr1 := @rownr1 + 1) AS rowNumber, tmp2.Close2 , tmp2.Timestamp2
+    FROM (
+        SELECT tmp1.Symbol, tmp1.Close as 'Close1' ,tmp1.Timestamp as 'Timestamp1', (@rownr1 := @rownr1 + 1) AS rowNumber
+        FROM StockInfo.Simulation as tmp1
+        WHERE tmp1.Symbol = '".$stockSymbol."'
+        ORDER BY tmp1.Timestamp DESC LIMIT ".$numberOfDays."
+        ) as tmp1
+        INNER JOIN (
+            SELECT Symbol, Close as 'Close2', Timestamp as 'Timestamp2', (@rownr2 := @rownr2 + 1) AS rowNumber
+            FROM StockInfo.Simulation
+            WHERE StockInfo.Simulation.Symbol = '".$stockSymbol."'
+            ORDER BY StockInfo.Simulation.Timestamp DESC LIMIT ".$numberOfDays." OFFSET 1
+            ) AS tmp2
+            ON tmp1.rowNumber = tmp2.rowNumber
+            ORDER BY tmp1.Timestamp1 ASC
+    ";
+    
+    $conn->query($sql1);
+    $conn->query($sql2);
+    
+    $result3 = mysqli_query($conn, $sql3);
+    if ($result3 -> num_rows > 0) {
+        while($row = $result3->fetch_assoc()) {
+            if ($row['Close2'] < $row['Close1']) {
+                if ($money >= $row['Close2']) {
+                    $effectiveRate = (1 + $commission) * $row['Close2'];
+                    $tempStock = floor($money / $effectiveRate);
+                    $money = $money - ($tempStock * $effectiveRate);
+                    $stock = $stock + $tempStock;
+                }
+            }
+            if ($row['Close2'] > $row['Close1']) {
+                if ($stock > 0) {
+                    $effectiveRate = (1 - $commission) * $row['Close2'];
+                    $money = $money + ($stock * $effectiveRate);
+                    $stock = 0;
+                }
+            }
+            $finalSellPrice = $row['Close2'];
         }
     }
     $effectiveRate = (1 - $commission) * $finalSellPrice;
