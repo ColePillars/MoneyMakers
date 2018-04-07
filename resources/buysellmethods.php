@@ -518,9 +518,9 @@ function Simulation(){
                  if($counter != 0){
                      $list = Heikin($row['Open'], $row['High'], $row['Low'], $row['Close'], $oldO, $oldC);
                      
-                     if($row['RSI'] > 85){
+                     if($row['RSI'] > 75){
                          $FD = 'Sell';
-                     } elseif ($row['RSI'] < 15){
+                     } elseif ($row['RSI'] < 30){
                          $FD = 'BUY';
                      } else {
                          if (($list[0] > $list[3]) && ($oldO > $oldC) && (abs($list[0] - $list[3]) > abs($oldO - $oldC)) && ($list[0] == $list[1])){
@@ -567,9 +567,9 @@ function Simulation(){
                  //echo $arrayLow[$counter] . "<br>";
                  //echo $high . "  OK " . $low . "<br>";
                  //echo $one . "  WHAT " . $two . "<br>";
-                 if($row['RSI'] > 85){
+                 if($row['RSI'] > 75){
                      $FD = 'Sell';
-                 } elseif ($row['RSI'] < 15){
+                 } elseif ($row['RSI'] < 30){
                      $FD = 'Buy';
                  } else {
                      if(($seven < $six) && ($seven < $five) && ($seven < $four) && ($seven < $three) && ($seven < $two) && ($seven < $one)){
@@ -615,14 +615,14 @@ function Simulation(){
  //Narrow_Range();
  //Final_Decision();
  //Simulation();
- $sims = "SELECT DISTINCT atr_stock_id FROM UserCredentials.tbl_stock_subs order by atr_stock_id ASC";
+ /*$sims = "SELECT DISTINCT atr_stock_id FROM UserCredentials.tbl_stock_subs order by atr_stock_id ASC";
  $simResult = mysqli_query($conn, $sims);
  if ($simResult->num_rows > 0){
      while($subStock = $simResult->fetch_assoc()){
          echo $subStock['atr_stock_id'] . "<br>";
          Sim($subStock['atr_stock_id']);
      }
- }
+ }*/
  
  
  
