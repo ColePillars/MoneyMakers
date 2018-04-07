@@ -4,6 +4,7 @@
 session_start();
 include('connection.php');
 
+
 function Two_Period_RSI(){
     //session_start();
     include('connection.php');
@@ -89,20 +90,19 @@ function Two_Period_RSI(){
 }
 
 
-
+function Heikin($O, $H, $L, $C, $oldO, $oldC){
+    $HA_Close = ($O + $H + $L + $C)/4;
+    $HA_Open = ($oldC + $oldO)/2;
+    $HA_Low = min($L, $HA_Open, $HA_Close);
+    $HA_High = max($H, $HA_Open, $HA_Close);
+    return array($HA_Open, $HA_High, $HA_Low, $HA_Close);
+}
 
 
 function Heikin_Ashi(){
     //session_start();
     include('connection.php');
     
-    function Heikin($O, $H, $L, $C, $oldO, $oldC){
-        $HA_Close = ($O + $H + $L + $C)/4;
-        $HA_Open = ($oldC + $oldO)/2;
-        $HA_Low = min($L, $HA_Open, $HA_Close);
-        $HA_High = max($H, $HA_Open, $HA_Close);
-        return array($HA_Open, $HA_High, $HA_Low, $HA_Close);
-    }
 //Select open, high, low, close, from time_Series_daily where (last 11 time_stamps) for each distinct symbol
     $select = "SELECT atr_stock_id, Timestamp, Open, High, Low, Close FROM StockInfo.Time_Series_Daily WHERE Timestamp > (SELECT DISTINCT
          Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 11)
@@ -389,14 +389,6 @@ function Simulation(){
     //session_start();
     include('connection.php');
     
-    function Heikin($O, $H, $L, $C, $oldO, $oldC){
-        $HA_Close = ($O + $H + $L + $C)/4;
-        $HA_Open = ($oldC + $oldO)/2;
-        $HA_Low = min($L, $HA_Open, $HA_Close);
-        $HA_High = max($H, $HA_Open, $HA_Close);
-        return array($HA_Open, $HA_High, $HA_Low, $HA_Close);
-    }
-    
     
     /*$select = "SELECT StockInfo.Time_Series_Daily.atr_stock_id, StockInfo.Time_Series_Daily.Timestamp, StockInfo.Time_Series_Daily.Open, 
             StockInfo.Time_Series_Daily.High, StockInfo.Time_Series_Daily.Low, StockInfo.Time_Series_Daily.Close, StockInfo.Technical_Analysis_RSI.RSI 
@@ -503,21 +495,11 @@ function Simulation(){
  
  function Sim($stock){
      include('connection.php');
-     
-     function Heikin($O, $H, $L, $C, $oldO, $oldC){
-         $HA_Close = ($O + $H + $L + $C)/4;
-         $HA_Open = ($oldC + $oldO)/2;
-         $HA_Low = min($L, $HA_Open, $HA_Close);
-         $HA_High = max($H, $HA_Open, $HA_Close);
-         return array($HA_Open, $HA_High, $HA_Low, $HA_Close);
-     }
-     
-     $select = "SELECT StockInfo.Time_Series_Daily.atr_stock_id, StockInfo.Time_Series_Daily.Timestamp, StockInfo.Time_Series_Daily.Open,
-     StockInfo.Time_Series_Daily.High, StockInfo.Time_Series_Daily.Low, StockInfo.Time_Series_Daily.Close, StockInfo.Technical_Analysis_RSI.RSI, StockInfo.Time_Series_Daily.Composite_Key
-     FROM StockInfo.Time_Series_Daily INNER JOIN StockInfo.Technical_Analysis_RSI ON StockInfo.Time_Series_Daily.Composite_Key =
-     StockInfo.Technical_Analysis_RSI.Composite_Key WHERE StockInfo.Time_Series_Daily.atr_stock_id = '" . $stock . "' AND StockInfo.Time_Series_Daily.Timestamp > (SELECT DISTINCT StockInfo.Time_Series_Daily.Timestamp FROM StockInfo.Time_Series_Daily 
-     WHERE atr_stock_id = '" . $stock . "' ORDER BY StockInfo.Time_Series_Daily.Timestamp
-         DESC LIMIT 1 offset 100) order by StockInfo.Time_Series_Daily.Timestamp ASC"; 
+     echo $stock;
+     $select = "SELECT * FROM( SELECT StockInfo.Time_Series_Daily.atr_stock_id, StockInfo.Time_Series_Daily.Timestamp, StockInfo.Time_Series_Daily.Open, 
+    StockInfo.Time_Series_Daily.High, StockInfo.Time_Series_Daily.Low, StockInfo.Time_Series_Daily.Close, StockInfo.Technical_Analysis_RSI.RSI, 
+    StockInfo.Time_Series_Daily.Composite_Key FROM StockInfo.Time_Series_Daily INNER JOIN StockInfo.Technical_Analysis_RSI ON StockInfo.Time_Series_Daily.Composite_Key = StockInfo.Technical_Analysis_RSI.Composite_Key 
+    WHERE StockInfo.Time_Series_Daily.atr_stock_id = '" . $stock . "' order by StockInfo.Time_Series_Daily.Timestamp DESC LIMIT 100) aS A ORDER BY Timestamp ASC"; 
      $selectResult = mysqli_query($conn, $select);
      
      $counter = 0;
@@ -527,13 +509,8 @@ function Simulation(){
      $low = 0.0;
      $arrayHigh = array();
      $arrayLow = array();
-     $FD = '';
-     echo "SELECT StockInfo.Time_Series_Daily.atr_stock_id, StockInfo.Time_Series_Daily.Timestamp, StockInfo.Time_Series_Daily.Open,
-     StockInfo.Time_Series_Daily.High, StockInfo.Time_Series_Daily.Low, StockInfo.Time_Series_Daily.Close, StockInfo.Technical_Analysis_RSI.RSI, StockInfo.Time_Series_Daily.Composite_Key
-     FROM StockInfo.Time_Series_Daily INNER JOIN StockInfo.Technical_Analysis_RSI ON StockInfo.Time_Series_Daily.Composite_Key =
-     StockInfo.Technical_Analysis_RSI.Composite_Key WHERE StockInfo.Time_Series_Daily.atr_stock_id = '" . $stock . "' AND StockInfo.Time_Series_Daily.Timestamp > (SELECT DISTINCT StockInfo.Time_Series_Daily.Timestamp FROM StockInfo.Time_Series_Daily
-     WHERE atr_stock_id = '" . $stock . "' ORDER BY StockInfo.Time_Series_Daily.Timestamp
-         DESC LIMIT 1 offset 100) order by StockInfo.Time_Series_Daily.Timestamp ASC<br>";
+     $FD = 'Hold';
+
      if ($selectResult->num_rows > 0){
          while($row = $selectResult->fetch_assoc()){
              //skip first 7 for 
@@ -541,9 +518,9 @@ function Simulation(){
                  if($counter != 0){
                      $list = Heikin($row['Open'], $row['High'], $row['Low'], $row['Close'], $oldO, $oldC);
                      
-                     if($row['RSI'] > 85){
+                     if($row['RSI'] > 75){
                          $FD = 'Sell';
-                     } elseif ($row['RSI'] < 15){
+                     } elseif ($row['RSI'] < 30){
                          $FD = 'BUY';
                      } else {
                          if (($list[0] > $list[3]) && ($oldO > $oldC) && (abs($list[0] - $list[3]) > abs($oldO - $oldC)) && ($list[0] == $list[1])){
@@ -590,9 +567,9 @@ function Simulation(){
                  //echo $arrayLow[$counter] . "<br>";
                  //echo $high . "  OK " . $low . "<br>";
                  //echo $one . "  WHAT " . $two . "<br>";
-                 if($row['RSI'] > 85){
+                 if($row['RSI'] > 75){
                      $FD = 'Sell';
-                 } elseif ($row['RSI'] < 15){
+                 } elseif ($row['RSI'] < 30){
                      $FD = 'Buy';
                  } else {
                      if(($seven < $six) && ($seven < $five) && ($seven < $four) && ($seven < $three) && ($seven < $two) && ($seven < $one)){
@@ -618,7 +595,6 @@ function Simulation(){
                  $oldC = $list[3];
                  array_push($arrayHigh, $row['High']);
                  array_push($arrayLow, $row['Low']);
-                 
                  $insert = "INSERT IGNORE INTO StockInfo.Simulation(Symbol,Timestamp,Close,Final_Decision,Composite_Key) VALUES('" . $row['atr_stock_id'] . "',
                     '" . $row['Timestamp'] ."', '" . $row['Close'] . "', '" . $FD . "' , '" . $row['atr_stock_id'] .  "_" . $row['Timestamp'] . "')";
                  if ($conn->query($insert) === TRUE){}
@@ -633,105 +609,20 @@ function Simulation(){
          }
          
      }
-     //mysql_free_result($selectResult);
  }
  //Two_Period_RSI();
  //Heikin_Ashi();
  //Narrow_Range();
  //Final_Decision();
  //Simulation();
- $stocks = array();
- $sims = "SELECT DISTINCT atr_stock_id FROM UserCredentials.tbl_stock_subs order by atr_stock_id ASC";
+ /*$sims = "SELECT DISTINCT atr_stock_id FROM UserCredentials.tbl_stock_subs order by atr_stock_id ASC";
  $simResult = mysqli_query($conn, $sims);
  if ($simResult->num_rows > 0){
      while($subStock = $simResult->fetch_assoc()){
          echo $subStock['atr_stock_id'] . "<br>";
-         //array_push($stock,(string)$subStock['atr_stock_id']);
          Sim($subStock['atr_stock_id']);
-         sleep(1);
      }
- }
- 
- //foreach($stocks as &$stock){
-   //  Sim()
- //}
- 
- //Sim('AA');
-
- //Sim('AAN');
- //Sim('ABBV');
- //Sim('ABM');
- //Sim('ACC');
- //Sim('ACCO');
- //Sim('ACH');
- //Sim('ACN');
- //Sim('ACP');
- //Sim('ADC');
- //Sim('ADNT');
- //Sim('ADX');
- //Sim('AED');
- //Sim('AEE');
- //Sim('AEG');
- //Sim('AEK');
- //Sim('AEM');
- //Sim('AEP');
- //Sim('AER');
- //Sim('AGC');
- //Sim('AGN');
- //Sim('AGS');
- //Sim('AGX');
- //Sim('AHP');
- //Sim('AHT');
- //Sim('AIF');
- 
- //Sim('AIR');
- //Sim('AJG');
- //Sim('AJX');
- //Sim('AJXA');
- //Sim('ALEX');
- //Sim('ALK');
- //Sim('ALL');
- //Sim('ALLY');
- //Sim('AMN');
- //Sim('AMP');
- //('AN');
- //Sim('ANET');
- //Sim('APA');
- //Sim('ASH');
- //Sim('ATEN');
- //Sim('BA');
- //Sim('BAC');
- //Sim('BB');
- //Sim('BLK');
- 
- //Sim('BXMT');
- //Sim('CHS');
- //Sim('CLDR');
- //Sim('CRD.A');
- //Sim('DDD');
- //Sim('EFC');
- //Sim('F');
- //Sim('FIT');
- //Sim('GJH');
- //Sim('GJP');
- //Sim('HGH');
- //Sim('HPE');
- //Sim('JKS');
- //Sim('JONE');
- //Sim('MYN');
- //Sim('ORCL');
- //Sim('OXM');
- //Sim('RHT');
- //Sim('SBS');
- //Sim('SPGI');
- //Sim('TWTR');
- //Sim('VMW');
- //Sim('WBAI');
- //Sim('WUBA');
- //Sim('XYL');
- //Sim('ZOES');
- //Sim('ZX');
- //Sim('ZYME');
+ }*/
  
  
  
