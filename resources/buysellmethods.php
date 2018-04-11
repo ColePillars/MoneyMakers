@@ -340,48 +340,63 @@ function Final_Decision(){
     if($selectFinalResult->num_rows > 0){
         while($row = $selectFinalResult->fetch_assoc()){
             if($row['Two_Period_RSI'] == 'Buy'){
-                $update = "UPDATE StockInfo.Buy_Sell_Hold SET Final_Decision = 'Buy' WHERE Symbol='" . $row['Symbol'] . "'";
-                if ($conn->query($update) === TRUE){}
-                else{
-                    //output mysql error if fail, DEV PURPOSE ONLY
-                    //MUST HANDEL ERROR
-                    echo "Error: " . $update . "<br>" . $conn->error;
-                }
+                $FD = 'Buy';
             } elseif ($row['Two_Period_RSI'] == 'Sell') {
-                $update = "UPDATE StockInfo.Buy_Sell_Hold SET Final_Decision = 'Sell' WHERE Symbol='" . $row['Symbol'] . "'";
-                if ($conn->query($update) === TRUE){}
-                else{
-                    //output mysql error if fail, DEV PURPOSE ONLY
-                    //MUST HANDEL ERROR
-                    echo "Error: " . $update . "<br>" . $conn->error;
-                }
+                $FD = 'Sell';
             } else {
                 if ($row['Heikin_Ashi'] == 'Buy'){
-                    $update = "UPDATE StockInfo.Buy_Sell_Hold SET Final_Decision = 'Buy' WHERE Symbol='" . $row['Symbol'] . "'";
-                    if ($conn->query($update) === TRUE){}
-                    else{
-                        //output mysql error if fail, DEV PURPOSE ONLY
-                        //MUST HANDEL ERROR
-                        echo "Error: " . $update . "<br>" . $conn->error;
-                    }
+                    $FD = 'Buy';
                 } elseif ($row['Heikin_Ashi'] == 'Sell') {
-                    $update = "UPDATE StockInfo.Buy_Sell_Hold SET Final_Decision = 'Sell' WHERE Symbol='" . $row['Symbol'] . "'";
-                    if ($conn->query($update) === TRUE){}
-                    else{
-                        //output mysql error if fail, DEV PURPOSE ONLY
-                        //MUST HANDEL ERROR
-                        echo "Error: " . $update . "<br>" . $conn->error;
-                    }
+                    $FD = 'Sell';
+                } elseif ($row['Narrow_Range'] == 'Buy'){
+                    $FD = 'Buy';
+                } elseif ($row['Narrow_Range'] == 'Sell'){
+                    $FD = 'Sell';
                 } else {
-                    $update = "UPDATE StockInfo.Buy_Sell_Hold SET Final_Decision = 'Hold' WHERE Symbol='" . $row['Symbol'] . "'";
-                    if ($conn->query($update) === TRUE){}
-                    else{
-                        //output mysql error if fail, DEV PURPOSE ONLY
-                        //MUST HANDEL ERROR
-                        echo "Error: " . $update . "<br>" . $conn->error;
-                    }
+                    $FD = 'Hold';
                 }
             }
+            //echo $row['Symbol'] . " " . $FD;
+            $update = "UPDATE StockInfo.Buy_Sell_Hold SET Final_Decision = '" . $FD . "' WHERE Symbol='" . $row['Symbol'] . "'";
+            if ($conn->query($update) === TRUE){}
+            else{
+                //output mysql error if fail, DEV PURPOSE ONLY
+                //MUST HANDEL ERROR
+                echo "Error: " . $update . "<br>" . $conn->error;
+               }
+           $today = date('Y-m-d') . " 00:00:00";
+           //$today = "2018-4-10 00:00:00";
+           $check = "SELECT * FROM StockInfo.Simulation WHERE Timestamp = '" . $today . "' AND Symbol = '" . $row['Symbol'] . "'";
+           // echo "What is happening <br>";
+           $checkResult = mysqli_query($conn, $check);
+           if ($checkResult->num_rows > 0){
+               //echo "HELLO FAM <br>";
+               $updateSim = "UPDATE StockInfo.Simulation SET Final_Decision = '" . $FD . "' WHERE Symbol = '" . $row['Symbol'] . "' AND Timestamp = '" . $today . "'";
+               if ($conn->query($updateSim) === TRUE){}
+               else{
+                   //output mysql error if fail, DEV PURPOSE ONLY
+                   //MUST HANDEL ERROR
+                   echo "Error: " . $updateSim . "<br>" . $conn->error;
+               }
+           } else {
+               echo $check;
+               $timeSeries = "SELECT * FROM StockInfo.Time_Series_Daily WHERE Timestamp = '" . $today . "' AND atr_stock_id = '" . $row['Symbol'] . "'";
+               $timeSeriesResult = mysqli_query($conn, $timeSeries);
+               if ($timeSeriesResult->num_rows > 0){
+                   //echo "SUP FAM <br>";
+                   while($timeRows = $timeSeriesResult->fetch_assoc()){
+                       //echo "SUP BRUH <br>";
+                       $insertSim = "INSERT IGNORE INTO StockInfo.Simulation(Symbol,Timestamp,Close,Final_Decision,Composite_Key) VALUES('" . $row['Symbol'] . "',
+                        '" . $today ."', '" . $timeRows['Close'] . "', '" . $FD . "' , '" . $row['Symbol'] .  "_" . $today . "')";
+                       if ($conn->query($insertSim) === TRUE){}
+                        else{
+                        //output mysql error if fail, DEV PURPOSE ONLY
+                        //MUST HANDEL ERROR
+                        echo "Error: " . $insertSim . "<br>" . $conn->error;
+                        }
+                   }
+               }
+           }
         }
     }
 }
@@ -502,26 +517,21 @@ function Final_Decision(){
              $counter++;
              
          }
-         $final = "UPDATE StockInfo.Buy_Sell_Hold SET Final_Decision = '" . $FD ."' WHERE Symbol='" . $row['atr_stock_id'] . "'";
-         if ($conn->query($final) === TRUE){}
-         else{
-             //output mysql error if fail, DEV PURPOSE ONLY
-             //MUST HANDEL ERROR
-             echo "Error: " . $final . "<br>" . $conn->error;
-         }
      }
      
  }
  //Two_Period_RSI();
  //Heikin_Ashi();
  //Narrow_Range();
- //Final_Decision();
+ Final_Decision();
+ //$today = date('Y-m-d') . " 00:00:00";
+ //echo $today;
  $sims = "SELECT DISTINCT atr_stock_id FROM UserCredentials.tbl_stock_subs order by atr_stock_id ASC";
  $simResult = mysqli_query($conn, $sims);
  if ($simResult->num_rows > 0){
      while($subStock = $simResult->fetch_assoc()){
          echo $subStock['atr_stock_id'] . "<br>";
-         Sim($subStock['atr_stock_id']);
+         //Sim($subStock['atr_stock_id']);
      }
  }
 ?>
