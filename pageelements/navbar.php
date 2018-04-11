@@ -23,9 +23,6 @@
                 <li> 
                     <a href="../pages/index.php"><i class="fa fa-home fa-fw"></i>Home</a>
                 </li>
-                <li>
-                    <a href="../pages/profilepage.php"><i class="fa fa-pencil fa-fw"></i>Profile</a>
-                </li>
     		    <li>
                     <a href="../resources/logout.php"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
                 </li>

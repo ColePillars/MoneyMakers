@@ -1,6 +1,6 @@
 <div class="w3-container" id="recentdata">
+	<h3>Recent Data</h3>
     <table class="w3-table-all w3-card-4 w3-hoverable w3-centered">
-    	<h3></h3>
     	<thead>
             <tr class="w3-light-grey">
                 <th>&nbsp;&nbsp;Date&nbsp;&nbsp;</th>
