@@ -379,7 +379,7 @@ function Final_Decision(){
                    echo "Error: " . $updateSim . "<br>" . $conn->error;
                }
            } else {
-               echo $check;
+               //echo $check;
                $timeSeries = "SELECT * FROM StockInfo.Time_Series_Daily WHERE Timestamp = '" . $today . "' AND atr_stock_id = '" . $row['Symbol'] . "'";
                $timeSeriesResult = mysqli_query($conn, $timeSeries);
                if ($timeSeriesResult->num_rows > 0){
@@ -523,14 +523,14 @@ function Final_Decision(){
  //Two_Period_RSI();
  //Heikin_Ashi();
  //Narrow_Range();
- Final_Decision();
+ //Final_Decision();
  //$today = date('Y-m-d') . " 00:00:00";
  //echo $today;
  $sims = "SELECT DISTINCT atr_stock_id FROM UserCredentials.tbl_stock_subs order by atr_stock_id ASC";
  $simResult = mysqli_query($conn, $sims);
  if ($simResult->num_rows > 0){
      while($subStock = $simResult->fetch_assoc()){
-         echo $subStock['atr_stock_id'] . "<br>";
+         //echo $subStock['atr_stock_id'] . "<br>";
          //Sim($subStock['atr_stock_id']);
      }
  }
