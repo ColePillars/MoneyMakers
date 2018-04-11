@@ -1,10 +1,7 @@
-<?php 
+<?php
 // this function will fetch and store intradaily values given the parameters
 // this function will fetch and store daily values given the parameters
 //RETURNS 100 DATA POINTS, SO IF HOURLY, LAST 100 days!!
-
-
-
 Function FetchDailyJSON($StockSymbol){
     
     // include connections page
@@ -68,10 +65,6 @@ Function FetchDailyJSON($StockSymbol){
     
     
 }
-
-
-
-
 function FetchRSIJSON($StockSymbol, $Interval, $TimePeriod){
     ob_start();
     // include connections page
@@ -80,7 +73,6 @@ function FetchRSIJSON($StockSymbol, $Interval, $TimePeriod){
     //Getting the json request into a PHP object
     $Data = file_get_contents("https://www.alphavantage.co/query?function=RSI&symbol=" . $StockSymbol . "&interval=" . $Interval . "&time_period="
         . $TimePeriod . "&series_type=close&apikey=S7R0WLCOH163H1DE&datatype=json");
-
     //Decoding the json into a php array.
     $JSONData = json_decode($Data);
     
@@ -125,10 +117,7 @@ function FetchRSIJSON($StockSymbol, $Interval, $TimePeriod){
     
     //Rollback changes if ANY query fails
     else { $conn->rollback(); }
-
 }
-
-
 Function FetchDailyJSONSub($StockSymbol){
     
     // include connections page
@@ -205,7 +194,6 @@ Function FetchDailyJSONSub($StockSymbol){
     
     
 }
-
 function FetchRSIJSONSub($StockSymbol, $Interval, $TimePeriod){
     ob_start();
     // include connections page
@@ -267,7 +255,6 @@ function FetchRSIJSONSub($StockSymbol, $Interval, $TimePeriod){
                         
                         $conn->query($MidQuery) ? null : $all_query_ok = false;
                     }
-
                 }
                 $count = $count + 1;
                 $limit = $limit + 1;
@@ -282,8 +269,6 @@ function FetchRSIJSONSub($StockSymbol, $Interval, $TimePeriod){
     else { $conn->rollback(); }
     
 }
-
-
 // this function will fetch and store monthly adjusted values given the parameters
 //RETURNS 100 DATA POINTS
 function FetchCryptoDailyJSON($StockSymbol, $Market){
@@ -326,14 +311,4 @@ function FetchCryptoDailyJSON($StockSymbol, $Market){
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
 ?>

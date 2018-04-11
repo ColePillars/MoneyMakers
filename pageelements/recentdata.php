@@ -49,7 +49,7 @@
                 }
                 $SkipCounter = $SkipCounter  +1;
             }
-            for($i=39; $i > 4; $i-=4){
+            for($i=39; $i >= 3; $i-=4){
                 echo "
         <tr>
             <td>" . substr($Output[$i-3], 0, -3) . "</td>

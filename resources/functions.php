@@ -164,7 +164,7 @@ Function FetchLastTenDaysChart($StockSymbol){
             //Counter to skip the 11th day
             $SkipCounter = $SkipCounter  +1;
         }
-        for($i=39; $i > 4; $i-=4){
+        for($i=39; $i >= 3; $i-=4){
             // Date, Price, Change, Percent
             echo "
                 <tr>
