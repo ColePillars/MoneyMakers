@@ -49,7 +49,7 @@ include ('../resources/functions.php');
 					    unset($_SESSION['ResetConfirmMessage']);
 					}
 					?>
-                        <form action="../resources/loginvalidation.php" role="form" method="POST">
+                        <form action="../resources/loginvalidation.php?redirect=<?php echo $_GET['redirect']; ?>" role="form" method="POST">
                             <fieldset>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Username" name="user" type="text" autofocus>
