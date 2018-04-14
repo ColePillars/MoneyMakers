@@ -453,7 +453,7 @@ var chart = AmCharts.makeChart( "chartdiv", {
 	  } ],
 	  "graphs": [ {
 	    "id": "g1",
-	    "balloonText": "Open:<b>[[open]]</b><br>Low:<b>[[low]]</b><br>High:<b>[[high]]</b><br>Close:<b>[[close]]</b><br>",
+	    "balloonText": "High:<b>[[high]]</b><br>Open:<b>[[open]]</b><br>Close:<b>[[close]]</b><br>Low:<b>[[low]]</b><br>",
 	    "closeField": "close",
         "fillColors": "#28a745",
 	    "highField": "high",

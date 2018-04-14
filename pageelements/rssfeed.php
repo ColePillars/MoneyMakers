@@ -30,9 +30,9 @@ foreach ($news->channel->item as $item)
     $date =  (string) $item->pubDate;
     
     $title = (string) $item->title;
-    if (strlen($title) > 60) {
-        $title = substr($title, 0, 57) . '...';
-    }
+//     if (strlen($title) > 60) {
+//         $title = substr($title, 0, 57) . '...';
+//     }
     
     preg_match('@src="([^"]+)"@', $item->description, $match);
     $img = $match[1];
