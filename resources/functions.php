@@ -62,10 +62,10 @@ Function SearchStockIndex($SearchString){
         while($row = $SearchResult->fetch_assoc()) {
             echo "
                             <tr>
-                                <td>".$row['Symbol']."</td>
+                                <td>" . $row['Symbol'] . "</td>
                                 <td><a href='stockpage.php?Symbol=" . $row['Symbol'] . "'>" . $row['Name'] . "</a></td>
-                                <td>".$row['Sector']."</td>
-                                <td>".$row['Industry']."</td>
+                                <td><a href='search.php?SearchString=" . $row['Sector'] . "'>" . $row['Sector'] . "</a></td>
+                                <td><a href='search.php?SearchString=" . $row['Industry'] . "'>" . $row['Industry'] . "</a></td>
                             </tr>";         
         } 
         echo '
