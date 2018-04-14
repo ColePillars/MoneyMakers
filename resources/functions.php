@@ -28,109 +28,96 @@ Function SearchStockIndex($SearchString){
     //include database connection
     include ('connection.php');
     
+    //cleaning search input
+    $SearchString = mysqli_escape_string($conn, $SearchString);
+    
+    
     //Search all fields for the substring and dump results to table,
- 
     $SearchSQL = "
     SELECT *
     FROM StockInfo.Stock_Symbol_Index
     WHERE Symbol LIKE '%" . $SearchString . "%'
     OR NAME LIKE '%" . $SearchString . "%'
     OR Sector LIKE '%" . $SearchString . "%'
-    OR Industry LIKE '%" . $SearchString . "%'";
+    OR Industry LIKE '%" . $SearchString . "%'
+    LIMIT 500";
     
     //Execute SQL Query
     $SearchResult = mysqli_query($conn, $SearchSQL);
-    if ($SearchResult->num_rows > 0){
-          
-        echo"<div class='panel-body'>
-            <table width='100%' class='table table-striped table-bordered table-hover' id='dataTables-example'>
-            <thead>
-            <tr>
-            <th>Symbol</th>
-            <th>Name</th>
-            <th>Sector</th>
-            <th>Industry</th>
-            </tr>
-            </thead>
-            <tbody>";
-        
-        
+    if ($SearchResult->num_rows > 0) {
+        echo '
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>Symbol</th>
+                                <th>Name</th>
+                                <th>Sector</th>
+                                <th>Industry</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
         while($row = $SearchResult->fetch_assoc()) {
             echo "
-            <tr>
-            <td><a href='../pages/stockpage.php?Symbol=" . $row['Symbol'] . "'>"  . $row['Symbol'] . "</a></td>
-            <td>"  . $row['Name'] . "</td>
-            <td>"  . $row['Sector'] . "</td>
-            <td>"  . $row['Industry'] . "</td>
-            </tr>";           
+                            <tr>
+                                <td>".$row['Symbol']."</td>
+                                <td><a href='stockpage.php?Symbol=" . $row['Symbol'] . "'>" . $row['Name'] . "</a></td>
+                                <td>".$row['Sector']."</td>
+                                <td>".$row['Industry']."</td>
+                            </tr>";         
         } 
-        
-        echo "
-        </tbody>
-        </table>
-        <!-- /.table-responsive -->
-        </div>
-        <!-- /.panel-body -->";
+        echo '
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>';
         
     }  
-    else{
-        $SearchSQLNOthing = "
-    SELECT Symbol, Name, Industry, Sector
-    FROM StockInfo.Stock_Symbol_Index";
+    else {
+        $SearchSQLNothing = "
+        SELECT *
+        FROM StockInfo.Stock_Symbol_Index
+        LIMIT 500";
         
         //Execute SQL Query
-        $SearchResultNothing = mysqli_query($conn, $SearchSQLNOthing);
+        $SearchResultNothing = mysqli_query($conn, $SearchSQLNothing);
         if ($SearchResultNothing->num_rows > 0){
-            echo "<h4>No matching results, please search again<h4>";
-            echo"<div class='panel-body'>
-            <table width='100%' class='table table-striped table-bordered table-hover' id='dataTables-example'>
-            <thead>
-            <tr>
-            <th>Symbol</th>
-            <th>Name</th>
-            <th>Sector</th>
-            <th>Industry</th>
-            </tr>
-            </thead>
-            <tbody>";
-            
-            
+            echo '
+            <h3>No matching search results</h3>';
+            echo '
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel-body">
+                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Name</th>
+                                    <th>Sector</th>
+                                    <th>Industry</th>
+                                </tr>
+                            </thead>
+                            <tbody>';
             while($row = $SearchResultNothing->fetch_assoc()) {
-                echo "
-            <tr>
-            <td><a href='../pages/stockpage.php?Symbol=" . $row['Symbol'] . "'>"  . $row['Symbol'] . "</a></td>
-            <td>"  . $row['Name'] . "</td>
-            <td>"  . $row['Sector'] . "</td>
-            <td>"  . $row['Industry'] . "</td>
-            </tr>";
+                echo '
+                                <tr>
+                                    <td><a href="../pages/stockpage.php?Symbol='.$row["Symbol"].'">'.$row["Symbol"].'</a></td>
+                                    <td>'.$row["Name"].'</td>
+                                    <td>'.$row["Sector"].'</td>
+                                    <td>'.$row["Industry"].'</td>
+                                </tr>';
             }
-            
-            echo "
-        </tbody>
-        </table>
-        <!-- /.table-responsive -->
-        </div>
-        <!-- /.panel-body -->";
-            
-            
-        }
-  
-        
-        
+            echo '
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>';   
+        }   
     }
-    
-    
-    
-    
-   
-
-        
-    
-    
-    
-    
-    
-    
 }
 
 
@@ -144,7 +131,7 @@ Function FetchLastTenDaysChart($StockSymbol){
     $Output = array();
     //Query to show the last 11days of close prices
     $ShowLastTenSQL = "SELECT atr_Stock_id, DATE_FORMAT(timestamp, '%m-%d-%y') as 'timestamp', Open, High, Low, Close FROM StockInfo.Time_Series_Daily WHERE Timestamp >
-(SELECT DISTINCT Timestamp FROM StockInfo.Time_Series_Daily ORDER BY Timestamp DESC LIMIT 1 offset 11) AND atr_Stock_id = '" . $StockSymbol . "'
+(SELECT DISTINCT Timestamp FROM StockInfo.Time_Series_Daily WHERE atr_stock_id ='" . $StockSymbol . "' ORDER BY Timestamp DESC LIMIT 1 offset 11) AND atr_Stock_id = '" . $StockSymbol . "'
  order by atr_stock_id ASC, Timestamp ASC";
     $SearchResult = mysqli_query($conn, $ShowLastTenSQL);
     if ($SearchResult->num_rows > 0){
@@ -177,7 +164,7 @@ Function FetchLastTenDaysChart($StockSymbol){
             //Counter to skip the 11th day
             $SkipCounter = $SkipCounter  +1;
         }
-        for($i=39; $i > 4; $i-=4){
+        for($i=39; $i >= 3; $i-=4){
             // Date, Price, Change, Percent
             echo "
                 <tr>
@@ -187,19 +174,19 @@ Function FetchLastTenDaysChart($StockSymbol){
             if ($Output[$i-1] > 0) {
                 echo"
                     <td style='color:#28a745'>"  . $Output[$i-1] .  "</td>
-                    <td style='color:#28a745'> <i class='fa fa-lg fa-caret-up'> </i> "  . $Output[$i] .  "</td>
+                    <td style='color:#28a745'> <i class='fa fa-lg fa-caret-up'> </i> "  . abs($Output[$i]) .  "%</td>
                     </tr>";
             }
             elseif ($Output[$i-1] < 0) {
                 echo"
                     <td style='color:#dc3545'>"  . $Output[$i-1] .  "</td>
-                    <td style='color:#dc3545'> <i class='fa fa-lg fa-caret-down'> </i> "  . $Output[$i] .  "</td>
+                    <td style='color:#dc3545'> <i class='fa fa-lg fa-caret-down'> </i> "  . abs($Output[$i]) .  "%</td>
                     </tr>";
             }
             elseif ($Output[$i-1] == 0) {
                 echo"
                     <td style='color:#337ab7'>"  . $Output[$i-1] .  "</td>
-                    <td style='color:#337ab7'> <i class='fa fa-lg fa-minus'> </i> "  . $Output[$i] .  "</td>
+                    <td style='color:#337ab7'> <i class='fa fa-lg fa-minus'> </i> "  . abs($Output[$i]) .  "%</td>
                     </tr>";
             }
         }
@@ -551,72 +538,230 @@ var chart = AmCharts.makeChart( "chartdiv", {
 Function StockSparkline($StockSymbol){
     
     include('connection.php');
-    echo "Hello";
+    
+    $sql = "SELECT * FROM StockInfo.Time_Series_Daily WHERE StockInfo.Time_Series_Daily.atr_stock_id ='".$StockSymbol."' ORDER BY Time_Series_Daily.Timestamp ASC LIMIT 10";
+    $result = mysqli_query($conn, $sql);
+    
+    if ($result -> num_rows > 0) {
+        
+        //Chartdiv style
+        echo '
+<style>
+#chartdiv {
+    width: 100%;
+    height: 500px;
+}
+</style>
+        ';
+        
+        //1st half of chart script
+        echo '
+<script>
+AmCharts.makeChart( "'.$StockSymbol.'Graph", {
+    "type": "serial",
+    "theme": "light",
+
+    "dataProvider": [ {
+        ';
+        
+        //Stock data
+        $var = 1;
+        while($row = $result->fetch_assoc()) {
+            if ($var == 1) {
+                echo '"day": '.$var.',';
+                echo '"value": '.$row['Close'];
+            }
+            else {
+                echo '}, {';
+                echo '"day": '.$var.',';
+                echo '"value": '.$row['Close'];
+            }
+            $var++;
+        }
+        echo '} ],';
+        
+        //2nd-half of chart script
+        echo '
+    "categoryField": "day",
+    "autoMargins": false,
+    "marginLeft": 0,
+    "marginRight": 5,
+    "marginTop": 0,
+    "marginBottom": 0,
+    "graphs": [ {
+        "valueField": "value",
+        "bulletField": "bullet",
+        "showBalloon": false,
+        "lineColor": "#a9ec49"
+    } ],
+    "valueAxes": [ {
+        "gridAlpha": 0,
+        "axisAlpha": 0
+    } ],
+    "categoryAxis": {
+        "gridAlpha": 0,
+        "axisAlpha": 0,
+        "startOnAxis": true
+    }
+} );
+</script>
+        ';
+        
+        //Chart Div
+        echo '
+<div class="chart-block" style="display: block; margin-left: auto;margin-right: auto;">
+    <div id="'.$StockSymbol.'Graph" style="vertical-align: middle; display: inline-block; width: 100%; height: 50px;"></div>
+</div>
+        ';
+        
+    }
     
 }
-
 
 Function PotentialGains($initialMoney, $numberOfDays, $commission, $stockSymbol) {
     
     include('../resources/connection.php');
-    
-    //echo $initialMoney." ".$numberOfDays." ".$commission." ".$stockSymbol;
-    
     $finalSellPrice;
     $stock = 0;
     $money = $initialMoney;
-    $sql = "SELECT * FROM StockInfo.Simulation WHERE StockInfo.Simulation.Symbol = '".$stockSymbol."' ORDER BY StockInfo.Simulation.Timestamp ASC LIMIT ".$numberOfDays;
-
+    $sql = "SELECT * FROM ( SELECT * FROM StockInfo.Simulation WHERE StockInfo.Simulation.Symbol = '".$stockSymbol."' ORDER BY StockInfo.Simulation.Timestamp DESC LIMIT ".$numberOfDays." ) AS tmp ORDER BY Timestamp ASC";
+    unset($_SESSION['array1']);
+    unset($_SESSION['array2']);
+    unset($_SESSION['array3']);
+    unset($_SESSION['array4']);
+    unset($_SESSION['array5']);
+    $array1 = array(); //Date
+    $array2 = array(); //Close
+    $array3 = array(); //Buy/Sell
+    $array4 = array(); //Stock
+    $array5 = array(); //Money
+    
     $result = mysqli_query($conn, $sql);
     if ($result -> num_rows > 0) {
-        //echo " Hello";
         while($row = $result->fetch_assoc()) {
-            
-            //echo "</br>".$row['Timestamp']."</br>";
-            //echo "  Money = ".$money."</br>";
-            //echo "  Stock = ".$stock."</br>";
-
             //Final Decision is to BUY
             if ($row['Final_Decision'] == "Buy") {
-                //echo "Buy @ ".$row['Close']."</br>";
                 //Have enough money to buy
                 if ($money >= $row['Close']) {
                     $effectiveRate = (1 + $commission) * $row['Close'];
-                    $stock = $stock + floor($money / $effectiveRate);
-                    $money = $money % $effectiveRate;
+                    $tempStock = floor($money / $effectiveRate);
+                    $money = $money - ($tempStock * $effectiveRate);
+                    $stock = $stock + $tempStock;
+                    array_push($array1, substr($row['Timestamp'],5,5));
+                    array_push($array2, $row['Close']);
+                    array_push($array3, $row['Final_Decision']);
+                    array_push($array4, $stock);
+                    array_push($array5, $money);
                 }
             }
-
             //Final Decision is to SELL
             if ($row['Final_Decision'] == "Sell") {
-                //echo "Sell @ ".$row['Close']."</br>";
                 //Own stock to sell
                 if ($stock > 0) {
                     $effectiveRate = (1 - $commission) * $row['Close'];
                     $money = $money + ($stock * $effectiveRate);
                     $stock = 0;
+                    array_push($array1, substr($row['Timestamp'],5,5));
+                    array_push($array2, $row['Close']);
+                    array_push($array3, $row['Final_Decision']);
+                    array_push($array4, $stock);
+                    array_push($array5, $money);
                 }
             }
-            
-//             if ($row['Final_Decision'] == "Hold") {
-//                 echo "Hold @ ".$row['Close']."</br>";
-//             }
-            
             $finalSellPrice = $row['Close'];
-            
         }
     }
-    
     $effectiveRate = (1 - $commission) * $finalSellPrice;
     $total = $money + ($stock * $effectiveRate);
     $percent = 100 * (($total / $initialMoney) - 1);
+    $_SESSION['array1'] = $array1;
+    $_SESSION['array2'] = $array2;
+    $_SESSION['array3'] = $array3;
+    $_SESSION['array4'] = $array4;
+    $_SESSION['array5'] = $array5;
+    return $percent;
+}
+
+Function MarketGains($initialMoney, $numberOfDays, $commission, $stockSymbol) {
     
-    //echo '</br>Number of stocks: '.$stock.'</br>';
-    //echo 'Money: '.$money.'</br>';
-    //echo 'Total Money if stocks are sold: '.$total.'</br>';
+    include('../resources/connection.php');
+    $finalSellPrice;
+    $stock = 0;
+    $money = $initialMoney;
+    $sql = "SELECT * FROM ( SELECT * FROM StockInfo.Simulation WHERE StockInfo.Simulation.Symbol = '".$stockSymbol."' ORDER BY StockInfo.Simulation.Timestamp DESC LIMIT ".$numberOfDays." ) AS tmp ORDER BY Timestamp ASC";
     
     
+    $result = mysqli_query($conn, $sql);
+    if ($result -> num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            if ($money >= $row['Close']) {
+                $effectiveRate = (1 + $commission) * $row['Close'];
+                $tempStock = floor($money / $effectiveRate);
+                $money = $money - ($tempStock * $effectiveRate);
+                $stock = $stock + $tempStock;
+            }
+            $finalSellPrice = $row['Close'];
+        }
+    }
+    $effectiveRate = (1 - $commission) * $finalSellPrice;
+    $total = $money + ($stock * $effectiveRate);
+    $percent = 100 * (($total / $initialMoney) - 1);
+    return $percent;
+}
+
+Function MaximumGains($initialMoney, $numberOfDays, $commission, $stockSymbol) {
     
+    include('../resources/connection.php');
+    $finalSellPrice;
+    $stock = 0;
+    $money = $initialMoney;
+    $sql1 = "SET @rownr1 = 0";
+    $sql2 = "SET @rownr2 = 0";
+    $sql3 = "
+    SELECT tmp1.Symbol, tmp1.Close1 as 'Close1' ,tmp1.Timestamp1, (@rownr1 := @rownr1 + 1) AS rowNumber, tmp2.Close2 , tmp2.Timestamp2
+    FROM (
+        SELECT tmp1.Symbol, tmp1.Close as 'Close1' ,tmp1.Timestamp as 'Timestamp1', (@rownr1 := @rownr1 + 1) AS rowNumber
+        FROM StockInfo.Simulation as tmp1
+        WHERE tmp1.Symbol = '".$stockSymbol."'
+        ORDER BY tmp1.Timestamp DESC LIMIT ".$numberOfDays."
+        ) as tmp1
+        INNER JOIN (
+            SELECT Symbol, Close as 'Close2', Timestamp as 'Timestamp2', (@rownr2 := @rownr2 + 1) AS rowNumber
+            FROM StockInfo.Simulation
+            WHERE StockInfo.Simulation.Symbol = '".$stockSymbol."'
+            ORDER BY StockInfo.Simulation.Timestamp DESC LIMIT ".$numberOfDays." OFFSET 1
+            ) AS tmp2
+            ON tmp1.rowNumber = tmp2.rowNumber
+            ORDER BY tmp1.Timestamp1 ASC
+    ";
+    
+    $conn->query($sql1);
+    $conn->query($sql2);
+    
+    $result3 = mysqli_query($conn, $sql3);
+    if ($result3 -> num_rows > 0) {
+        while($row = $result3->fetch_assoc()) {
+            if ($row['Close2'] < $row['Close1']) {
+                if ($money >= $row['Close2']) {
+                    $effectiveRate = (1 + $commission) * $row['Close2'];
+                    $tempStock = floor($money / $effectiveRate);
+                    $money = $money - ($tempStock * $effectiveRate);
+                    $stock = $stock + $tempStock;
+                }
+            }
+            if ($row['Close2'] > $row['Close1']) {
+                if ($stock > 0) {
+                    $effectiveRate = (1 - $commission) * $row['Close2'];
+                    $money = $money + ($stock * $effectiveRate);
+                    $stock = 0;
+                }
+            }
+            $finalSellPrice = $row['Close2'];
+        }
+    }
+    $effectiveRate = (1 - $commission) * $finalSellPrice;
+    $total = $money + ($stock * $effectiveRate);
+    $percent = 100 * (($total / $initialMoney) - 1);
     return $percent;
 }
 
@@ -630,12 +775,9 @@ Function ShowSubUnsubIcon(){
     $CheckSubResults = mysqli_query($conn, $CheckIfSubbedSQL);
 
     if ($CheckSubResults->num_rows > 0){
-
         echo "
-           <button type='button' class='btn btn-primary btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-minus fa-lg'></i>
+           <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-check fa-lg'></i>
             </button>
-           <i class='btn-success btn-xs pull-left' style='margin-top:10px;margin-right:6px;margin-left:12px'> <i class='fa fa-check'></i>
-            </i>
             <div class='modal fade' id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>
 
                 <div class='modal-dialog'>
@@ -644,7 +786,7 @@ Function ShowSubUnsubIcon(){
                             <h3 class='modal-title' id='myModalLabel'>Unsubscribe from stock</h3>
                         </div>
                         <div class='modal-body'>
-                            This stock will be removed from 'My Subs' on your homepage
+                            This stock will be removed from your subscribed stock carousel
                         </div>
                         <div class='modal-footer'>
                           <form action='../resources/unsubtostock.php' method='POST' id='form1'>
@@ -658,14 +800,13 @@ Function ShowSubUnsubIcon(){
             </div>";
     }
     else{
-    //at this point user is not subbed, but there still may be stock info here
-    //check this stock exsits but user isnt subbed
-    $CheckIfStockExists = "SELECT * FROM StockInfo.Time_Series_Daily WHERE atr_stock_id='" . $_GET['Symbol'] . "';";
-    $CheckIfStockExistsResults = mysqli_query($conn, $CheckIfStockExists);
-    if ($CheckIfStockExistsResults->num_rows > 0){
+        //at this point user is not subbed, but there still may be stock info here
+        //check this stock exsits but user isnt subbed
+        $CheckIfStockExists = "SELECT * FROM StockInfo.Time_Series_Daily WHERE atr_stock_id='" . $_GET['Symbol'] . "';";
+        $CheckIfStockExistsResults = mysqli_query($conn, $CheckIfStockExists);
+        if ($CheckIfStockExistsResults->num_rows > 0){
         
-        echo "
-
+            echo "
                <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-plus fa-lg'></i>
                 </button>
                 <div class='modal fade' id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>
@@ -676,7 +817,7 @@ Function ShowSubUnsubIcon(){
                                 <h3 class='modal-title' id='myModalLabel'>Subscribe to stock</h3>
                             </div>
                             <div class='modal-body'>
-                                This stock will be added to 'My Subs' on your homepage
+                                This stock will be added to your subscribed stock carousel
                             </div>
                             <div class='modal-footer'>
                               <form action='../resources/subtostock.php' method='POST' id='form1'>
@@ -687,14 +828,15 @@ Function ShowSubUnsubIcon(){
                             </div>
                         </div>
                     </div>
-                </div><br>
-                <br><h3 class='alert alert-info' style='margin-top:18px;margin-bottom:6px;font-size:12px;text-align:center'>
-                This information may be outdated. Subscribe to update.</h3>";
-    }
+                </div>
+            ";
+        }
 
-     else{
-        //at this point we dont hold stock info for this item, which means the user isnt subbed     
-         echo "
+        else{
+            //at this point we dont hold stock info for this item, which means the user isnt subbed
+            $_SESSION['Subscribe'] = true;
+            
+            echo "
                   <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right'  style='margin-top:6px'><i class='fa fa-refresh fa-spin fa-lg'></i>
                 </button>
                    <div   id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='
@@ -721,9 +863,9 @@ Function ShowSubUnsubIcon(){
                             </div>
                         </div>
                     </div>
-                </div>";
-     
-         }
+                </div>
+            ";
+        }
     }   
 }
 
@@ -747,8 +889,6 @@ Function ShowCompanyInformation($Symbol){
 
 Function ShowRssFeedNews($Topic){
     
-    
-    
     $Topicleaned=str_replace(' ','%20', $Topic);
     echo $test2;
     $googlersssource = "https://news.google.com/news/rss/search/section/q/" . $Topicleaned . "/" . $Topicleaned . "?hl=en&gl=US&ned=us";
@@ -770,12 +910,8 @@ Function ShowRssFeedNews($Topic){
                                         </div>
                                     </li>";
     }
-    
-    
-    
-    
-    
 }
+
 Function ShowSubbedStocks()
 {
     include ('connection.php');
@@ -805,11 +941,16 @@ Function ShowSubbedStocks()
             echo "
             <div class='panel panel-default' style='margin-bottom:10px'>
                 <a href='stockpage.php?Symbol=" . $row['atr_stock_id'] . "'>
-                    <div style='width: 90%' class='panel-heading'>
-                        <div class='row'>
-                            <div class='col-xs-4'>
-                                <i class='fa fa-bar-chart fa-4x' style='margin-top: 32px; display: block; text-align: center'></i>
-    	                    </div>
+                    <div style='width: 100%' class='panel-heading'>
+                        <div class='row'>";
+            
+//                             <div class='col-xs-4'>
+//                                 <i class='fa fa-bar-chart fa-4x' style='margin-top: 32px; display: block; text-align: center'></i>
+//                             </div>
+                            
+            StockSparkline($row['atr_stock_id']);
+                            
+            echo "
     	                    <div class='col-xs-8' style='padding-left: 10%'>
                                 <div class='h5'><b>" . $row['Name'] . "</b>
                                 </div>

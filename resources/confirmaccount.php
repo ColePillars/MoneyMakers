@@ -71,11 +71,12 @@ if($CheckUserInfoResult->num_rows == 1){
     }
 
    //push user to login page to log in     
+    $_SESSION['EmailConfirmMessage'] = "Email confirmed!";
     header("location: ../pages/login.php");
     exit(); 
 }
 else{
-    //if user re-clicked this ling or made their own key
+    //if user re-clicked this link or made their own key
     $_SESSION['InvaliRegistrationMessage'] = "Oops! Something went wrong!";
     header('Location: ../pages/register.php');
     exit();
