@@ -779,7 +779,6 @@ Function ShowSubUnsubIcon(){
            <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-check fa-lg'></i>
             </button>
             <div class='modal fade' id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>
-
                 <div class='modal-dialog'>
                     <div class='modal-content'>
                         <div class='modal-header'>
@@ -807,10 +806,9 @@ Function ShowSubUnsubIcon(){
         if ($CheckIfStockExistsResults->num_rows > 0){
         
             echo "
-               <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-plus fa-lg'></i>
+                <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-plus fa-lg'></i>
                 </button>
                 <div class='modal fade' id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>
-
                     <div class='modal-dialog'>
                         <div class='modal-content'>
                             <div class='modal-header'>
@@ -837,15 +835,9 @@ Function ShowSubUnsubIcon(){
             $_SESSION['Subscribe'] = true;
             
             echo "
-                  <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right'  style='margin-top:6px'><i class='fa fa-refresh fa-spin fa-lg'></i>
+                <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px'><i class='fa fa-refresh fa-spin fa-lg'></i>
                 </button>
-                   <div   id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='
-                       height: 300px;
-                       position: absolute;
-                       left: 150%;
-                       top: 50%;
-                       margin-left: -150px;
-                       margin-top: -150px;'>             
+                <div class='modal fade' id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>             
                     <div class='modal-dialog'>
                         <div class='modal-content'>
                             <div class='modal-header'>
