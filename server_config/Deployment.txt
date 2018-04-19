@@ -1,0 +1,25 @@
+Clone repository into document root of apache and install LAMP stack
+
+> sudo apt-get update
+> sudo apt-get install git
+> sudo apt-get install apache2
+> cd /var/www/html
+> sudo rm index.html
+> sudo git clone https://github.com/ColePillars/MoneyMakers.git .
+> sudo chmod +x server_config/lamp.sh
+> sudo ./server_config/lamp.sh
+
+
+Getting database structure and creating connection account
+
+> sudo mysql -u root -p
+	# Enter Password
+	> create database StockInfo;
+	> create database UserCredentials;
+	> grant all privileges on *.* to 'MoneyMakersDev'@'localhost' identified by 'ConnectionDev12345';
+		### this user must be edited in resources/connection.php if you use a different user/pw
+	> exit;
+> sudo mysql -u root -p StockInfo < server_config/StockInfo.sql
+	# Enter Password
+> sudo mysql -u root -p UserCredentials < server_config/UserCredentials.sql
+	# Enter Password
