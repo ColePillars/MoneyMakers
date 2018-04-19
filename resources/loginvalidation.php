@@ -23,8 +23,14 @@
                 if ($row['atr_type'] == "normal") {
                     $_SESSION['username'] = $user;
                     $_SESSION['is_logged_in'] = true;
-                    header('Location: ../pages/index.php');
-                    exit();
+                    if ($_GET['redirect'] <> NULL) {
+                        header('Location: ../pages/' . $_GET['redirect']);
+                        exit();
+                    }
+                    else {
+                        header('Location: ../pages/index.php');
+                        exit();
+                    }
                 }
                 
                 //If usertype is not normal, ask to confirm email

@@ -120,53 +120,6 @@
             echo "
                     </div>
                 </div>
-                <div class='row'>
-                    <div class='col-sm-12 text-center' >
-            ";
-            
-            $sql2 = "
-            SELECT * FROM
-            (
-                SELECT * FROM StockInfo.Time_Series_Daily
-                WHERE StockInfo.Time_Series_Daily.atr_stock_id ='" . $row['atr_stock_id'] . "'
-                ORDER BY Time_Series_Daily.Timestamp DESC LIMIT 35
-            ) AS tmp
-            ORDER BY Timestamp ASC
-            ";
-            
-                echo "
-                        <script type='text/javascript'>
-                        $(function() {
-                        var myvalues" . $var . " = [";
-                
-                $var2 = 0;
-                
-                $result2 = mysqli_query($conn, $sql2);
-                if ($result2 -> num_rows > 0) {
-                    while($row2 = $result2->fetch_assoc()) {
-                        if ($var2 == 0) {
-                            echo $row2['Close'];
-                        }
-                        else {
-                            echo "," . $row2['Close'];
-                        }
-                        $var2++;
-                    }
-                }
-            echo "];
-                        $('.dynamicsparkline" . $var . "').sparkline(myvalues" . $var . ");
-                        });
-                        </script>
-            ";
-            
-            //Shows the sparklines, literally breaks the whole page if your zoomed in >:(
-//             echo "
-//                         <span class='dynamicsparkline" . $var . "'>Loading..</span>
-//             ";
-            
-            echo "
-                    </div>
-                </div>
             </a>
             ";
             $var++;

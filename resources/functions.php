@@ -62,10 +62,10 @@ Function SearchStockIndex($SearchString){
         while($row = $SearchResult->fetch_assoc()) {
             echo "
                             <tr>
-                                <td>".$row['Symbol']."</td>
+                                <td>" . $row['Symbol'] . "</td>
                                 <td><a href='stockpage.php?Symbol=" . $row['Symbol'] . "'>" . $row['Name'] . "</a></td>
-                                <td>".$row['Sector']."</td>
-                                <td>".$row['Industry']."</td>
+                                <td><a href='search.php?SearchString=" . $row['Sector'] . "'>" . $row['Sector'] . "</a></td>
+                                <td><a href='search.php?SearchString=" . $row['Industry'] . "'>" . $row['Industry'] . "</a></td>
                             </tr>";         
         } 
         echo '
@@ -453,7 +453,7 @@ var chart = AmCharts.makeChart( "chartdiv", {
 	  } ],
 	  "graphs": [ {
 	    "id": "g1",
-	    "balloonText": "Open:<b>[[open]]</b><br>Low:<b>[[low]]</b><br>High:<b>[[high]]</b><br>Close:<b>[[close]]</b><br>",
+	    "balloonText": "High:<b>[[high]]</b><br>Open:<b>[[open]]</b><br>Close:<b>[[close]]</b><br>Low:<b>[[low]]</b><br>",
 	    "closeField": "close",
         "fillColors": "#28a745",
 	    "highField": "high",
@@ -779,7 +779,6 @@ Function ShowSubUnsubIcon(){
            <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-check fa-lg'></i>
             </button>
             <div class='modal fade' id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>
-
                 <div class='modal-dialog'>
                     <div class='modal-content'>
                         <div class='modal-header'>
@@ -807,10 +806,9 @@ Function ShowSubUnsubIcon(){
         if ($CheckIfStockExistsResults->num_rows > 0){
         
             echo "
-               <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-plus fa-lg'></i>
+                <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px;;'><i class='fa fa-plus fa-lg'></i>
                 </button>
                 <div class='modal fade' id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>
-
                     <div class='modal-dialog'>
                         <div class='modal-content'>
                             <div class='modal-header'>
@@ -837,15 +835,9 @@ Function ShowSubUnsubIcon(){
             $_SESSION['Subscribe'] = true;
             
             echo "
-                  <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right'  style='margin-top:6px'><i class='fa fa-refresh fa-spin fa-lg'></i>
+                <button type='button' class='btn btn-success btn-outline btn-circle btn-l pull-right' data-toggle='modal' data-target='#submodal' style='margin-top:6px'><i class='fa fa-refresh fa-spin fa-lg'></i>
                 </button>
-                   <div   id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='
-                       height: 300px;
-                       position: absolute;
-                       left: 150%;
-                       top: 50%;
-                       margin-left: -150px;
-                       margin-top: -150px;'>             
+                <div class='modal fade' id='submodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>             
                     <div class='modal-dialog'>
                         <div class='modal-content'>
                             <div class='modal-header'>
