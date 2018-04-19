@@ -1,4 +1,5 @@
 Deployment Outline
+
   Clone repository into document root of apache and install LAMP stack
 
   Getting database structure from server_config .sql files and create connection account
