@@ -15,28 +15,42 @@ else {
 $Topic = str_replace(' ','%20', $StockFullName);
 
 
-$news = simplexml_load_file("https://news.google.com/news/rss/search/section/q/" . $Topic . "/" . $Topic . "?hl=en&gl=US&ned=us");
+//$news = simplexml_load_file("https://news.google.com/news/rss/search/section/q/" . $Topic . "/" . $Topic . "?hl=en&gl=US&ned=us");
+$news = simplexml_load_file("https://news.google.com/_/rss/search?q=" . $Topic . "&hl=en-US&gl=US&ceid=US:en");
+//$feeds = array();
 
-$feeds = array();
+$namespaces=$news->getNamespaces(true);
+
+$items = array();
+foreach($news->channel->item as $item){
+    $tmp = new stdClass();
+    $tmp->title = trim((string) $item->title);
+    $tmp->link = trim((string) $item->link);
+    $tmp->guid = trim((string) $item->guid);
+    $tmp->pubDate = trim((string) $item->pubDate);
+    $tmp->description = trim((string) $item->description);
+    $tmp->source = trim((string) $item->source);
+    $tmp->media_url = trim((string) $item->children($namespaces['media'])->content->attributes()->url);
+    $items[] = $tmp;
+}
 
 $i = 0;
 
-foreach ($news->channel->item as $item)
+foreach ($items as $item)
 {
     $parts = explode('<li>', $item->description);
     $link = (string) $item->link;
     $sitetitle = strip_tags($parts[1]);
     $story = strip_tags($parts[2]);
     $date =  (string) $item->pubDate;
-    
+
     $title = (string) $item->title;
 //     if (strlen($title) > 60) {
 //         $title = substr($title, 0, 57) . '...';
 //     }
-    
-    preg_match('@src="([^"]+)"@', $item->description, $match);
-    $img = $match[1];
-    
+    //preg_match('(?<=url=")([^"]+)', $item->media, $match);
+    $img = $item->media_url;
+
     if($img) {
         echo "
                 <div class='w3-card-4 w3-margin' style='min-height: 100px;'>
@@ -57,7 +71,7 @@ foreach ($news->channel->item as $item)
         ";
         $i++;
     }
-    
+
     if ($i == 6 ) break;
 }
 
