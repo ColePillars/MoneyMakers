@@ -2,7 +2,7 @@
 // this function will fetch and store intradaily values given the parameters
 // this function will fetch and store daily values given the parameters
 //RETURNS 100 DATA POINTS, SO IF HOURLY, LAST 100 days!!
-Function FetchDailyJSON($StockSymbol){
+function FetchDailyJSON($StockSymbol){
     
     // include connections page
     include('connection.php');
@@ -17,8 +17,8 @@ Function FetchDailyJSON($StockSymbol){
             VALUES('" . $StockSymbol . "',";
     
     //Counter to skip metadata
-    $count = 0;
-    
+    //$count = 0;
+    $limit = 0;
 
     
     
@@ -32,28 +32,28 @@ Function FetchDailyJSON($StockSymbol){
         //Loop through each day
         foreach ($JSONObject as $Timestamp => $TimeSeries){
             //if not meta data, append the time stamp to insert
-            if($count > 4){
-                $MidQuery = $StartSQL;
-                $MidQuery = $MidQuery . "'" . $Timestamp . "',";
+            if ($Timestamp < 6) continue;
+            echo $StockSymbol . " daily " . $Timestamp . "\n";
+	    if ($limit < 100) {
+		$existsQuery = "SELECT * FROM StockInfo.Time_Series_Daily WHERE Timestamp = '" . $Timestamp . "' and atr_stock_id = '" . $StockSymbol . "'";
+                $existsResult = mysqli_query($conn, $existsQuery);
+                if (mysqli_num_rows($existsResult) == 0) {
+                    $MidQuery = $StartSQL;
+                    $MidQuery = $MidQuery . "'" . $Timestamp . "',";
+                    //loop through each value, open, high, low, close, volume, append to insert query
+                    foreach ($TimeSeries as $ObjectHeader => $ObjectValue){
+                        $MidQuery = $MidQuery . "'" . $ObjectValue . "',";
+                    }
+                    $MidQuery =  substr($MidQuery, 0, -2) . "','" . $StockSymbol . "_" . $Timestamp . "');";
+                    echo $MidQuery . " \n";
+                    $conn->query($MidQuery) ? null : $all_query_ok = false;
+	            $limit = $limit + 1;
+		}
             }
-            
-            
-            //loop through each value, open, high, low, close, volume, append to insert query
-            foreach ($TimeSeries as $ObjectHeader => $ObjectValue){
-                $MidQuery = $MidQuery . "'" . $ObjectValue . "',";
-            }
-            
-            // If not meta data, append end of query statement
-            if($count > 4){
-                $MidQuery =  substr($MidQuery, 0, -2) . "','" . $StockSymbol . "_" . $Timestamp . "');";
-                // echo $MidQuery . "<br>";
-                $conn->query($MidQuery) ? null : $all_query_ok = false;
-                
-            }
-            
-            $count = $count + 1;
+	    else {
+		break;
+	    }
         }
-        
     }
     
     
@@ -65,8 +65,9 @@ Function FetchDailyJSON($StockSymbol){
     
     
 }
+
 function FetchRSIJSON($StockSymbol, $Interval, $TimePeriod){
-    ob_start();
+    //ob_start();
     // include connections page
     include('connection.php');
     
@@ -79,9 +80,7 @@ function FetchRSIJSON($StockSymbol, $Interval, $TimePeriod){
     //Defining base query, will append each row to the query statement
     $StartSQL = "INSERT IGNORE INTO StockInfo.Technical_Analysis_RSI(atr_stock_id,Timestamp,RSI,Composite_Key)
             VALUES('" . $StockSymbol . "',";
-    
-    //Counter to skip metadata
-    $count = 0;
+
     $limit = 0;
     
     $all_query_ok = true;
@@ -92,23 +91,29 @@ function FetchRSIJSON($StockSymbol, $Interval, $TimePeriod){
         //Loop through each day
         foreach ($JSONObject as $Timestamp => $TimeSeries){
             //if not meta data, append the time stamp to insert
-            if($count > 6){
-                $MidQuery = $StartSQL;
-                $MidQuery = $MidQuery . "'" . $Timestamp . "',";
-            }
-            //loop through each value, open, high, low, close, volume, append to insert query
-            if($limit < 107){
-                foreach ($TimeSeries as $ObjectHeader => $ObjectValue){
-                    $MidQuery = $MidQuery . "'" . $ObjectValue . "',";
-                }
-                // If not meta data, append end of query statement
-                if($count > 6){
+            if ($Timestamp < 8) continue;
+	    echo $StockSymbol . " rsi " . $Timestamp . " \n";
+	    if ($limit < 100) {
+            	$existsQuery = "SELECT * FROM StockInfo.Technical_Analysis_RSI WHERE Timestamp = '" . $Timestamp . "' and atr_stock_id = '" . $StockSymbol . "'";
+	    	$existsResult = mysqli_query($conn, $existsQuery);
+	    	if (mysqli_num_rows($existsResult) == 0) {
+                    $MidQuery = $StartSQL;
+                    $MidQuery = $MidQuery . "'" . $Timestamp . "',";
+                    //loop through each value, open, high, low, close, volume, append to insert query
+                    foreach ($TimeSeries as $ObjectHeader => $ObjectValue){
+                        $MidQuery = $MidQuery . "'" . $ObjectValue . "',";
+                    }
+                    // If not meta data, append end of query statement
                     $MidQuery =  substr($MidQuery, 0, -2) . "','" . $StockSymbol . "_" . $Timestamp . "');";
+		    echo $MidQuery . " \n";
                     $conn->query($MidQuery) ? null : $all_query_ok = false;
-                }
-                $count = $count + 1;
+		}
                 $limit = $limit + 1;
             }
+	    else {
+		break;
+	    }
+
         }
     }
     

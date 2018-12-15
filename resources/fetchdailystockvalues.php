@@ -2,6 +2,7 @@
 session_start();
 include('connection.php');
 include('stockfunctions.php');
+include('buysellmethods.php');
 
 //getting all subscribed stocks and their user
 $GetSubbedStocksSQL  = "
@@ -11,13 +12,12 @@ $GetSubbedStocksResult = mysqli_query($conn, $GetSubbedStocksSQL);
 if ($GetSubbedStocksResult->num_rows > 0){    
     while($row = $GetSubbedStocksResult->fetch_assoc()) {
         
-        sleep(2);
+	echo (string) $row['atr_stock_id'] . "<br>";
         FetchDailyJSON($row['atr_stock_id']);
-        sleep(3);
+        sleep(15);
         FetchRSIJSON($row['atr_stock_id'], "daily", "100");
-        sleep(1);
         Sim($row['atr_stock_id']);
-        
+	sleep(15);
         
         
     }

@@ -404,7 +404,7 @@ function Final_Decision(){
  
  function Sim($stock){
      include('connection.php');
-     echo $stock;
+     //echo $stock;
      $select = "SELECT * FROM( SELECT StockInfo.Time_Series_Daily.atr_stock_id, StockInfo.Time_Series_Daily.Timestamp, StockInfo.Time_Series_Daily.Open, 
     StockInfo.Time_Series_Daily.High, StockInfo.Time_Series_Daily.Low, StockInfo.Time_Series_Daily.Close, StockInfo.Technical_Analysis_RSI.RSI, 
     StockInfo.Time_Series_Daily.Composite_Key FROM StockInfo.Time_Series_Daily INNER JOIN StockInfo.Technical_Analysis_RSI ON StockInfo.Time_Series_Daily.Composite_Key = StockInfo.Technical_Analysis_RSI.Composite_Key 
