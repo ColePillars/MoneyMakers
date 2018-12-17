@@ -77,7 +77,7 @@
     	(
     		SELECT DISTINCT atr_stock_id
     		FROM UserCredentials.tbl_stock_subs
-    		WHERE atr_username = 'testing'
+    		WHERE atr_username = ''
     	) as s on c.atr_stock_id= s.atr_stock_id
         INNER JOIN StockInfo.Stock_Symbol_Index as n ON c.atr_stock_id = n.Symbol
         WHERE c.Timestamp = (SELECT DISTINCT Timestamp from StockInfo.Time_Series_Daily order by Timestamp DESC LIMIT 1 )

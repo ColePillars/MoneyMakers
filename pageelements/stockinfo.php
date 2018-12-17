@@ -46,6 +46,9 @@
                                 echo $row['Final_Decision'];
                             }
                         }
+			else {
+				echo "No Data Currently";
+			}
                         ?>
                   	</h3>
                 </div>
