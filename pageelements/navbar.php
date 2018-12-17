@@ -10,13 +10,13 @@
 		<div class="navbar-collapse collapse" id="navbar">
 			<form action="search.php" role="form" method="GET" class="nav navbar-nav navbar-left">
 				<div class="form-group input-group" style="margin-top:10px; margin-left:10px; max-width:265px; min-width:200px">
-					<input type="text" class="form-control"  name="SearchString" id="SearchString" placeholder="Search stocks">
+					<input type="text" class="form-control"  name="SearchString" id="SearchString" placeholder="Search Stocks">
 					<span class="input-group-btn">
 						<button class="btn btn-info btn" type="submit"><i class="fa fa-search"></i></button>
 					</span>
 				</div>
 			</form>
-			<ul class="nav navbar-nav navbar-right" style="margin-right:0px;">
+			<ul class="nav navbar-nav navbar-right">
 				<li>
 					<a href="../pages/index.php"><i class="fa fa-home fa-fw"></i>Home</a>
 				</li>
