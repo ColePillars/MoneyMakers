@@ -60,7 +60,7 @@ include ('../resources/functions.php');
 					<h4>This website was created by: Gjergji Heqimi, Pete Iacona, Eric Le, Cole Pillars, and Carl Welland. This project was our Senior Design Project at Oakland University during the Winter 2018 semester.</h4>
 					</br>
 				</div>
-			<div>
+			</div>
 		</div>
 		<?php include ('../pageelements/footer.php'); ?>
 	</div>
