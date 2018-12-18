@@ -132,7 +132,7 @@ else {
 $EmailContents = "
 Click on the link below to complete your account registration.
 
-http://35.196.255.59/" . substr_replace(getcwd(),"",0,14) . "/confirmaccount.php?username=" . $UserName . "&key=" . $RegistrationKey ."";
+http://$_SERVER[HTTP_HOST]/" . substr_replace(getcwd(),"",0,14) . "/confirmaccount.php?username=" . $UserName . "&key=" . $RegistrationKey ."";
 
 //Send email with confirmation link
 mail($EmailAddress,"Account Registration Confirmation",$EmailContents);
