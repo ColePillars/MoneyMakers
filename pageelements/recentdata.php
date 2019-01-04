@@ -17,7 +17,7 @@
         $Output = array();
         
         $sql = "
-        SELECT atr_Stock_id, DATE_FORMAT(timestamp, '%m-%d-%y') as 'timestamp', Open, High, Low, Close
+        SELECT atr_Stock_id, DATE_FORMAT(timestamp, '%y-%m-%d') as 'timestamp', Open, High, Low, Close
         FROM StockInfo.Time_Series_Daily
         WHERE Timestamp >
         (
@@ -38,7 +38,7 @@
                     $Difference = round($row['Close'] - $PreviousClose,2);
                     //Computing percent difference between previous day and current day
                     $PDifference = round((($Difference / $PreviousClose) * 100),2) . "%";
-                    array_push($Output,(string)substr($row['timestamp'], 0, 10));
+                    array_push($Output,(string)$row['timestamp']);
                     array_push($Output,(string)$row['Close']);
                     array_push($Output,(string)$Difference);
                     array_push($Output,(string)$PDifference);
@@ -52,7 +52,7 @@
             for($i=39; $i >= 3; $i-=4){
                 echo "
         <tr>
-            <td>" . substr($Output[$i-3], 0, -3) . "</td>
+            <td>" . substr($Output[$i-3], 3, 5) . "</td>
             <td>" . $Output[$i-2] . "</td>
                 ";
                 if ($Output[$i-1] > 0) {
